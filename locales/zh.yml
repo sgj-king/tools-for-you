@@ -63,17 +63,13 @@ about:
   content: >
     # 关于 Tools For You
     
-    Tools For You 由 [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about) 用 ❤ 开发，汇集了对开发人员和 IT 从业者有用的工具。
-    
-    如果对您有帮助，请将其分享给您的朋友，并且添加到收藏夹中！
+    Tools For You 由 [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about) 用 ❤ 开发，汇集了对开发人员和 IT 从业者有用的工具。如果对您有帮助，请将其分享给您的朋友，并且添加到收藏夹中！
     
     Tools For You 永久免费且开源（GPL-3.0 许可证），但需要资金用于托管和续订域名。如果您想支持我的工作，并鼓励我添加更多工具，请考虑通过 [赞助我](https://www.buymeacoffee.com/cthmsst) 进行支持。
     
     ## 技术
     
-    Tools For You 采用 Vue.js（Vue 3）和 Naive UI 组件库开发，并由 Vercel 托管和持续部署。
-    
-    某些工具使用了第三方开源库，您可以在仓库的 [package.json](https://github.com/sgj-king/tools-for-you/blob/main/package.json) 文件中找到完整的列表。
+    Tools For You 采用 Vue.js（Vue 3）和 Naive UI 组件库开发，并由 Vercel 托管和持续部署。某些工具使用了第三方开源库，您可以在仓库的 [package.json](https://github.com/sgj-king/tools-for-you/blob/main/package.json) 文件中找到完整的列表。
     
     ## 发现了 Bug？缺少工具？
     
@@ -102,7 +98,7 @@ tools:
     favorite-tools: '我的收藏'
     crypto: '加密'
     converter: '转换器'
-    web: '网络'
+    web: 网络
     'images and videos': '图片和视频'
     development: '开发'
     network: '网络'
@@ -110,3 +106,248 @@ tools:
     measurement: '测量'
     text: '文本'
     data: '数据'
+  
+  password-strength-analyser:
+    title: 密码强度分析器
+    description: 使用此密码强度分析器和破解时间估计工具来发现密码的强度。
+  chronometer:
+    title: 计时器
+    description: 用于记录和监控持续时间的简洁计时器。
+  token-generator:
+    title: 令牌生成器
+    description: 使用您想要的字符、大写或小写字母、数字和/或符号生成随机字符串。
+    uppercase: '大写 (ABC...)'
+    lowercase: '小写 (abc...)'
+    numbers: '数字 (123...)'
+    symbols: '符号 (!-;...)'
+    length: '长度'
+    tokenPlaceholder: '令牌...'
+    copied: 已复制到剪贴板
+    button:
+      copy: 复制
+      refresh: 刷新
+  percentage-calculator:
+    title: 百分比计算器
+    description: 轻松计算从一个值到另一个值的百分比，或从百分比到值的百分比。
+  svg-placeholder-generator:
+    title: SVG 占位图生成器
+    description: 生成 SVG 图片，可作为应用中的占位图。
+  json-to-csv:
+    title: JSON 转 CSV
+    description: 自动识别表头并将 JSON 转换为 CSV。
+  camera-recorder:
+    title: 摄像头录制器
+    description: 从网络摄像头或照相机拍摄照片或录制视频。
+  keycode-info:
+    title: 按键信息
+    description: 查看任意按键对应的 JavaScript keycode、code、位置和修饰键信息。
+  emoji-picker:
+    title: Emoji 选择器
+    description: 轻松复制粘贴 Emoji 表情，并查看每个表情的 Unicode 和码点值。
+  color-converter:
+    title: 颜色转换器
+    description: 在十六进制、RGB、HSL 和 CSS 颜色名称等格式之间转换颜色。
+  bcrypt:
+    title: Bcrypt 哈希
+    description: 使用 bcrypt 对文本进行哈希和比对。Bcrypt 是基于 Blowfish 的密码哈希函数。
+  crontab-generator:
+    title: Crontab 生成器
+    description: 校验并生成 crontab 表达式，并查看可读的定时说明。
+  http-status-codes:
+    title: HTTP 状态码
+    description: 查看所有 HTTP 状态码及其名称和含义。
+  sql-prettify:
+    title: SQL 格式化与美化
+    description: 在线格式化和美化 SQL 查询，支持多种 SQL 方言。
+  benchmark-builder:
+    title: 基准测试构建器
+    description: 用这个简洁的在线基准测试工具轻松比较任务执行时间。
+  git-memo:
+    title: Git 备忘单
+    description: Git 是一种分布式版本控制系统。使用这份备忘单，你可以快速查看最常用的 Git 命令。
+  slugify-string:
+    title: Slug 化字符串
+    description: 将字符串转换为适合用作 URL、文件名和 ID 的安全格式。
+  encryption:
+    title: 加密/解密文本
+    description: 使用 AES、TripleDES、Rabbit 或 RC4 等算法加密和解密文本。
+  random-port-generator:
+    title: 随机端口生成器
+    description: 生成位于"知名端口"（0–1023）范围之外的随机端口号。
+  yaml-prettify:
+    title: YAML 格式化与美化
+    description: 将 YAML 字符串格式化为清晰易读的形式。
+  eta-calculator:
+    title: ETA 计算器
+    description: ETA（预计完成时间）计算器，可估算任务的大致结束时间，例如下载完成时间。
+  roman-numeral-converter:
+    title: 罗马数字转换器
+    description: 将罗马数字转换为数字，并将数字转换为罗马数字。
+  hmac-generator:
+    title: HMAC 生成器
+    description: 使用密钥和您喜欢的哈希函数计算基于哈希的消息身份验证代码（HMAC）。
+  bip39-generator:
+    title: BIP39 助记词生成器
+    description: 从现有或随机助记符生成BIP39密码短语，或从密码短语获取助记符。
+  base64-file-converter:
+    title: Base64 文件转换器
+    description: 将字符串、文件或图像转换为其 Base64 表示形式。
+  list-converter:
+    title: 列表转换器
+    description: 该工具可处理按列排列的数据，并对每一行应用多种变换，如转置、添加前后缀、反转列表、排序、转小写和截断。
+  base64-string-converter:
+    title: Base64 字符串编码/解码
+    description: 可将字符串编码为 Base64，或从 Base64 解码还原。
+  toml-to-yaml:
+    title: TOML 到 YAML
+    description: 解析 TOML 并将其转换为 YAML。
+  math-evaluator:
+    title: 数学计算器
+    description: 用于计算数学表达式的工具，支持 sqrt、cos、sin、abs 等函数。
+  json-to-yaml-converter:
+    title: JSON 转 YAML
+    description: 在线将 JSON 转换为 YAML 格式。
+  url-parser:
+    title: URL 分析器
+    description: 解析 URL 字符串，提取协议、来源、参数、端口、用户名密码等各个部分。
+  iban-validator-and-parser:
+    title: IBAN验证器和解析器
+    description: 校验并解析 IBAN 号码，检查其是否有效，并获取国家、BBAN、是否为 QR-IBAN 及其易读格式。
+  user-agent-parser:
+    title: 用户代理分析器
+    description: 从用户代理字符串中检测和分析浏览器、引擎、操作系统、CPU和设备类型/型号。
+  numeronym-generator:
+    title: 数字名称生成器
+    description: 数字名是一个用数字构成缩写的词。例如，"i18n"是"国际化"的名词，其中18表示单词中第一个i和最后一个n之间的字母数。
+  case-converter:
+    title: 大小写转换
+    description: 更改字符串的大小写并在不同格式之间进行选择
+  html-entities:
+    title: HTML 实体转义
+    description: 对 HTML 实体进行转义或反转义（如将 <、>、&、" 和 ' 与其 HTML 表示互相转换）。
+  json-prettify:
+    title: JSON 格式化与美化
+    description: 将JSON字符串修饰为友好的可读格式。
+  docker-run-to-docker-compose-converter:
+    title: Docker Run 到 docker-compose 转换器
+    description: 将 docker run 命令行转换为 docker-compose 文件!
+  mac-address-lookup:
+    title: MAC地址查找
+    description: 通过设备的MAC地址查找设备的供应商和制造商。
+  mime-types:
+    title: MIME 类型转换
+    description: 在 MIME 类型与文件扩展名之间互相转换。
+  toml-to-json:
+    title: TOML 到 JSON
+    description: 解析 TOML 并将其转换为 JSON。
+  lorem-ipsum-generator:
+    title: Lorem ipsum生成器
+    description: Lorem ipsum 是一种占位符文本，常用于展示文档或字体的视觉效果，而不依赖真实内容。
+  qrcode-generator:
+    title: 二维码生成器
+    description: 为 URL 或文本生成并下载二维码，并可自定义前景色和背景色。
+  wifi-qrcode-generator:
+    title: Wi‑Fi 二维码生成器
+    description: 生成并下载用于快速连接 Wi‑Fi 网络的二维码。
+  xml-formatter:
+    title: XML 格式化
+    description: 将XML字符串修饰为友好的可读格式。
+  temperature-converter:
+    title: 温度转换器
+    description: 开尔文、摄氏度、华氏度、兰金、德莱尔、牛顿、雷奥穆尔和罗默温度度数转换。
+  chmod-calculator:
+    title: Chmod 计算器
+    description: 使用这个在线 chmod 计算器计算权限值和对应命令。
+  rsa-key-pair-generator:
+    title: RSA 密钥对生成器
+    description: 生成新的随机RSA私钥和公钥pem证书。
+  html-wysiwyg-editor:
+    title: HTML 所见即所得编辑器
+    description: 在线 HTML 编辑器，内置功能丰富的所见即所得编辑能力，并可立即查看源代码。
+  yaml-to-toml:
+    title: YAML 到 TOML
+    description: 解析 YAML 并将其转换为 TOML。
+  mac-address-generator:
+    title: MAC 地址生成器
+    description: 输入数量和前缀。MAC地址将以您选择的大小写（大写或小写）生成
+  json-diff:
+    title: JSON 差异对比
+    description: 比较两个 JSON 对象并查看它们之间的差异。
+  jwt-parser:
+    title: JWT 解析器
+    description: 解析并解码 JSON Web Token（JWT），并展示其内容。
+  date-converter:
+    title: 日期时间转换器
+    description: 将日期和时间转换为各种不同的格式
+  phone-parser-and-formatter:
+    title: 电话分析器和格式化程序
+    description: 解析、验证和格式化电话号码。获取有关电话号码的信息，如国家/地区代码、类型等。
+  ipv4-subnet-calculator:
+    title: IPv4子网计算器
+    description: 解析 IPv4 CIDR 网段，并获取所需的全部子网信息。
+  og-meta-generator:
+    title: Open Graph 元标签生成器
+    description: 为你的网站生成 Open Graph 与社交分享所需的 HTML 元标签。
+  ipv6-ula-generator:
+    title: IPv6 ULA生成器
+    description: 根据RFC4193在网络上生成您自己的本地不可路由IP地址。
+  hash-text:
+    title: 文本哈希
+    description: '使用所需算法对文本进行哈希：MD5、SHA1、SHA256、SHA224、SHA512、SHA384、SHA3 或 RIPEMD160。'
+  json-to-toml:
+    title: JSON 转 TOML
+    description: 解析 JSON 并将其转换为 TOML。
+  device-information:
+    title: 设备信息
+    description: 获取有关当前设备的信息（屏幕大小、像素比率、用户代理…）
+  pdf-signature-checker:
+    title: PDF签名检查器
+    description: '验证PDF文件的签名。签名的PDF文件包含一个或多个签名，可用于确定文件的内容在签名后是否已被更改。'
+  json-minify:
+    title: JSON 压缩
+    description: 删除多余空白，对 JSON 进行压缩与精简。
+  ulid-generator:
+    title: ULID 生成器
+    description: 生成随机的通用唯一字典序可排序标识符（ULID）。
+  string-obfuscator:
+    title: 字符串混淆器
+    description: 混淆字符串（如秘密、IBAN 或令牌），使其可分享和可识别，而不泄露其内容。
+  base-converter:
+    title: 整数基转换器
+    description: 在不同进制之间转换数字，如十进制、十六进制、二进制、八进制、Base64 等。
+  yaml-to-json-converter:
+    title: YAML 转 JSON
+    description: 使用这个在线工具将 YAML 转换为 JSON。
+  uuid-generator:
+    title: UUID 生成器
+    description: 通用唯一标识符（UUID）是一个128位数字，用于标识计算机系统中的信息。可能的UUID数量为16^32，即2^128或约3.4x10^38（这是一个很大的数字！）。
+  ipv4-address-converter:
+    title: IPv4 地址转换器
+    description: 在ipv6中，将ip地址转换为十进制、二进制、十六进制或事件
+  text-statistics:
+    title: 文本统计
+    description: 获取有关文本、字符数、字数、大小等的信息
+  text-to-nato-alphabet:
+    title: 文本转北约字母表
+    description: 将文本转换为北约拼音字母以进行口头传播。
+  basic-auth-generator:
+    title: 基本身份验证生成器
+    description: 从用户名和密码生成 base64 基本身份验证标头。
+  text-to-unicode:
+    title: 文本转 Unicode
+    description: 将文本转换为 Unicode，或从 Unicode 还原为文本。
+  ipv4-range-expander:
+    title: IPv4范围扩展器
+    description: 给定起始和结束IPv4地址，此工具使用其CIDR表示法计算有效的IPv4网络。
+  text-diff:
+    title: 文本比较
+    description: 比较两个文本并查看它们之间的差异。
+  otp-generator:
+    title: OTP 代码生成器
+    description: 为多因素身份验证生成和验证基于时间的OTP（一次性密码）。
+  url-encoder:
+    title: URL 编码/解码字符串
+    description: 将文本编码为 URL 编码格式（也称百分号编码），或从该格式解码。
+  text-to-binary:
+    title: 文本转 ASCII 二进制
+    description: 将文本转换为 ASCII 二进制表示，或从中还原为文本。
