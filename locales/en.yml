@@ -1,0 +1,116 @@
+home:
+  categories:
+    newestTools: 'Newest tools'
+    favoriteTools: 'Your favorite tools'
+    allTools: 'All the tools'
+    favoritesDndToolTip: 'Drag and drop to reorder favorites'
+  subtitle: 'Smart tools tailored for you'
+  toggleMenu: 'Toggle menu'
+  home: 'Home'
+  uiLib: 'UI Lib'
+  support: 'Support Tools For You development'
+  buyMeACoffee: 'Buy me a coffee'
+  follow:
+    title: 'You like it-tools?'
+    p1: 'Give us a star on'
+    githubRepository: 'Tools For You GitHub repository'
+    p2: 'or follow us on'
+    twitterXAccount: 'Tools For You X account'
+    thankYou: 'Thank you!'
+
+nav:
+  github: 'GitHub repository'
+  githubRepository: 'Tools For You GitHub repository'
+  twitterX: 'X account'
+  twitterXAccount: 'Tools For You X account'
+  about: 'About Tools For You'
+  aboutLabel: 'About'
+  darkMode: 'Dark mode'
+  lightMode: 'Light mode'
+  mode: 'Toggle dark/light mode'
+
+categories:
+  crypto: 'Security & Crypto'
+  cryptoDesc: 'Hash generation, encryption/decryption, password tools'
+  converter: 'Converters'
+  converterDesc: 'JSON/YAML/XML conversion, encoding tools'
+  web: 'Web Tools'
+  webDesc: 'URL encoding/decoding, JWT parser, HTTP status codes'
+  dev: 'Development'
+  devDesc: 'JSON viewer, regex tester, git cheatsheet'
+  network: 'Network'
+  networkDesc: 'IP calculator, subnet calculator, MAC lookup'
+  text: 'Text'
+  textDesc: 'Text statistics, diff comparison, emoji picker'
+  media: 'Images & Videos'
+  mediaDesc: 'QR code generator, SVG placeholder'
+  math: 'Math'
+  mathDesc: 'Math expressions, percentage calculator'
+  measurement: 'Measurement'
+  measurementDesc: 'Chronometer, temperature converter, benchmark'
+  data: 'Data'
+  dataDesc: 'Phone parser, IBAN validator'
+
+ai:
+  title: "Can't find the right tool?"
+  description: 'Tell AI what you need and it will help you find the best tool'
+  hint: 'Click the 💬 button in the bottom right to start'
+
+contact:
+  title: 'Contact Us'
+
+about:
+  content: >
+    # About Tools For You
+    
+    Tools For You is developed with ❤ by [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about).
+    
+    It regroups useful tools for developer and people working in IT.
+    
+    If you find it helpful, please share it to your friends and add it to your bookmarks!
+    
+    Tools For You is free and open-source (GPL-3.0 license), but requires funding for hosting and domain name renewal.
+    
+    If you want to support my work, and encourage me to add more tools, please consider sponsoring me on [Buy me a coffee](https://www.buymeacoffee.com/cthmsst).
+    
+    ## Tech stack
+    
+    Tools For You is made with Vue.js (Vue 3) and the Naive UI component library, and is hosted and deployed by Vercel.
+    
+    Some tools use third-party open-source libraries. You can find the complete list in the [package.json](https://github.com/sgj-king/tools-for-you/blob/main/package.json) file of the repository.
+    
+    ## Found a bug? Missing a tool?
+    
+    If the tool you need is not here and you think it could be useful, you are welcome to submit a feature request in the [issues](https://github.com/sgj-king/tools-for-you/issues/new/choose) of the GitHub repository.
+    
+    If you found a bug or something is not working as expected, you are welcome to submit a bug report in the [issues](https://github.com/sgj-king/tools-for-you/issues/new/choose) of the GitHub repository.
+
+404:
+  notFound: '404 Not Found'
+  sorry: 'Sorry, this page does not seem to exist'
+  maybe: 'Maybe the cache is wrong, try to force refresh the page?'
+  backHome: 'Back to home'
+
+favoriteButton:
+  remove: 'Remove from favorites'
+  add: 'Add to favorites'
+
+toolCard:
+  new: 'New'
+
+search:
+  label: 'Search'
+
+tools:
+  categories:
+    favorite-tools: 'Your favorite tools'
+    crypto: 'Crypto'
+    converter: 'Converter'
+    web: 'Web'
+    'images and videos': 'Images and videos'
+    development: 'Development'
+    network: 'Network'
+    math: 'Math'
+    measurement: 'Measurement'
+    text: 'Text'
+    data: 'Data'
