@@ -4,12 +4,19 @@ home:
     favoriteTools: 'Your favorite tools'
     allTools: 'All the tools'
     favoritesDndToolTip: 'Drag and drop to reorder favorites'
-  subtitle: 'Handy tools for developers'
+  subtitle: 'Smart tools tailored for you'
   toggleMenu: 'Toggle menu'
   home: Home
   uiLib: 'UI Lib'
-  support: 'Support IT-Tools development'
+  support: 'Support Tools For You development'
   buyMeACoffee: 'Buy me a coffee'
+  hero:
+    title: 'Tailored for You'
+    toolCount: '{count} practical tools'
+  category:
+    toolCount: '{count} tools'
+  footer:
+    copyright: '© 2026 Tools For You'
   follow:
     title: 'You like it-tools?'
     p1: 'Give us a star on'

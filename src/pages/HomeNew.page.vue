@@ -60,7 +60,7 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 
 useHead({
-  title: 'Tools For You - 为你量身定制'
+  title: computed(() => `Tools For You - ${t('home.hero.title')}`)
 });
 
 // Search function
@@ -81,6 +81,12 @@ function handleSearch() {
 function goToCategory(slug: string) {
   // 跳转到分类列表页
   window.location.href = `/category/${slug}`;
+}
+
+// Get tool name with i18n
+function getToolName(tool: any) {
+  const toolKey = `tools.${tool.path.substring(1)}.title`;
+  return t(toolKey);
 }
 </script>
 
@@ -149,7 +155,7 @@ function goToCategory(slug: string) {
             <span class="cat-icon">{{ cat.icon }}</span>
             <div class="cat-info">
               <h3>{{ cat.name }}</h3>
-              <span class="cat-count">{{ cat.count }} 个工具</span>
+              <span class="cat-count">{{ t('home.category.toolCount', { count: cat.count }) }}</span>
             </div>
           </div>
           
@@ -161,7 +167,7 @@ function goToCategory(slug: string) {
               class="cat-tool-item"
               @click.prevent.stop
             >
-              {{ tool.name }}
+            {{ getToolName(tool) }}
             </span>
           </div>
           
@@ -199,12 +205,8 @@ function goToCategory(slug: string) {
 
     <!-- Footer - 精简版 -->
     <footer class="home-footer-compact">
-      <p>© 2026 Tools For You · 
-        <router-link to="/about">{{ t('nav.about') }}</router-link> · 
-        <router-link to="/contact">{{ t('contact.title') }}</router-link>
-      </p>
+      <p>{{ t('home.footer.copyright') }} · <router-link to="/about">{{ t('nav.about') }}</router-link> · <router-link to="/contact">{{ t('contact.title') }}</router-link></p>
     </footer>
-
     <!-- AI Chat Component -->
     <AIChat api-base-url="http://localhost:8000/api" />
   </div>

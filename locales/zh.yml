@@ -10,6 +10,13 @@ home:
   uiLib: 'UI 库'
   support: '支持 Tools For You 开发'
   buyMeACoffee: '赞助'
+  hero:
+    title: '为你量身定制'
+    toolCount: '收录 {count} 个实用工具'
+  category:
+    toolCount: '{count} 个工具'
+  footer:
+    copyright: '© 2026 Tools For You'
   follow:
     title: '关注我们'
     p1: '给我们点个 Star'
