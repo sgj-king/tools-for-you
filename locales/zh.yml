@@ -36,6 +36,9 @@ nav:
   lightMode: '浅色模式'
   mode: '切换深色/浅色模式'
 
+common:
+  back: '返回'
+
 categories:
   crypto: '安全加密'
   cryptoDesc: 'Hash生成、加密解密、密码工具'

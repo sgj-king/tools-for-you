@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { h } from 'vue';
+import { h, computed } from 'vue';
 import { NIcon, NDropdown } from 'naive-ui';
 import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { Home2, User, Logout, ArrowLeft } from '@vicons/tabler';
@@ -8,6 +8,7 @@ import { useStyleStore } from '@/stores/style.store';
 import { useAuthStore } from '@/stores/auth.store';
 import { config } from '@/config';
 import { useTracker } from '@/modules/tracker/tracker.services';
+import { tools } from '@/tools';
 
 const styleStore = useStyleStore();
 const authStore = useAuthStore();
@@ -17,6 +18,19 @@ const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
 const { tracker } = useTracker();
 const { t } = useI18n();
+
+// 获取当前工具信息
+const currentTool = computed(() => {
+  const toolPath = route.path;
+  return tools.find(tool => tool.path === toolPath);
+});
+
+// 获取工具名称（国际化）
+const toolTitle = computed(() => {
+  if (!currentTool.value) return '';
+  const toolKey = `tools.${currentTool.value.path.substring(1)}.title`;
+  return t(toolKey);
+});
 
 // 用户下拉菜单
 const userMenuOptions = [
@@ -41,17 +55,14 @@ function handleUserMenuSelect(key: string) {
     authStore.logout();
     router.push('/');
   } else if (key === 'profile') {
-    // TODO: 跳转到个人中心
     router.push('/');
   }
 }
 
 function goBack() {
-  // 如果有历史记录，返回上一页
   if (window.history.length > 1) {
     router.go(-1);
   } else {
-    // 否则返回主页
     router.push('/');
   }
 }
@@ -59,28 +70,28 @@ function goBack() {
 
 <template>
   <div class="tool-detail-layout">
-    <!-- Top Navbar with Back Button -->
+    <!-- Top Navbar -->
     <nav class="top-navbar">
       <div class="navbar-content">
         <div class="navbar-left">
-          <!-- 返回按钮 -->
-          <button class="back-button" @click="goBack" :aria-label="t('common.back') || '返回'">
-            <NIcon size="20" :component="ArrowLeft" />
-            <span class="back-text">{{ t('common.back') || '返回' }}</span>
-          </button>
-        </div>
-        
-        <div class="navbar-center">
           <RouterLink to="/" class="logo-link">
             <div class="logo-text">TOOLS FOR YOU</div>
           </RouterLink>
+        </div>
+        
+        <div class="navbar-center">
+          <c-tooltip :tooltip="$t('home.home')" position="bottom">
+            <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+              <NIcon size="22" :component="Home2" />
+            </c-button>
+          </c-tooltip>
+          <command-palette />
         </div>
         
         <div class="navbar-right">
           <locale-selector v-if="!styleStore.isSmallScreen" />
           <NavbarButtons v-if="!styleStore.isSmallScreen" />
           
-          <!-- 登录/注册按钮 或 用户名 -->
           <RouterLink v-if="!authStore.isLoggedIn" to="/auth" class="auth-button">
             登录 / 注册
           </RouterLink>
@@ -104,7 +115,19 @@ function goBack() {
 
     <!-- Main Content -->
     <main class="main-content">
-      <slot />
+      <!-- 工具标题区域 -->
+      <div class="tool-header">
+        <button class="back-button" @click="goBack" :aria-label="t('common.back') || '返回'">
+          <NIcon size="20" :component="ArrowLeft" />
+          <span class="back-text">{{ t('common.back') || '返回' }}</span>
+        </button>
+        <h1 class="tool-title">{{ toolTitle }}</h1>
+      </div>
+      
+      <!-- 工具内容 -->
+      <div class="tool-content">
+        <slot />
+      </div>
     </main>
 
     <!-- Footer -->
@@ -169,32 +192,6 @@ function goBack() {
   gap: 16px;
 }
 
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid var(--app-border);
-  border-radius: 8px;
-  color: var(--app-text);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 14px;
-  
-  &:hover {
-    background: var(--app-surface-2);
-    border-color: var(--app-accent);
-    color: var(--app-accent);
-  }
-  
-  .back-text {
-    @media (max-width: 600px) {
-      display: none;
-    }
-  }
-}
-
 .logo-link {
   text-decoration: none;
   color: inherit;
@@ -212,6 +209,9 @@ function goBack() {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+  justify-content: center;
+  max-width: 400px;
 }
 
 .navbar-right {
@@ -287,6 +287,60 @@ function goBack() {
   width: 100%;
 }
 
+/* Tool Header */
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  color: var(--app-text);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  
+  &:hover {
+    background: var(--app-accent);
+    border-color: var(--app-accent);
+    color: #fff;
+    transform: translateX(-2px);
+  }
+  
+  .back-text {
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+}
+
+.tool-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--app-text);
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 22px;
+  }
+}
+
+.tool-content {
+  width: 100%;
+}
+
 /* Footer */
 .app-footer {
   background: var(--app-surface);
@@ -315,8 +369,18 @@ function goBack() {
     font-size: 14px;
   }
   
+  .navbar-center {
+    max-width: 200px;
+  }
+  
   .main-content {
     padding: 16px;
+  }
+  
+  .tool-header {
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
   }
 }
 
