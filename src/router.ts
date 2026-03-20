@@ -7,21 +7,23 @@ import { tools } from './tools';
 import { config } from './config';
 import { routes as demoRoutes } from './ui/demo/demo.routes';
 
-// 导入无侧边栏布局
+// 导入布局
 import NoSidebarLayout from './layouts/no-sidebar.layout.vue';
+import ToolDetailLayout from './layouts/tool-detail.layout.vue';
 
 // 定义布局映射
 const customLayouts = {
   base: layouts.base,
   toolLayout: layouts.toolLayout,
   noSidebar: NoSidebarLayout,
+  toolDetail: ToolDetailLayout,
 };
 
 const toolsRoutes = tools.map(({ path, name, component, ...config }) => ({
   path,
   name,
   component,
-  meta: { isTool: true, layout: customLayouts.noSidebar, name, ...config },
+  meta: { isTool: true, layout: customLayouts.toolDetail, name, ...config },
 }));
 
 const toolsRedirectRoutes = tools
