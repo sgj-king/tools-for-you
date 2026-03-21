@@ -361,3 +361,7 @@ tools:
   text-to-binary:
     title: 文本转 ASCII 二进制
     description: 将文本转换为 ASCII 二进制表示，或从中还原为文本。
+
+image-generator:
+  title: AI 图像生成器
+  description: 使用 AI 模型生成图像，支持文生图、图生图、数字人生成、三视图和多视角生成。
