@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import { URL, fileURLToPath } from 'node:url';
+
 import VueI18n from '@intlify/unplugin-vue-i18n/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
@@ -38,6 +39,10 @@ export default defineConfig({
     markdown(),
     svgLoader(),
     VitePWA({
+      // 开发环境禁用
+      devOptions: {
+        enabled: false,
+      },
       registerType: 'autoUpdate',
       strategies: 'generateSW',
       manifest: {
@@ -67,9 +72,17 @@ export default defineConfig({
   ],
   base: baseUrl,
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
-  define: { 'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version) },
-  test: { exclude: [...configDefaults.exclude, '**/*.e2e.spec.ts'] },
-  build: { target: 'esnext' },
+  define: {
+    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
+  },
+  test: {
+    exclude: [...configDefaults.exclude, '**/*.e2e.spec.ts'],
+  },
+  build: {
+    target: 'esnext',
+  },
 });

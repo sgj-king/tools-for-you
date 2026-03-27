@@ -121,7 +121,10 @@ function goBack() {
           <NIcon size="20" :component="ArrowLeft" />
           <span class="back-text">{{ t('common.back') || '返回' }}</span>
         </button>
-        <h1 class="tool-title">{{ toolTitle }}</h1>
+        <div class="tool-info">
+          <h1 class="tool-title">{{ toolTitle }}</h1>
+          <p v-if="currentTool?.description" class="tool-description">{{ currentTool.description }}</p>
+        </div>
       </div>
       
       <!-- 工具内容 -->
@@ -334,6 +337,19 @@ function goBack() {
   
   @media (max-width: 768px) {
     font-size: 22px;
+  }
+  .tool-info {
+    flex: 1;
+  }
+
+  .tool-description {
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    color: var(--app-muted);
+    line-height: 1.5;
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "tools-for-you",
   "type": "module",
-  "version": "2024.10.22-7ca5933",
+  "version": "2026.03.21",
   "packageManager": "pnpm@9.11.0",
   "description": "为每个人打造的智能工具集, with great UX. ",
   "author": "Corentin Th <corentin.thomasset74+it-tools@gmail.com> (https://corentin.tech)",

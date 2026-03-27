@@ -3,9 +3,9 @@ import { defineTool } from '../tool';
 import { translate } from '@/plugins/i18n.plugin';
 
 export const tool = defineTool({
-  name: translate('tools.image-generator.title'),
+  name: translate('image-generator.title'),
   path: '/image-generator',
-  description: translate('tools.image-generator.description'),
+  description: translate('image-generator.description'),
   keywords: [
     'image',
     'ai',

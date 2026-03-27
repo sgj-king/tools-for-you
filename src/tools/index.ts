@@ -88,6 +88,7 @@ import { tool as macAddressLookup } from './mac-address-lookup';
 import { tool as xmlFormatter } from './xml-formatter';
 import { tool as yamlViewer } from './yaml-viewer';
 import { tool as imageGenerator } from './image-generator';
+import { tool as colorPicker } from './color-picker';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -142,7 +143,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, imageGenerator],
+    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, imageGenerator, colorPicker],
   },
   {
     name: 'Development',

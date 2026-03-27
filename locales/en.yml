@@ -399,7 +399,9 @@ tools:
   text-to-binary:
     title: Text to ASCII binary
     description: Convert text to its ASCII binary representation and vice-versa.
-
 image-generator:
   title: AI Image Generator
   description: Generate images using AI models, supporting text-to-image, image-to-image, digital human generation, three-view and multi-angle generation.
+color-picker:
+  title: Color Picker
+  description: Pick colors and convert between HEX, RGB, HSL, HWB, CMYK formats. Features color history, palette variations, and one-click copy.

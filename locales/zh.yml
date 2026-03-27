@@ -361,7 +361,9 @@ tools:
   text-to-binary:
     title: 文本转 ASCII 二进制
     description: 将文本转换为 ASCII 二进制表示，或从中还原为文本。
-
 image-generator:
   title: AI 图像生成器
   description: 使用 AI 模型生成图像，支持文生图、图生图、数字人生成、三视图和多视角生成。
+color-picker:
+  title: 颜色选择器
+  description: 拾取颜色并在 HEX、RGB、HSL、HWB、CMYK 等格式间转换。支持颜色历史、调色板变化、一键复制功能。
