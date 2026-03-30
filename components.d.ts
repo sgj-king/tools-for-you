@@ -140,6 +140,7 @@ declare module '@vue/runtime-core' {
     LoremIpsumGenerator: typeof import('./src/tools/lorem-ipsum-generator/lorem-ipsum-generator.vue')['default']
     MacAddressGenerator: typeof import('./src/tools/mac-address-generator/mac-address-generator.vue')['default']
     MacAddressLookup: typeof import('./src/tools/mac-address-lookup/mac-address-lookup.vue')['default']
+    'MarkdownEditor.tool': typeof import('./src/tools/markdown-editor/markdown-editor.tool.vue')['default']
     MarkdownToHtml: typeof import('./src/tools/markdown-to-html/markdown-to-html.vue')['default']
     MathEvaluator: typeof import('./src/tools/math-evaluator/math-evaluator.vue')['default']
     MenuBar: typeof import('./src/tools/html-wysiwyg-editor/editor/menu-bar.vue')['default']

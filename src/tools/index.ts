@@ -90,6 +90,7 @@ import { tool as yamlViewer } from './yaml-viewer';
 import { tool as imageGenerator } from './image-generator';
 import { tool as colorPicker } from './color-picker';
 import { tool as unitConverter } from './unit-converter';
+import { tool as markdownEditor } from './markdown-editor';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -187,6 +188,7 @@ export const toolsByCategory: ToolCategory[] = [
       textDiff,
       numeronymGenerator,
       asciiTextDrawer,
+    markdownEditor,
     ],
   },
   {

@@ -370,3 +370,6 @@ color-picker:
 unit-converter:
   title: 单位转换器
   description: 支持长度、重量、面积、体积、速度、时间、数据存储等多种单位间的实时转换。
+markdown-editor:
+  title: Markdown 编辑器
+  description: 实时预览的 Markdown 编辑器，支持 GFM 语法、代码高亮、表格、自动保存。适合写文档、README 和笔记。
