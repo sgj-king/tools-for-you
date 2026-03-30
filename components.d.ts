@@ -224,6 +224,7 @@ declare module '@vue/runtime-core' {
     ToolCard: typeof import('./src/components/ToolCard.vue')['default']
     'ToolDetail.layout': typeof import('./src/layouts/tool-detail.layout.vue')['default']
     UlidGenerator: typeof import('./src/tools/ulid-generator/ulid-generator.vue')['default']
+    UnitConverter: typeof import('./src/tools/unit-converter/unit-converter.vue')['default']
     UrlEncoder: typeof import('./src/tools/url-encoder/url-encoder.vue')['default']
     UrlParser: typeof import('./src/tools/url-parser/url-parser.vue')['default']
     UserAgentParser: typeof import('./src/tools/user-agent-parser/user-agent-parser.vue')['default']

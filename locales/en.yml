@@ -405,3 +405,6 @@ image-generator:
 color-picker:
   title: Color Picker
   description: Pick colors and convert between HEX, RGB, HSL, HWB, CMYK formats. Features color history, palette variations, and one-click copy.
+unit-converter:
+  title: Unit Converter
+  description: Real-time conversion between multiple unit types including length, weight, area, volume, speed, time, and data storage.

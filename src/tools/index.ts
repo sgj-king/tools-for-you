@@ -89,6 +89,7 @@ import { tool as xmlFormatter } from './xml-formatter';
 import { tool as yamlViewer } from './yaml-viewer';
 import { tool as imageGenerator } from './image-generator';
 import { tool as colorPicker } from './color-picker';
+import { tool as unitConverter } from './unit-converter';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -174,7 +175,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Measurement',
-    components: [chronometer, temperatureConverter, benchmarkBuilder],
+    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter],
   },
   {
     name: 'Text',

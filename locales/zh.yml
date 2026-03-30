@@ -367,3 +367,6 @@ image-generator:
 color-picker:
   title: 颜色选择器
   description: 拾取颜色并在 HEX、RGB、HSL、HWB、CMYK 等格式间转换。支持颜色历史、调色板变化、一键复制功能。
+unit-converter:
+  title: 单位转换器
+  description: 支持长度、重量、面积、体积、速度、时间、数据存储等多种单位间的实时转换。
