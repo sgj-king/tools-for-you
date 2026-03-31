@@ -91,6 +91,7 @@ import { tool as imageGenerator } from './image-generator';
 import { tool as colorPicker } from './color-picker';
 import { tool as unitConverter } from './unit-converter';
 import { tool as markdownEditor } from './markdown-editor';
+import { tool as imageColorExtractor } from './image-color-extractor';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -145,7 +146,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, imageGenerator, colorPicker],
+    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, imageGenerator, colorPicker, imageColorExtractor],
   },
   {
     name: 'Development',

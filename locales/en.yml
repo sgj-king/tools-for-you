@@ -411,3 +411,19 @@ unit-converter:
 markdown-editor:
   title: Markdown Editor
   description: Real-time preview Markdown editor with GFM syntax support, code highlighting, tables, and auto-save. Perfect for documentation, README files, and notes.
+
+  image-color-extractor:
+    title: Image Color Extractor
+    description: Extract dominant colors from images and generate color palettes. Perfect for designers to get color inspiration and theme colors.
+    uploadTitle: Click or drag to upload image
+    uploadHint: Supports JPG, PNG, GIF, WebP formats
+    colorCount: Number of colors to extract
+    processing: Analyzing image...
+    clear: Clear
+    extractedColors: Extracted Colors
+    palette: Palette Preview
+    cssVariables: CSS Variables
+    copyHex: Copy HEX
+    copyRgb: Copy RGB
+    copyCss: Copy CSS
+    emptyHint: Upload an image to extract colors

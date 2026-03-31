@@ -373,3 +373,19 @@ unit-converter:
 markdown-editor:
   title: Markdown 编辑器
   description: 实时预览的 Markdown 编辑器，支持 GFM 语法、代码高亮、表格、自动保存。适合写文档、README 和笔记。
+
+  image-color-extractor:
+    title: 图片颜色提取器
+    description: 从图片中提取主要颜色，生成调色板。适合设计师获取配色灵感、提取主题色。
+    uploadTitle: 点击或拖拽上传图片
+    uploadHint: 支持 JPG、PNG、GIF、WebP 格式
+    colorCount: 提取颜色数量
+    processing: 正在分析图片...
+    clear: 清除
+    extractedColors: 提取的颜色
+    palette: 调色板预览
+    cssVariables: CSS 变量
+    copyHex: 复制 HEX
+    copyRgb: 复制 RGB
+    copyCss: 复制 CSS
+    emptyHint: 上传图片以提取颜色
