@@ -389,3 +389,109 @@ markdown-editor:
     copyRgb: 复制 RGB
     copyCss: 复制 CSS
     emptyHint: 上传图片以提取颜色
+
+  image-compressor:
+  title: 图片压缩器
+  description: 在浏览器本地压缩和优化图片，支持调整质量、调整尺寸、格式转换。适合网站优化、社交媒体和邮件附件处理。
+
+# 缺少翻译的工具
+  ascii-text-drawer:
+    title: ASCII 艺术文字生成器
+    description: 用多种字体和样式创建 ASCII 艺术文字。
+  date-time-converter:
+    title: 日期时间转换器
+    description: 将日期和时间转换为各种不同的格式。
+  email-normalizer:
+    title: 邮箱地址规范化
+    description: 将邮箱地址规范化为标准格式，便于比较。适用于去重和数据清洗。
+  integer-base-converter:
+    title: 整数进制转换器
+    description: 在不同进制之间转换数字，如十进制、十六进制、二进制、八进制等。
+  json-to-xml:
+    title: JSON 转 XML
+    description: 将 JSON 数据转换为 XML 格式。
+  json-viewer:
+    title: JSON 查看器
+    description: 格式化和美化 JSON 数据，便于阅读和分析。
+  markdown-to-html:
+    title: Markdown 转 HTML
+    description: 将 Markdown 文本转换为 HTML，支持打印为 PDF。
+  meta-tag-generator:
+    title: 元标签生成器
+    description: 为网站生成 Open Graph 和社交分享所需的 HTML 元标签。
+  otp-code-generator-and-validator:
+    title: OTP 代码生成器
+    description: 为多因素身份验证生成和验证基于时间的 OTP（一次性密码）。
+  qr-code-generator:
+    title: 二维码生成器
+    description: 为 URL 或文本生成并下载二维码，并可自定义前景色和背景色。
+  regex-memo:
+    title: 正则表达式速查表
+    description: JavaScript 正则表达式速查表，常用语法和示例。
+  regex-tester:
+    title: 正则表达式测试器
+    description: 使用示例文本测试你的正则表达式。
+  safelink-decoder:
+    title: Outlook 安全链接解码器
+    description: 解码 Outlook 安全链接（SafeLink），还原原始 URL。
+  wifi-qr-code-generator:
+    title: Wi‑Fi 二维码生成器
+    description: 生成并下载用于快速连接 Wi‑Fi 网络的二维码。
+  xml-to-json:
+    title: XML 转 JSON
+    description: 将 XML 数据转换为 JSON 格式。
+  yaml-viewer:
+    title: YAML 查看器
+    description: 格式化和美化 YAML 数据，便于阅读和分析。
+
+  # 更新日期时间转换器路径
+  date-converter:
+    title: 日期时间转换器
+    description: 将日期和时间转换为各种不同的格式。
+
+  # 更新其他别名
+  base-converter:
+    title: 整数进制转换器
+    description: 在不同进制之间转换数字，如十进制、十六进制、二进制、八进制等。
+
+  og-meta-generator:
+    title: 元标签生成器
+    description: 为网站生成 Open Graph 和社交分享所需的 HTML 元标签。
+
+  otp-generator:
+    title: OTP 代码生成器
+    description: 为多因素身份验证生成和验证基于时间的 OTP（一次性密码）。
+
+  qrcode-generator:
+    title: 二维码生成器
+    description: 为 URL 或文本生成并下载二维码，并可自定义前景色和背景色。
+
+  wifi-qrcode-generator:
+    title: Wi‑Fi 二维码生成器
+    description: 生成并下载用于快速连接 Wi‑Fi 网络的二维码。
+
+  yaml-prettify:
+    title: YAML 查看器
+    description: 格式化和美化 YAML 数据，便于阅读和分析。
+
+  json-prettify:
+    title: JSON 查看器
+    description: 格式化和美化 JSON 数据，便于阅读和分析。
+gpa-calculator:
+  title: GPA 计算器
+  description: 根据课程学分和成绩计算您的平均绩点（GPA）。非常适合学生跟踪学业表现和规划学习计划。
+  courseList: 课程列表
+  courseName: 课程名称
+  courseNamePlaceholder: 例如：高等数学
+  credits: 学分
+  grade: 成绩
+  selectGrade: 选择成绩
+  addCourse: 添加课程
+  clearAll: 清空全部
+  totalCredits: 总学分
+  courseCount: 课程数
+  gradingScale: 评分标准（4.0 制）
+  excellent: 优秀
+  good: 良好
+  average: 中等
+  needsImprovement: 需提高

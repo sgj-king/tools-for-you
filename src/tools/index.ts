@@ -2,9 +2,7 @@ import { tool as base64FileConverter } from './base64-file-converter';
 import { tool as base64StringConverter } from './base64-string-converter';
 import { tool as basicAuthGenerator } from './basic-auth-generator';
 import { tool as emailNormalizer } from './email-normalizer';
-
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
-
 import { tool as textToUnicode } from './text-to-unicode';
 import { tool as safelinkDecoder } from './safelink-decoder';
 import { tool as xmlToJson } from './xml-to-json';
@@ -92,11 +90,25 @@ import { tool as colorPicker } from './color-picker';
 import { tool as unitConverter } from './unit-converter';
 import { tool as markdownEditor } from './markdown-editor';
 import { tool as imageColorExtractor } from './image-color-extractor';
+import { tool as imageCompressor } from './image-compressor';
+import { tool as gpaCalculator } from './gpa-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Crypto',
-    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
+    components: [
+      tokenGenerator,
+      hashText,
+      bcrypt,
+      uuidGenerator,
+      ulidGenerator,
+      cypher,
+      bip39,
+      hmacGenerator,
+      rsaKeyPairGenerator,
+      passwordStrengthAnalyser,
+      pdfSignatureChecker,
+    ],
   },
   {
     name: 'Converter',
@@ -146,7 +158,16 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, imageGenerator, colorPicker, imageColorExtractor],
+    components: [
+      qrCodeGenerator,
+      wifiQrCodeGenerator,
+      svgPlaceholderGenerator,
+      cameraRecorder,
+      imageGenerator,
+      colorPicker,
+      imageColorExtractor,
+      imageCompressor,
+    ],
   },
   {
     name: 'Development',
@@ -169,11 +190,18 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Network',
-    components: [ipv4SubnetCalculator, ipv4AddressConverter, ipv4RangeExpander, macAddressLookup, macAddressGenerator, ipv6UlaGenerator],
+    components: [
+      ipv4SubnetCalculator,
+      ipv4AddressConverter,
+      ipv4RangeExpander,
+      macAddressLookup,
+      macAddressGenerator,
+      ipv6UlaGenerator,
+    ],
   },
   {
     name: 'Math',
-    components: [mathEvaluator, etaCalculator, percentageCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator],
   },
   {
     name: 'Measurement',
@@ -189,7 +217,7 @@ export const toolsByCategory: ToolCategory[] = [
       textDiff,
       numeronymGenerator,
       asciiTextDrawer,
-    markdownEditor,
+      markdownEditor,
     ],
   },
   {
