@@ -90,8 +90,8 @@ import { tool as colorPicker } from './color-picker';
 import { tool as unitConverter } from './unit-converter';
 import { tool as markdownEditor } from './markdown-editor';
 import { tool as imageColorExtractor } from './image-color-extractor';
-import { tool as imageCompressor } from './image-compressor';
 import { tool as gpaCalculator } from './gpa-calculator';
+import { tool as compoundInterestCalculator } from './compound-interest-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -166,7 +166,6 @@ export const toolsByCategory: ToolCategory[] = [
       imageGenerator,
       colorPicker,
       imageColorExtractor,
-      imageCompressor,
     ],
   },
   {
@@ -201,7 +200,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Math',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator],
   },
   {
     name: 'Measurement',

@@ -428,84 +428,6 @@ markdown-editor:
     copyCss: Copy CSS
     emptyHint: Upload an image to extract colors
 
-  # Additional tool translations
-  ascii-text-drawer:
-    title: ASCII Art Text Generator
-    description: Create ASCII art text with many fonts and styles.
-  date-time-converter:
-    title: Date Time Converter
-    description: Convert dates and times to various different formats.
-  email-normalizer:
-    title: Email Normalizer
-    description: Normalize email addresses to a standard format for easier comparison. Useful for deduplication and data cleaning.
-  integer-base-converter:
-    title: Integer Base Converter
-    description: Convert numbers between different bases like decimal, hexadecimal, binary, octal, etc.
-  json-to-xml:
-    title: JSON to XML
-    description: Convert JSON data to XML format.
-  json-viewer:
-    title: JSON Viewer
-    description: Format and beautify JSON data for easy reading and analysis.
-  markdown-to-html:
-    title: Markdown to HTML
-    description: Convert Markdown text to HTML, with PDF print support.
-  meta-tag-generator:
-    title: Meta Tag Generator
-    description: Generate Open Graph and social sharing HTML meta tags for your website.
-  otp-code-generator-and-validator:
-    title: OTP Code Generator
-    description: Generate and validate time-based OTP (one time password) for multi-factor authentication.
-  qr-code-generator:
-    title: QR Code Generator
-    description: Generate and download QR codes for URLs or text with customizable colors.
-  regex-memo:
-    title: Regex Cheatsheet
-    description: JavaScript Regular Expression cheatsheet with common syntax and examples.
-  regex-tester:
-    title: Regex Tester
-    description: Test your regular expressions with sample text.
-  safelink-decoder:
-    title: Outlook Safelink Decoder
-    description: Decode Outlook SafeLink URLs to restore the original links.
-  wifi-qr-code-generator:
-    title: Wi-Fi QR Code Generator
-    description: Generate and download QR codes for quick Wi-Fi network connection.
-  xml-to-json:
-    title: XML to JSON
-    description: Convert XML data to JSON format.
-  yaml-viewer:
-    title: YAML Viewer
-    description: Format and beautify YAML data for easy reading and analysis.
-  image-compressor:
-  title: Image Compressor
-  description: Compress and optimize images locally in your browser. Adjust quality, resize dimensions, and convert formats. Perfect for web optimization, social media, and email attachments.
-
-# Alias translations
-  date-converter:
-    title: Date Time Converter
-    description: Convert dates and times to various different formats.
-  base-converter:
-    title: Integer Base Converter
-    description: Convert numbers between different bases like decimal, hexadecimal, binary, octal, etc.
-  og-meta-generator:
-    title: Meta Tag Generator
-    description: Generate Open Graph and social sharing HTML meta tags for your website.
-  otp-generator:
-    title: OTP Code Generator
-    description: Generate and validate time-based OTP (one time password) for multi-factor authentication.
-  qrcode-generator:
-    title: QR Code Generator
-    description: Generate and download QR codes for URLs or text with customizable colors.
-  wifi-qrcode-generator:
-    title: Wi-Fi QR Code Generator
-    description: Generate and download QR codes for quick Wi-Fi network connection.
-  yaml-prettify:
-    title: YAML Viewer
-    description: Format and beautify YAML data for easy reading and analysis.
-  json-prettify:
-    title: JSON Viewer
-    description: Format and beautify JSON data for easy reading and analysis.
 gpa-calculator:
   title: GPA Calculator
   description: Calculate your Grade Point Average (GPA) based on course credits and grades. Perfect for students to track academic performance and plan their studies.
@@ -524,3 +446,30 @@ gpa-calculator:
   good: Good
   average: Average
   needsImprovement: Needs Improvement
+compound-interest-calculator:
+  title: Compound Interest Calculator
+  description: Calculate compound interest and future value of investments. Perfect for financial planning, savings projections, and understanding wealth growth over time.
+  parameters: Parameters
+  principal: Principal Amount
+  annualRate: Annual Interest Rate
+  years: Investment Period (Years)
+  compoundFrequency: Compound Frequency
+  monthlyContribution: Monthly Contribution
+  optional: Optional
+  yearly: Annually
+  quarterly: Quarterly
+  monthly: Monthly
+  daily: Daily
+  result: Result
+  finalAmount: Final Amount
+  totalContributions: Total Contributions
+  totalInterest: Total Interest Earned
+  effectiveRate: Effective Annual Rate
+  yearlyBreakdown: Year-by-Year Breakdown
+  tableYear: Year
+  tableStartBalance: Start Balance
+  tableContribution: Contribution
+  tableInterest: Interest
+  tableEndBalance: End Balance
+  formula: Formula
+  formulaDesc: 'A = Final amount, P = Principal, r = Annual interest rate (decimal), n = Compound frequency, t = Time in years'
