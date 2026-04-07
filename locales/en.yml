@@ -499,3 +499,41 @@ discount-calculator:
   step1: Enter the original price
   step2: Choose discount type (percentage or fixed amount) and enter the discount value
   step3: Adjust quantity if buying multiple items
+
+loan-calculator:
+  title: Loan Calculator
+  description: Calculate monthly payments, total interest, and amortization schedule for mortgages, car loans, and personal loans. Supports down payment and detailed payment breakdown.
+  parameters: Loan Parameters
+  loanAmount: Loan Amount
+  amountPlaceholder: Enter loan amount
+  downPayment: Down Payment
+  downPaymentPlaceholder: Optional, enter down payment
+  annualRate: Annual Interest Rate
+  ratePlaceholder: e.g. 4.5
+  loanTerm: Loan Term
+  termPlaceholder: Enter loan term
+  years: Years
+  months: Months
+  monthsUnit: months
+  result: Calculation Result
+  principal: Loan Principal
+  monthlyPayment: Monthly Payment
+  perMonth: per month
+  totalInterest: Total Interest
+  interestRatio: Interest Ratio
+  totalPayment: Total Payment
+  totalMonths: Total Months
+  downPaymentPaid: Down Payment Paid
+  paymentSchedule: Payment Schedule
+  tableMonth: Month
+  tablePayment: Payment
+  tablePrincipal: Principal
+  tableInterest: Interest
+  tableBalance: Balance
+  ellipsis: ... middle months omitted ...
+  formula: Formula
+  formulaDesc: EMI = Equated Monthly Installment, P = Principal, r = Monthly rate, n = Number of months
+  tips: Tips
+  tip1: This calculator uses the EMI (Equated Monthly Installment) method
+  tip2: Get the annual interest rate from your bank or loan agreement
+  tip3: Down payment is subtracted from total amount before calculating EMI

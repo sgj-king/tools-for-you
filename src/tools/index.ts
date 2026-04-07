@@ -92,7 +92,7 @@ import { tool as markdownEditor } from './markdown-editor';
 import { tool as imageColorExtractor } from './image-color-extractor';
 import { tool as gpaCalculator } from './gpa-calculator';
 import { tool as compoundInterestCalculator } from './compound-interest-calculator';
-import { tool as discountCalculator } from './discount-calculator';
+import { tool as discountCalculator } from './discount-calculator'; import { tool as loanCalculator } from './loan-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -201,7 +201,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Math',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator],
   },
   {
     name: 'Measurement',

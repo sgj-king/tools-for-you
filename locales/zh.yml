@@ -462,3 +462,41 @@ discount-calculator:
   step1: 输入商品原价
   step2: 选择折扣类型（百分比或固定金额），输入折扣值
   step3: 如购买多件，可调整数量查看总价
+
+loan-calculator:
+  title: 贷款计算器
+  description: 计算房贷、车贷、个人贷款的月供、总利息和还款明细。支持首付设置和还款计划查看。
+  parameters: 贷款参数
+  loanAmount: 贷款金额
+  amountPlaceholder: 请输入贷款金额
+  downPayment: 首付金额
+  downPaymentPlaceholder: 可选，输入首付金额
+  annualRate: 年利率
+  ratePlaceholder: 例如：4.5
+  loanTerm: 贷款期限
+  termPlaceholder: 请输入期限
+  years: 年
+  months: 月
+  monthsUnit: 个月
+  result: 计算结果
+  principal: 贷款本金
+  monthlyPayment: 月供
+  perMonth: 每月
+  totalInterest: 总利息
+  interestRatio: 利息占比
+  totalPayment: 还款总额
+  totalMonths: 还款期数
+  downPaymentPaid: 已付首付
+  paymentSchedule: 还款明细
+  tableMonth: 期数
+  tablePayment: 月供
+  tablePrincipal: 本金
+  tableInterest: 利息
+  tableBalance: 剩余本金
+  ellipsis: ... 省略中间期数 ...
+  formula: 计算公式
+  formulaDesc: EMI = 等额月供, P = 贷款本金, r = 月利率, n = 还款期数
+  tips: 使用提示
+  tip1: 本计算器使用等额本息还款方式计算月供
+  tip2: 年利率可通过银行官网或贷款合同获取
+  tip3: 首付金额会从贷款总额中扣除后再计算月供
