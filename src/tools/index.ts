@@ -93,6 +93,7 @@ import { tool as imageColorExtractor } from './image-color-extractor';
 import { tool as gpaCalculator } from './gpa-calculator';
 import { tool as compoundInterestCalculator } from './compound-interest-calculator';
 import { tool as discountCalculator } from './discount-calculator'; import { tool as loanCalculator } from './loan-calculator';
+import { tool as particleGalaxy } from './particle-galaxy';
 
 export const toolsByCategory: ToolCategory[] = [
   {

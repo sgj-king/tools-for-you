@@ -500,3 +500,18 @@ loan-calculator:
   tip1: 本计算器使用等额本息还款方式计算月供
   tip2: 年利率可通过银行官网或贷款合同获取
   tip3: 首付金额会从贷款总额中扣除后再计算月供
+
+particleGalaxy:
+  title: 粒子星系
+  description: 3D交互式粒子星系可视化，鼠标可与星系互动
+  controls: 控制面板
+  particleCount: 粒子数量
+  rotationSpeed: 旋转速度
+  colorScheme: 配色方案
+  galaxy: 星系
+  ocean: 海洋
+  fire: 火焰
+  neon: 霓虹
+  mouseInteraction: 鼠标交互
+  particles: 粒子
+  moveMouse: 移动鼠标与星系互动

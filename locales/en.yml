@@ -537,3 +537,18 @@ loan-calculator:
   tip1: This calculator uses the EMI (Equated Monthly Installment) method
   tip2: Get the annual interest rate from your bank or loan agreement
   tip3: Down payment is subtracted from total amount before calculating EMI
+
+particleGalaxy:
+  title: Particle Galaxy
+  description: Interactive 3D particle galaxy visualization with mouse interaction
+  controls: Controls
+  particleCount: Particle Count
+  rotationSpeed: Rotation Speed
+  colorScheme: Color Scheme
+  galaxy: Galaxy
+  ocean: Ocean
+  fire: Fire
+  neon: Neon
+  mouseInteraction: Mouse Interaction
+  particles: particles
+  moveMouse: Move mouse to interact with galaxy
