@@ -436,3 +436,29 @@ compound-interest-calculator:
   tableEndBalance: 期末余额
   formula: 计算公式
   formulaDesc: 'A = 最终金额, P = 本金, r = 年利率（小数）, n = 复利频率, t = 投资年数'
+
+discount-calculator:
+  title: 折扣计算器
+  description: 计算折扣价格和节省金额。支持百分比折扣和固定金额折扣，适合购物、比价和促销活动。
+  parameters: 参数设置
+  originalPrice: 原价
+  pricePlaceholder: 请输入商品原价
+  discountType: 折扣类型
+  percentageOff: 百分比折扣
+  fixedAmount: 固定金额折扣
+  discountPercentage: 折扣百分比
+  discountAmount: 折扣金额
+  percentPlaceholder: 例如：20
+  amountPlaceholder: 例如：50
+  quickDiscounts: 快捷折扣
+  quantity: 购买数量
+  result: 计算结果
+  subtotal: 原价小计
+  youSave: 节省金额
+  finalPrice: 实付价格
+  effectiveDiscount: 实际折扣率
+  unitPrice: 单价
+  howToUse: 使用说明
+  step1: 输入商品原价
+  step2: 选择折扣类型（百分比或固定金额），输入折扣值
+  step3: 如购买多件，可调整数量查看总价

@@ -473,3 +473,29 @@ compound-interest-calculator:
   tableEndBalance: End Balance
   formula: Formula
   formulaDesc: 'A = Final amount, P = Principal, r = Annual interest rate (decimal), n = Compound frequency, t = Time in years'
+
+discount-calculator:
+  title: Discount Calculator
+  description: Calculate discount prices and savings. Supports percentage and fixed amount discounts. Perfect for shopping, price comparison, and sales promotions.
+  parameters: Parameters
+  originalPrice: Original Price
+  pricePlaceholder: Enter original price
+  discountType: Discount Type
+  percentageOff: Percentage Off
+  fixedAmount: Fixed Amount
+  discountPercentage: Discount Percentage
+  discountAmount: Discount Amount
+  percentPlaceholder: e.g. 20
+  amountPlaceholder: e.g. 50
+  quickDiscounts: Quick Discounts
+  quantity: Quantity
+  result: Result
+  subtotal: Subtotal
+  youSave: You Save
+  finalPrice: Final Price
+  effectiveDiscount: Effective Discount
+  unitPrice: Unit Price
+  howToUse: How to Use
+  step1: Enter the original price
+  step2: Choose discount type (percentage or fixed amount) and enter the discount value
+  step3: Adjust quantity if buying multiple items
