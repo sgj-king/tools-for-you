@@ -515,3 +515,25 @@ particleGalaxy:
   mouseInteraction: 鼠标交互
   particles: 粒子
   moveMouse: 移动鼠标与星系互动
+tip-calculator:
+  title: 小费计算器
+  description: 计算小费并轻松分摊账单。适合外出就餐、餐厅支付和团体费用分摊。
+  parameters: 参数设置
+  billAmount: 账单金额
+  billPlaceholder: 请输入账单总额
+  tipPercentage: 小费百分比
+  percentPlaceholder: 例如：15
+  quickTips: 快捷小费
+  numberOfPeople: 分享人数
+  people: 人
+  person: 人
+  result: 计算结果
+  tipAmount: 小费金额
+  totalAmount: 支付总额
+  perPerson: 人均支付
+  billPerPerson: 账单人均
+  tipPerPerson: 小费人均
+  howToUse: 使用说明
+  step1: 输入账单总金额
+  step2: 选择小费百分比（使用快捷按钮或自定义输入）
+  step3: 设置分享人数以分摊账单

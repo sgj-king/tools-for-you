@@ -94,6 +94,7 @@ import { tool as gpaCalculator } from './gpa-calculator';
 import { tool as compoundInterestCalculator } from './compound-interest-calculator';
 import { tool as discountCalculator } from './discount-calculator'; import { tool as loanCalculator } from './loan-calculator';
 import { tool as particleGalaxy } from './particle-galaxy';
+import { tool as tipCalculator } from './tip-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -168,6 +169,7 @@ export const toolsByCategory: ToolCategory[] = [
       imageGenerator,
       colorPicker,
       imageColorExtractor,
+      particleGalaxy,
     ],
   },
   {
@@ -202,7 +204,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Math',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator],
   },
   {
     name: 'Measurement',

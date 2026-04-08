@@ -552,3 +552,25 @@ particleGalaxy:
   mouseInteraction: Mouse Interaction
   particles: particles
   moveMouse: Move mouse to interact with galaxy
+tip-calculator:
+  title: Tip Calculator
+  description: Calculate tips and split bills easily. Perfect for dining out, restaurant payments, and group expenses.
+  parameters: Parameters
+  billAmount: Bill Amount
+  billPlaceholder: Enter total bill amount
+  tipPercentage: Tip Percentage
+  percentPlaceholder: e.g. 15
+  quickTips: Quick Tips
+  numberOfPeople: Number of People
+  people: people
+  person: person
+  result: Calculation Result
+  tipAmount: Tip Amount
+  totalAmount: Total Amount
+  perPerson: Per Person
+  billPerPerson: Bill per person
+  tipPerPerson: Tip per person
+  howToUse: How to Use
+  step1: Enter the total bill amount
+  step2: Choose a tip percentage (use quick buttons or enter custom)
+  step3: Set the number of people to split the bill
