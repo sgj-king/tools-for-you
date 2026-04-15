@@ -15,7 +15,7 @@ const valueA = ref('a');
 </script>
 
 <template>
-  <c-buttons-select v-model:value="valueA" :options="optionsA" label="Label: " />
-  <c-buttons-select v-model:value="valueA" :options="optionsA" label="Label: " label-position="left" mt-2 />
-  <c-buttons-select v-model:value="valueA" :options="optionB" label="Options object: " />
+  <c-buttons-select v-model:value="valueA" :options="optionsA" label="标签：" />
+  <c-buttons-select v-model:value="valueA" :options="optionsA" label="标签：" label-position="left" mt-2 />
+  <c-buttons-select v-model:value="valueA" :options="optionB" label="选项对象：" />
 </template>

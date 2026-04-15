@@ -85,8 +85,8 @@ const mimeTypeFound = computed(() => (selectedExtension.value ? extensionToMimeT
     <n-table>
       <thead>
         <tr>
-          <th>Mime types</th>
-          <th>Extensions</th>
+          <th>MIME 类型</th>
+          <th>扩展名</th>
         </tr>
       </thead>
       <tbody>

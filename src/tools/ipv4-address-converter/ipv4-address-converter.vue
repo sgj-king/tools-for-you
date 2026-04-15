@@ -40,7 +40,7 @@ const { attrs: validationAttrs } = useValidation({
 
 <template>
   <div>
-    <c-input-text v-model:value="rawIpAddress" label="The ipv4 address:" placeholder="The ipv4 address..." />
+    <c-input-text v-model:value="rawIpAddress" label="The ipv4 address:" placeholder="IPv4 地址..." />
 
     <n-divider />
 

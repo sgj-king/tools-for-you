@@ -25,7 +25,7 @@ const b64ValidationWatch = [decodeUrlSafe];
 </script>
 
 <template>
-  <c-card title="String to base64">
+  <c-card title="字符串转 Base64">
     <n-form-item label="Encode URL safe" label-placement="left">
       <n-switch v-model:value="encodeUrlSafe" />
     </n-form-item>
@@ -56,7 +56,7 @@ const b64ValidationWatch = [decodeUrlSafe];
     </div>
   </c-card>
 
-  <c-card title="Base64 to string">
+  <c-card title="Base64 转字符串">
     <n-form-item label="Decode URL safe" label-placement="left">
       <n-switch v-model:value="decodeUrlSafe" />
     </n-form-item>

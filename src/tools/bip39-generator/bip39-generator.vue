@@ -87,18 +87,18 @@ const { copy: copyPassphrase } = useCopy({ source: passphrase, text: 'Passphrase
         <c-select
           v-model:value="language"
           searchable
-          label="Language:"
+          label="语言："
           :options="Object.keys(languages)"
         />
       </n-gi>
       <n-gi span="2">
         <n-form-item
-          label="Entropy (seed):"
+          label="熵（种子）："
           :feedback="entropyValidation.message"
           :validation-status="entropyValidation.status"
         >
           <n-input-group>
-            <c-input-text v-model:value="entropy" placeholder="Your string..." />
+            <c-input-text v-model:value="entropy" placeholder="您的字符串..." />
 
             <c-button @click="refreshEntropy()">
               <n-icon size="22">
@@ -115,15 +115,15 @@ const { copy: copyPassphrase } = useCopy({ source: passphrase, text: 'Passphrase
       </n-gi>
     </n-grid>
     <n-form-item
-      label="Passphrase (mnemonic):"
+      label="助记词："
       :feedback="mnemonicValidation.message"
       :validation-status="mnemonicValidation.status"
     >
       <n-input-group>
-        <c-input-text v-model:value="passphrase" placeholder="Your mnemonic..." raw-text />
+        <c-input-text v-model:value="passphrase" placeholder="您的助记词..." raw-text />
 
         <c-button @click="copyPassphrase()">
-          <n-icon size="22" :component="Copy" />
+          <n-icon size="22" :component="复制" />
         </c-button>
       </n-input-group>
     </n-form-item>

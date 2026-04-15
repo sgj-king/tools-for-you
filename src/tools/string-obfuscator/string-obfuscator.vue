@@ -17,12 +17,12 @@ const { copy } = useCopy({ source: obfuscatedString });
 
     <div mt-4 flex gap-10px>
       <div>
-        <div>Keep first:</div>
+        <div>保留开头：</div>
         <n-input-number v-model:value="keepFirst" min="0" />
       </div>
 
       <div>
-        <div>Keep last:</div>
+        <div>保留结尾：</div>
         <n-input-number v-model:value="keepLast" min="0" />
       </div>
 

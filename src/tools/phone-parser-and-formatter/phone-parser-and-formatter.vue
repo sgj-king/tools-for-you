@@ -55,7 +55,7 @@ const parsedDetails = computed(() => {
       value: booleanToHumanReadable(parsed.isPossible()),
     },
     {
-      label: 'Type',
+      label: '类型',
       value: formatTypeToHumanReadable(parsed.getType()),
     },
     {

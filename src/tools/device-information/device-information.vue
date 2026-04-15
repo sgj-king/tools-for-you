@@ -49,7 +49,7 @@ const sections = [
         value: computed(() => navigator.platform),
       },
       {
-        label: 'User agent',
+        label: '用户代理',
         value: computed(() => navigator.userAgent),
       },
     ],

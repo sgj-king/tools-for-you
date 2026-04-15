@@ -39,7 +39,7 @@ const endAt = computed(() =>
       </n-form-item>
     </div>
 
-    <p>Amount of unit consumed by time span</p>
+    <p>时间段内消耗的单位数量</p>
     <div flex flex-col items-baseline gap-y-2 md:flex-row>
       <n-input-number v-model:value="unitPerTimeSpan" :min="1" />
       <div flex items-baseline gap-2>

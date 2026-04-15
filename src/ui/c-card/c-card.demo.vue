@@ -2,7 +2,7 @@
   <div>
     <h2>Default</h2>
 
-    <c-card title="Title">
+    <c-card title="标题">
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae ipsa reiciendis facilis officia nulla.
       Laboriosam cumque molestias excepturi doloribus nulla nemo quod ratione rerum possimus. Excepturi nihil possimus
       error itaque.

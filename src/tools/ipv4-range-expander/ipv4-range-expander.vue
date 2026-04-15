@@ -62,7 +62,7 @@ function onSwitchStartEndClicked() {
       <c-input-text
         v-model:value="rawStartAddress"
         label="Start address"
-        placeholder="Start IPv4 address..."
+        placeholder="起始 IPv4 地址..."
         :validation="startIpValidation"
         clearable
       />
@@ -70,7 +70,7 @@ function onSwitchStartEndClicked() {
       <c-input-text
         v-model:value="rawEndAddress"
         label="End address"
-        placeholder="End IPv4 address..."
+        placeholder="结束 IPv4 地址..."
         :validation="endIpValidation"
         clearable
       />
@@ -102,7 +102,7 @@ function onSwitchStartEndClicked() {
     </n-table>
     <n-alert
       v-else-if="startIpValidation.isValid && endIpValidation.isValid"
-      title="Invalid combination of start and end IPv4 address"
+      title="起始和结束 IPv4 地址组合无效"
       type="error"
     >
       <div my-3 op-70>

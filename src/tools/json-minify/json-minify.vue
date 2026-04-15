@@ -16,9 +16,9 @@ const rules: UseValidationRule<string>[] = [
 
 <template>
   <format-transformer
-    input-label="Your raw JSON"
+    input-label="原始 JSON"
     :input-default="defaultValue"
-    input-placeholder="Paste your raw JSON here..."
+    input-placeholder="在此粘贴原始 JSON..."
     output-label="Minified version of your JSON"
     output-language="json"
     :input-validation-rules="rules"

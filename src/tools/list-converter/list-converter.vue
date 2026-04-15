@@ -5,12 +5,12 @@ import type { ConvertOptions } from './list-converter.types';
 
 const sortOrderOptions = [
   {
-    label: 'Sort ascending',
+    label: '升序排序',
     value: 'asc',
     disabled: false,
   },
   {
-    label: 'Sort descending',
+    label: '降序排序',
     value: 'desc',
     disabled: false,
   },

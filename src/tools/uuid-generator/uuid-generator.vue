@@ -50,7 +50,7 @@ const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' 
     <c-buttons-select v-model:value="version" :options="versions" label="UUID version" label-width="100px" mb-2 />
 
     <div mb-2 flex items-center>
-      <span w-100px>Quantity </span>
+      <span w-100px>数量 </span>
       <n-input-number v-model:value="count" flex-1 :min="1" :max="50" placeholder="UUID quantity" />
     </div>
 
@@ -83,8 +83,8 @@ const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' 
 
       <c-input-text
         v-model:value="v35Args.name"
-        placeholder="Name"
-        label="Name"
+        placeholder="名称"
+        label="名称"
         label-width="100px"
         label-position="left"
         mb-2

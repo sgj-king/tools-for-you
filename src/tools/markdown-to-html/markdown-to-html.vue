@@ -23,7 +23,7 @@ function printHtml() {
     <c-input-text
       v-model:value="inputMarkdown"
       multiline raw-text
-      placeholder="Your Markdown content..."
+      placeholder="您的 Markdown 内容..."
       rows="8"
       autofocus
       label="Your Markdown to convert:"

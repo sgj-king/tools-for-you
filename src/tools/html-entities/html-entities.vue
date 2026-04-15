@@ -13,7 +13,7 @@ const { copy: copyUnescaped } = useCopy({ source: unescapeOutput });
 </script>
 
 <template>
-  <c-card title="Escape html entities">
+  <c-card title="转义 HTML 实体">
     <n-form-item label="Your string :">
       <c-input-text
         v-model:value="escapeInput"
@@ -42,7 +42,7 @@ const { copy: copyUnescaped } = useCopy({ source: unescapeOutput });
       </c-button>
     </div>
   </c-card>
-  <c-card title="Unescape html entities">
+  <c-card title="反转义 HTML 实体">
     <n-form-item label="Your escaped string :">
       <c-input-text
         v-model:value="unescapeInput"

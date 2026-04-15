@@ -65,13 +65,13 @@ const formats: DateFormat[] = [
     formatMatcher: date => isRFC7231DateString(date),
   },
   {
-    name: 'Unix timestamp',
+    name: 'Unix 时间戳',
     fromDate: date => String(getUnixTime(date)),
     toDate: sec => fromUnixTime(+sec),
     formatMatcher: date => isUnixTimestamp(date),
   },
   {
-    name: 'Timestamp',
+    name: '时间戳',
     fromDate: date => String(getTime(date)),
     toDate: ms => parseJSON(+ms),
     formatMatcher: date => isTimestamp(date),

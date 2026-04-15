@@ -13,7 +13,7 @@ const decodedJWT = computed(() =>
 );
 
 const sections = [
-  { key: 'header', title: 'Header' },
+  { key: 'header', title: '请求头' },
   { key: 'payload', title: 'Payload' },
 ] as const;
 

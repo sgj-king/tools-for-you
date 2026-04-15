@@ -16,10 +16,10 @@ const compareMatch = computed(() => compareSync(compareString.value, compareHash
 </script>
 
 <template>
-  <c-card title="Hash">
+  <c-card title="哈希">
     <c-input-text
       v-model:value="input"
-      placeholder="Your string to bcrypt..."
+      placeholder="要 Bcrypt 加密的字符串..."
       raw-text
       label="Your string: "
       label-position="left"
@@ -28,7 +28,7 @@ const compareMatch = computed(() => compareSync(compareString.value, compareHash
       mb-2
     />
     <n-form-item label="Salt count: " label-placement="left" label-width="120">
-      <n-input-number v-model:value="saltCount" placeholder="Salt rounds..." :max="100" :min="0" w-full />
+      <n-input-number v-model:value="saltCount" placeholder="盐值轮次..." :max="100" :min="0" w-full />
     </n-form-item>
 
     <c-input-text :value="hashed" readonly text-center />
@@ -40,17 +40,17 @@ const compareMatch = computed(() => compareSync(compareString.value, compareHash
     </div>
   </c-card>
 
-  <c-card title="Compare string with hash">
+  <c-card title="比较字符串和哈希">
     <n-form label-width="120">
       <n-form-item label="Your string: " label-placement="left">
-        <c-input-text v-model:value="compareString" placeholder="Your string to compare..." raw-text />
+        <c-input-text v-model:value="compareString" placeholder="要比较的字符串..." raw-text />
       </n-form-item>
       <n-form-item label="Your hash: " label-placement="left">
-        <c-input-text v-model:value="compareHash" placeholder="Your hash to compare..." raw-text />
+        <c-input-text v-model:value="compareHash" placeholder="要比较的哈希..." raw-text />
       </n-form-item>
       <n-form-item label="Do they match ? " label-placement="left" :show-feedback="false">
         <div class="compare-result" :class="{ positive: compareMatch }">
-          {{ compareMatch ? 'Yes' : 'No' }}
+          {{ compareMatch ? '是' : '否' }}
         </div>
       </n-form-item>
     </n-form>

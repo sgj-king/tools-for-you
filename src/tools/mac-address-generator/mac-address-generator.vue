@@ -11,8 +11,8 @@ const macAddressPrefix = useStorage('mac-address-generator-prefix', '64:16:7F');
 const prefixValidation = usePartialMacAddressValidation(macAddressPrefix);
 
 const casesTransformers = [
-  { label: 'Uppercase', value: (value: string) => value.toUpperCase() },
-  { label: 'Lowercase', value: (value: string) => value.toLowerCase() },
+  { label: '大写', value: (value: string) => value.toUpperCase() },
+  { label: '小写', value: (value: string) => value.toLowerCase() },
 ];
 const caseTransformer = ref(casesTransformers[0].value);
 

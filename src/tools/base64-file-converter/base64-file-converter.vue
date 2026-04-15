@@ -79,7 +79,7 @@ async function onUpload(file: File) {
 </script>
 
 <template>
-  <c-card title="Base64 to file">
+  <c-card title="Base64 转文件">
     <n-grid cols="3" x-gap="12">
       <n-gi span="2">
         <c-input-text
@@ -121,8 +121,8 @@ async function onUpload(file: File) {
     </div>
   </c-card>
 
-  <c-card title="File to base64">
-    <c-file-upload title="Drag and drop a file here, or click to select a file" @file-upload="onUpload" />
+  <c-card title="文件转 Base64">
+    <c-file-upload title="拖放文件到此处，或点击选择文件" @file-upload="onUpload" />
     <c-input-text :value="fileBase64" multiline readonly placeholder="File in base64 will be here" rows="5" my-2 />
 
     <div flex justify-center>

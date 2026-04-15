@@ -28,11 +28,11 @@ const value = ref('');
   <c-select v-model:value="value" :options="['a', 'Option B', 'Option C']" />
 
   <h2>Labels</h2>
-  <c-select label="Label" mb-2 />
-  <c-select label="Label" label-position="left" mb-2 />
-  <c-select label="Label" label-position="left" label-align="left" mb-2 label-width="200px" />
-  <c-select label="Label" label-position="left" label-align="center" mb-2 label-width="200px" />
-  <c-select label="Label" label-position="left" label-align="right" mb-2 label-width="200px" />
+  <c-select label="标签" mb-2 />
+  <c-select label="标签" label-position="left" mb-2 />
+  <c-select label="标签" label-position="left" label-align="left" mb-2 label-width="200px" />
+  <c-select label="标签" label-position="left" label-align="center" mb-2 label-width="200px" />
+  <c-select label="标签" label-position="left" label-align="right" mb-2 label-width="200px" />
 
   <h2>Custom displayed value</h2>
   <c-select v-model:value="value" :options="optionsA" mb-2>

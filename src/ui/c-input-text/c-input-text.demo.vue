@@ -24,14 +24,14 @@ const validation = useValidation({
 
   <h2>With placeholder</h2>
 
-  <c-input-text placeholder="Placeholder" />
+  <c-input-text placeholder="占位符" />
 
   <h2>With label</h2>
 
-  <c-input-text label="Label" mb-2 />
-  <c-input-text label="Label" mb-2 label-position="left" />
-  <c-input-text label="Label" mb-2 label-position="left" label-width="100px" />
-  <c-input-text label="Label" mb-2 label-position="left" label-width="100px" label-align="right" />
+  <c-input-text label="标签" mb-2 />
+  <c-input-text label="标签" mb-2 label-position="left" />
+  <c-input-text label="标签" mb-2 label-position="left" label-width="100px" />
+  <c-input-text label="标签" mb-2 label-position="left" label-width="100px" label-align="right" />
 
   <h2>Readonly</h2>
 
@@ -44,7 +44,7 @@ const validation = useValidation({
   <h2>Validation</h2>
 
   <c-input-text v-model:value="value" :validation-rules="validationRules" mb-2 />
-  <c-input-text v-model:value="value" :validation-rules="validationRules" mb-2 label-position="left" label="Yo " />
+  <c-input-text v-model:value="value" :validation-rules="validationRules" mb-2 label-position="left" label="嘿 " />
   <c-input-text v-model:value="value" :validation="validation" />
   <c-input-text v-model:value="value" :validation="validation" multiline rows="3" />
 
@@ -58,8 +58,8 @@ const validation = useValidation({
 
   <h2>Multiline</h2>
 
-  <c-input-text value="value" multiline label="Label" mb-2 rows="1" />
-  <c-input-text value="value" multiline label="Label" mb-2 />
+  <c-input-text value="value" multiline label="标签" mb-2 rows="1" />
+  <c-input-text value="value" multiline label="标签" mb-2 />
   <c-input-text
     value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, est modi iusto repellendus fuga accusantium atque at magnam aliquam eum explicabo vero quia, nobis quasi quis! Earum amet quam a?"
     multiline

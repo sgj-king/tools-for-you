@@ -21,7 +21,7 @@ const result = computed(() => withDefaultOnError(() => evaluate(expression.value
       autosize
     />
 
-    <c-card v-if="result !== ''" title="Result " mt-5>
+    <c-card v-if="result !== ''" title="结果 " mt-5>
       {{ result }}
     </c-card>
   </div>

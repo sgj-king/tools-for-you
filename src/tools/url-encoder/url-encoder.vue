@@ -36,7 +36,7 @@ const { copy: copyDecoded } = useCopy({ source: decodeOutput, text: 'Decoded str
 </script>
 
 <template>
-  <c-card title="Encode">
+  <c-card title="编码">
     <c-input-text
       v-model:value="encodeInput"
       label="Your string :"
@@ -65,7 +65,7 @@ const { copy: copyDecoded } = useCopy({ source: decodeOutput, text: 'Decoded str
       </c-button>
     </div>
   </c-card>
-  <c-card title="Decode">
+  <c-card title="解码">
     <c-input-text
       v-model:value="decodeInput"
       label="Your encoded string :"

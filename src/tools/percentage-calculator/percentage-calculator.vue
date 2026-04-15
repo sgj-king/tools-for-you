@@ -45,7 +45,7 @@ const percentageIncreaseDecrease = computed(() => {
             % of
           </div>
           <n-input-number v-model:value="percentageY" data-test-id="percentageY" placeholder="Y" />
-          <input-copyable v-model:value="percentageResult" data-test-id="percentageResult" readonly placeholder="Result" style="max-width: 150px;" />
+          <input-copyable v-model:value="percentageResult" data-test-id="percentageResult" readonly placeholder="结果" style="max-width: 150px;" />
         </div>
       </c-card>
 
@@ -59,7 +59,7 @@ const percentageIncreaseDecrease = computed(() => {
             is what percent of
           </div>
           <n-input-number v-model:value="numberY" data-test-id="numberY" placeholder="Y" />
-          <input-copyable v-model:value="numberResult" data-test-id="numberResult" readonly placeholder="Result" style="max-width: 150px;" />
+          <input-copyable v-model:value="numberResult" data-test-id="numberResult" readonly placeholder="结果" style="max-width: 150px;" />
         </div>
       </c-card>
 
@@ -68,9 +68,9 @@ const percentageIncreaseDecrease = computed(() => {
           What is the percentage increase/decrease
         </div>
         <div flex gap-2>
-          <n-input-number v-model:value="numberFrom" data-test-id="numberFrom" placeholder="From" />
-          <n-input-number v-model:value="numberTo" data-test-id="numberTo" placeholder="To" />
-          <input-copyable v-model:value="percentageIncreaseDecrease" data-test-id="percentageIncreaseDecrease" readonly placeholder="Result" style="max-width: 150px;" />
+          <n-input-number v-model:value="numberFrom" data-test-id="numberFrom" placeholder="从" />
+          <n-input-number v-model:value="numberTo" data-test-id="numberTo" placeholder="到" />
+          <input-copyable v-model:value="percentageIncreaseDecrease" data-test-id="percentageIncreaseDecrease" readonly placeholder="结果" style="max-width: 150px;" />
         </div>
       </c-card>
     </div>

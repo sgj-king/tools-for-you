@@ -11,11 +11,11 @@ const { copy } = useCopy({ source: header, text: 'Header copied to the clipboard
 
 <template>
   <div>
-    <c-input-text v-model:value="username" label="Username" placeholder="Your username..." clearable raw-text mb-5 />
+    <c-input-text v-model:value="username" label="用户名" placeholder="您的用户名..." clearable raw-text mb-5 />
     <c-input-text
       v-model:value="password"
-      label="Password"
-      placeholder="Your password..."
+      label="密码"
+      placeholder="您的密码..."
       clearable
       raw-text
       mb-2
@@ -23,7 +23,7 @@ const { copy } = useCopy({ source: header, text: 'Header copied to the clipboard
     />
 
     <c-card>
-      <n-statistic label="Authorization header:" class="header">
+      <n-statistic label="授权请求头：" class="header">
         <n-scrollbar x-scrollable style="max-width: 550px; margin-bottom: -10px; padding-bottom: 10px" trigger="none">
           {{ header }}
         </n-scrollbar>

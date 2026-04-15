@@ -87,7 +87,7 @@ function copyAsBulletList() {
             v-model:value="suite.title"
             label-position="left"
             label="Suite name"
-            placeholder="Suite name..."
+            placeholder="套件名称..."
             clearable
           />
 
@@ -117,7 +117,7 @@ function copyAsBulletList() {
   <div style="flex: 0 0 100%">
     <div style="max-width: 600px; margin: 0 auto">
       <div mx-auto max-w-sm flex justify-center gap-3>
-        <c-input-text v-model:value="unit" placeholder="Unit (eg: ms)" label="Unit" label-position="left" mb-4 />
+        <c-input-text v-model:value="unit" placeholder="单位（如：ms）" label="Unit" label-position="left" mb-4 />
 
         <c-button
           @click="

@@ -23,12 +23,12 @@ const sections: UserAgentResultSection[] = [
     icon: Browser,
     content: [
       {
-        label: 'Name',
+        label: '名称',
         getValue: block => block?.browser.name,
         undefinedFallback: 'No browser name available',
       },
       {
-        label: 'Version',
+        label: '版本',
         getValue: block => block?.browser.version,
         undefinedFallback: 'No browser version available',
       },
@@ -39,12 +39,12 @@ const sections: UserAgentResultSection[] = [
     icon: Engine,
     content: [
       {
-        label: 'Name',
+        label: '名称',
         getValue: block => block?.engine.name,
         undefinedFallback: 'No engine name available',
       },
       {
-        label: 'Version',
+        label: '版本',
         getValue: block => block?.engine.version,
         undefinedFallback: 'No engine version available',
       },
@@ -55,12 +55,12 @@ const sections: UserAgentResultSection[] = [
     icon: Adjustments,
     content: [
       {
-        label: 'Name',
+        label: '名称',
         getValue: block => block?.os.name,
         undefinedFallback: 'No OS name available',
       },
       {
-        label: 'Version',
+        label: '版本',
         getValue: block => block?.os.version,
         undefinedFallback: 'No OS version available',
       },
@@ -76,7 +76,7 @@ const sections: UserAgentResultSection[] = [
         undefinedFallback: 'No device model available',
       },
       {
-        label: 'Type',
+        label: '类型',
         getValue: block => block?.device.type,
         undefinedFallback: 'No device type available',
       },

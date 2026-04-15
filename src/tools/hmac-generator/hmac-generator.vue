@@ -26,10 +26,10 @@ const algos = {
   SHA512: HmacSHA512,
 } as const;
 
-type Encoding = keyof typeof enc | 'Bin';
+type Encoding = keyof typeof enc | '二进制';
 
 function formatWithEncoding(words: lib.WordArray, encoding: Encoding) {
-  if (encoding === 'Bin') {
+  if (encoding === '二进制') {
     return convertHexToBin(words.toString(enc.Hex));
   }
   return words.toString(enc[encoding]);
@@ -38,7 +38,7 @@ function formatWithEncoding(words: lib.WordArray, encoding: Encoding) {
 const plainText = ref('');
 const secret = ref('');
 const hashFunction = ref<keyof typeof algos>('SHA256');
-const encoding = ref<Encoding>('Hex');
+const encoding = ref<Encoding>('十六进制');
 const hmac = computed(() =>
   formatWithEncoding(algos[hashFunction.value](plainText.value, secret.value), encoding.value),
 );
@@ -48,7 +48,7 @@ const { copy } = useCopy({ source: hmac });
 <template>
   <div flex flex-col gap-4>
     <c-input-text v-model:value="plainText" multiline raw-text placeholder="Plain text to compute the hash..." rows="3" autosize autofocus label="Plain text to compute the hash" />
-    <c-input-text v-model:value="secret" raw-text placeholder="Enter the secret key..." label="Secret key" clearable />
+    <c-input-text v-model:value="secret" raw-text placeholder="Enter the secret key..." label="密钥" clearable />
 
     <div flex gap-2>
       <c-select
@@ -64,11 +64,11 @@ const { copy } = useCopy({ source: hmac });
         :options="[
           {
             label: 'Binary (base 2)',
-            value: 'Bin',
+            value: '二进制',
           },
           {
             label: 'Hexadecimal (base 16)',
-            value: 'Hex',
+            value: '十六进制',
           },
           {
             label: 'Base64 (base 64)',

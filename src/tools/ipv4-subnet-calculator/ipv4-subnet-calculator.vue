@@ -86,8 +86,8 @@ function switchToBlock({ count = 1 }: { count?: number }) {
   <div>
     <c-input-text
       v-model:value="ip"
-      label="An IPv4 address with or without mask"
-      placeholder="The ipv4 address..."
+      label="IPv4 地址（可含掩码）"
+      placeholder="IPv4 地址..."
       :validation-rules="ipValidationRules"
       mb-4
     />

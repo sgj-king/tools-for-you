@@ -101,7 +101,7 @@ const secretValidationRules = [
       placeholder="Epoch in sec will be displayed here"
     />
 
-    <p>Iteration</p>
+    <p>迭代次数</p>
 
     <InputCopyable
       :value="String(getCounterFromTime({ now, timeStep: 30 }))"

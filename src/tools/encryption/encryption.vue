@@ -19,12 +19,12 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
 </script>
 
 <template>
-  <c-card title="Encrypt">
+  <c-card title="加密">
     <div flex gap-3>
       <c-input-text
         v-model:value="cypherInput"
         label="Your text:"
-        placeholder="The string to cypher"
+        placeholder="要加密的字符串"
         rows="4"
         multiline raw-text monospace autosize flex-1
       />
@@ -42,16 +42,16 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
       label="Your text encrypted:"
       :value="cypherOutput"
       rows="3"
-      placeholder="Your string hash"
+      placeholder="您的字符串哈希"
       multiline monospace readonly autosize mt-5
     />
   </c-card>
-  <c-card title="Decrypt">
+  <c-card title="解密">
     <div flex gap-3>
       <c-input-text
         v-model:value="decryptInput"
         label="Your encrypted text:"
-        placeholder="The string to cypher"
+        placeholder="要加密的字符串"
         rows="4"
         multiline raw-text monospace autosize flex-1
       />
@@ -65,14 +65,14 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
         />
       </div>
     </div>
-    <c-alert v-if="decryptError" type="error" mt-12 title="Error while decrypting">
+    <c-alert v-if="decryptError" type="error" mt-12 title="解密错误">
       {{ decryptError }}
     </c-alert>
     <c-input-text
       v-else
       label="Your decrypted text:"
       :value="decryptOutput"
-      placeholder="Your string hash"
+      placeholder="您的字符串哈希"
       rows="3"
       multiline monospace readonly autosize mt-5
     />

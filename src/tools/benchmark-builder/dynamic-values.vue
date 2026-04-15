@@ -35,7 +35,7 @@ function onInputEnter(index: number) {
         :ref="refs.set"
         v-model:value="values[index]"
         :show-button="false"
-        placeholder="Set your measure..."
+        placeholder="设置您的测量值..."
         autofocus
         @keydown.enter="onInputEnter(index)"
       />

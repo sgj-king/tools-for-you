@@ -22,7 +22,7 @@ const helpers = [
     symbol: '*',
     meaning: 'Any value',
     example: '* * * *',
-    equivalent: 'Every minute',
+    equivalent: '每分钟',
   },
   {
     symbol: '-',
@@ -127,13 +127,13 @@ const cronValidationRules = [
 
     <div flex justify-center>
       <n-form :show-feedback="false" label-width="170" label-placement="left">
-        <n-form-item label="Verbose">
+        <n-form-item label="详细输出">
           <n-switch v-model:value="cronstrueConfig.verbose" />
         </n-form-item>
-        <n-form-item label="Use 24 hour time format">
+        <n-form-item label="使用24小时制">
           <n-switch v-model:value="cronstrueConfig.use24HourTimeFormat" />
         </n-form-item>
-        <n-form-item label="Days start at 0">
+        <n-form-item label="天数从0开始">
           <n-switch v-model:value="cronstrueConfig.dayOfWeekStartIndexZero" />
         </n-form-item>
       </n-form>

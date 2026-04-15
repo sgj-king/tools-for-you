@@ -14,12 +14,12 @@ const urlValidationRules = [
 ];
 
 const properties: { title: string; key: keyof URL }[] = [
-  { title: 'Protocol', key: 'protocol' },
-  { title: 'Username', key: 'username' },
-  { title: 'Password', key: 'password' },
-  { title: 'Hostname', key: 'hostname' },
-  { title: 'Port', key: 'port' },
-  { title: 'Path', key: 'pathname' },
+  { title: '协议', key: 'protocol' },
+  { title: '用户名', key: 'username' },
+  { title: '密码', key: 'password' },
+  { title: '主机名', key: 'hostname' },
+  { title: '端口', key: 'port' },
+  { title: '路径', key: 'pathname' },
   { title: 'Params', key: 'search' },
 ];
 </script>

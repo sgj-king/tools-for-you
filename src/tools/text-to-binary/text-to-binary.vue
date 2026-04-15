@@ -20,7 +20,7 @@ const { copy: copyText } = useCopy({ source: textFromBinary });
 </script>
 
 <template>
-  <c-card title="Text to ASCII binary">
+  <c-card title="文本转 ASCII 二进制">
     <c-input-text v-model:value="inputText" multiline placeholder="e.g. 'Hello world'" label="Enter text to convert to binary" autosize autofocus raw-text test-id="text-to-binary-input" />
     <c-input-text v-model:value="binaryFromText" label="Binary from your text" multiline raw-text readonly mt-2 placeholder="The binary representation of your text will be here" test-id="text-to-binary-output" />
     <div mt-2 flex justify-center>
@@ -30,7 +30,7 @@ const { copy: copyText } = useCopy({ source: textFromBinary });
     </div>
   </c-card>
 
-  <c-card title="ASCII binary to text">
+  <c-card title="ASCII 二进制转文本">
     <c-input-text v-model:value="inputBinary" multiline placeholder="e.g. '01001000 01100101 01101100 01101100 01101111'" label="Enter binary to convert to text" autosize raw-text :validation-rules="inputBinaryValidationRules" test-id="binary-to-text-input" />
     <c-input-text v-model:value="textFromBinary" label="Text from your binary" multiline raw-text readonly mt-2 placeholder="The text representation of your binary will be here" test-id="binary-to-text-output" />
     <div mt-2 flex justify-center>

@@ -217,7 +217,7 @@ function getContrastColor(hex: string): string {
       <c-card class="preview-card">
         <div class="preview-section">
           <div class="image-preview-wrapper">
-            <img :src="imagePreview!" alt="Preview" class="image-preview" />
+            <img :src="imagePreview!" alt="预览" class="image-preview" />
             <n-button
               size="small"
               type="error"

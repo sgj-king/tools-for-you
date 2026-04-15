@@ -18,13 +18,13 @@ const algos = {
 } as const;
 
 type AlgoNames = keyof typeof algos;
-type Encoding = keyof typeof enc | 'Bin';
+type Encoding = keyof typeof enc | '二进制';
 const algoNames = Object.keys(algos) as AlgoNames[];
-const encoding = useQueryParam<Encoding>({ defaultValue: 'Hex', name: 'encoding' });
+const encoding = useQueryParam<Encoding>({ defaultValue: '十六进制', name: 'encoding' });
 const clearText = ref('');
 
 function formatWithEncoding(words: lib.WordArray, encoding: Encoding) {
-  if (encoding === 'Bin') {
+  if (encoding === '二进制') {
     return convertHexToBin(words.toString(enc.Hex));
   }
 
@@ -37,22 +37,22 @@ const hashText = (algo: AlgoNames, value: string) => formatWithEncoding(algos[al
 <template>
   <div>
     <c-card>
-      <c-input-text v-model:value="clearText" multiline raw-text placeholder="Your string to hash..." rows="3" autosize autofocus label="Your text to hash:" />
+      <c-input-text v-model:value="clearText" multiline raw-text placeholder="要哈希的字符串..." rows="3" autosize autofocus label="要哈希的文本：" />
 
       <n-divider />
 
       <c-select
         v-model:value="encoding"
         mb-4
-        label="Digest encoding"
+        label="摘要编码"
         :options="[
           {
             label: 'Binary (base 2)',
-            value: 'Bin',
+            value: '二进制',
           },
           {
             label: 'Hexadecimal (base 16)',
-            value: 'Hex',
+            value: '十六进制',
           },
           {
             label: 'Base64 (base 64)',

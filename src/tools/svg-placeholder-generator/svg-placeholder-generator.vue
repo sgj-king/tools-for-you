@@ -35,29 +35,29 @@ const { download } = useDownloadFileFromBase64({ source: base64 });
   <div>
     <n-form label-placement="left" label-width="100">
       <div flex gap-3>
-        <n-form-item label="Width (in px)" flex-1>
-          <n-input-number v-model:value="width" placeholder="SVG width..." min="1" />
+        <n-form-item label="宽度（像素）" flex-1>
+          <n-input-number v-model:value="width" placeholder="SVG 宽度..." min="1" />
         </n-form-item>
-        <n-form-item label="Background" flex-1>
+        <n-form-item label="背景" flex-1>
           <n-color-picker v-model:value="bgColor" :modes="['hex']" />
         </n-form-item>
       </div>
       <div flex gap-3>
-        <n-form-item label="Height (in px)" flex-1>
-          <n-input-number v-model:value="height" placeholder="SVG height..." min="1" />
+        <n-form-item label="高度（像素）" flex-1>
+          <n-input-number v-model:value="height" placeholder="SVG 高度..." min="1" />
         </n-form-item>
-        <n-form-item label="Text color" flex-1>
+        <n-form-item label="文字颜色" flex-1>
           <n-color-picker v-model:value="fgColor" :modes="['hex']" />
         </n-form-item>
       </div>
       <div flex gap-3>
-        <n-form-item label="Font size" flex-1>
-          <n-input-number v-model:value="fontSize" placeholder="Font size..." min="1" />
+        <n-form-item label="字体大小" flex-1>
+          <n-input-number v-model:value="fontSize" placeholder="字体大小..." min="1" />
         </n-form-item>
 
         <c-input-text
           v-model:value="customText"
-          label="Custom text"
+          label="自定义文本"
           :placeholder="`Default is ${width}x${height}`"
           label-position="left"
           label-width="100px"
@@ -65,15 +65,15 @@ const { download } = useDownloadFileFromBase64({ source: base64 });
           flex-1
         />
       </div>
-      <n-form-item label="Use exact size" label-placement="left">
+      <n-form-item label="使用精确尺寸" label-placement="left">
         <n-switch v-model:value="useExactSize" />
       </n-form-item>
     </n-form>
 
-    <n-form-item label="SVG HTML element">
+    <n-form-item label="SVG HTML 元素">
       <TextareaCopyable :value="svgString" copy-placement="none" />
     </n-form-item>
-    <n-form-item label="SVG in Base64">
+    <n-form-item label="Base64 格式 SVG">
       <TextareaCopyable :value="base64" copy-placement="none" />
     </n-form-item>
 
@@ -90,7 +90,7 @@ const { download } = useDownloadFileFromBase64({ source: base64 });
     </div>
   </div>
 
-  <img :src="base64" alt="Image">
+  <img :src="base64" alt="镜像">
 </template>
 
 <style lang="less" scoped>
