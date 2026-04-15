@@ -9,16 +9,16 @@ import { toolsByCategory, tools } from '@/tools';
 
 // 根据侧边栏分类映射到主页分类 - 完整的10个分类
 const categoryMapping = computed(() => ({
-  'Crypto': { id: 1, name: '🔐 ' + '安全加密', slug: 'crypto', icon: '🔐', color: '#DDA0DD', description: 'Hash生成、加密解密、密码工具' },
-  'Converter': { id: 2, name: '🔄 ' + '格式转换', slug: 'converter', icon: '🔄', color: '#4ECDC4', description: 'JSON/YAML/XML转换、编码转换' },
-  'Web': { id: 3, name: '🌐 ' + 'Web工具', slug: 'web', icon: '🌐', color: '#45B7D1', description: 'URL编解码、JWT解析、HTTP状态码' },
-  'Development': { id: 4, name: '👨‍💻 ' + '开发工具', slug: 'dev', icon: '👨‍💻', color: '#FF6B6B', description: 'JSON查看、正则测试、Git备忘录' },
-  'Network': { id: 5, name: '📡 ' + '网络工具', slug: 'network', icon: '📡', color: '#F7DC6F', description: 'IP计算、子网划分、MAC查询' },
-  'Text': { id: 6, name: '📝 ' + '文本工具', slug: 'text', icon: '📝', color: '#96CEB4', description: '文本统计、差异对比、表情选择' },
-  'Images and videos': { id: 7, name: '🖼️ ' + '图像视频', slug: 'media', icon: '🖼️', color: '#FF9F43', description: '二维码生成、SVG占位图' },
-  'Math': { id: 8, name: '🔢 ' + '数学计算', slug: 'math', icon: '🔢', color: '#A29BFE', description: '数学表达式、百分比计算' },
-  'Measurement': { id: 9, name: '⏱️ ' + '测量工具', slug: 'measurement', icon: '⏱️', color: '#74B9FF', description: '计时器、温度转换、性能测试' },
-  'Data': { id: 10, name: '📊 ' + '数据工具', slug: 'data', icon: '📊', color: '#A29BFE', description: '电话号码解析、IBAN验证' },
+  '安全加密': { id: 1, name: '🔐 ' + '安全加密', slug: 'crypto', icon: '🔐', color: '#DDA0DD', description: 'Hash生成、加密解密、密码工具' },
+  '格式转换': { id: 2, name: '🔄 ' + '格式转换', slug: 'converter', icon: '🔄', color: '#4ECDC4', description: 'JSON/YAML/XML转换、编码转换' },
+  'Web工具': { id: 3, name: '🌐 ' + 'Web工具', slug: 'web', icon: '🌐', color: '#45B7D1', description: 'URL编解码、JWT解析、HTTP状态码' },
+  '开发工具': { id: 4, name: '👨‍💻 ' + '开发工具', slug: 'dev', icon: '👨‍💻', color: '#FF6B6B', description: 'JSON查看、正则测试、Git备忘录' },
+  '网络工具': { id: 5, name: '📡 ' + '网络工具', slug: 'network', icon: '📡', color: '#F7DC6F', description: 'IP计算、子网划分、MAC查询' },
+  '文本工具': { id: 6, name: '📝 ' + '文本工具', slug: 'text', icon: '📝', color: '#96CEB4', description: '文本统计、差异对比、表情选择' },
+  '图像视频': { id: 7, name: '🖼️ ' + '图像视频', slug: 'media', icon: '🖼️', color: '#FF9F43', description: '二维码生成、SVG占位图' },
+  '数学计算': { id: 8, name: '🔢 ' + '数学计算', slug: 'math', icon: '🔢', color: '#A29BFE', description: '数学表达式、百分比计算' },
+  '测量工具': { id: 9, name: '⏱️ ' + '测量工具', slug: 'measurement', icon: '⏱️', color: '#74B9FF', description: '计时器、温度转换、性能测试' },
+  '数据工具': { id: 10, name: '📊 ' + '数据工具', slug: 'data', icon: '📊', color: '#A29BFE', description: '电话号码解析、IBAN验证' },
 }));
 
 // 显示所有分类，每个分类只显示3个工具
