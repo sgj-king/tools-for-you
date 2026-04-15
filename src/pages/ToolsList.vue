@@ -1,22 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useHead } from '@vueuse/head';
-import { NIcon, NInput } from 'naive-ui';
-import { IconSearch, IconTool } from '@tabler/icons-vue';
+import { NIcon } from 'naive-ui';
+import { IconSearch } from '@tabler/icons-vue';
 import ToolCard from '../components/ToolCard.vue';
 import { toolsByCategory, tools } from '@/tools';
 
 useHead({ title: `所有工具 - Tools For You` });
 
 const searchQuery = ref('');
-
-// 所有工具按分类分组
-const categories = computed(() => {
-  return toolsByCategory.map(cat => ({
-    name: cat.name,
-    tools: cat.components
-  }));
-});
 
 // 搜索过滤
 const filteredTools = computed(() => {
@@ -30,155 +22,103 @@ const filteredTools = computed(() => {
 </script>
 
 <template>
-  <div class="tools-list-page">
-    <!-- Tool Header (like tool-detail layout) -->
-    <div class="tool-header">
-      <div class="tool-info">
-        <h1 class="tool-title">🛠️ 所有工具</h1>
-        <p class="tool-description">共 {{ tools.length }} 个实用工具，按分类分组显示</p>
+  <div class="pt-50px">
+    <div class="grid-wrapper">
+      <!-- 搜索框 -->
+      <div class="search-section">
+        <n-input
+          v-model:value="searchQuery"
+          placeholder="搜索工具..."
+          size="large"
+          clearable
+          class="search-input"
+        >
+          <template #prefix>
+            <n-icon :component="IconSearch" />
+          </template>
+        </n-input>
       </div>
-    </div>
 
-    <!-- Search Box -->
-    <div class="search-section">
-      <n-input
-        v-model:value="searchQuery"
-        placeholder="搜索工具..."
-        size="large"
-        clearable
-        class="search-input"
-      >
-        <template #prefix>
-          <n-icon :component="IconSearch" />
-        </template>
-      </n-input>
-    </div>
-
-    <!-- Search Results -->
-    <div v-if="filteredTools" class="search-results">
-      <h2 class="section-title">搜索结果 ({{ filteredTools.length }})</h2>
-      <div class="tools-grid">
-        <ToolCard
-          v-for="tool in filteredTools"
-          :key="tool.path"
-          :tool="tool"
-        />
-      </div>
-    </div>
-
-    <!-- Categories -->
-    <div v-else class="categories-container">
-      <div
-        v-for="category in categories"
-        :key="category.name"
-        class="category-section"
-      >
-        <h2 class="section-title">{{ category.name }} <span class="count">({{ category.tools.length }})</span></h2>
-        <div class="tools-grid">
+      <!-- 搜索结果 -->
+      <div v-if="filteredTools">
+        <h3 class="mb-5px mt-25px text-neutral-400 font-500">
+          搜索结果 ({{ filteredTools.length }})
+        </h3>
+        <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
           <ToolCard
-            v-for="tool in category.tools"
+            v-for="tool in filteredTools"
             :key="tool.path"
             :tool="tool"
           />
+        </div>
+      </div>
+
+      <!-- 分类显示 -->
+      <div v-else>
+        <div
+          v-for="category in toolsByCategory"
+          :key="category.name"
+        >
+          <h3 class="mb-5px mt-25px text-neutral-400 font-500">
+            {{ category.name }} ({{ category.components.length }})
+          </h3>
+          <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
+            <ToolCard
+              v-for="tool in category.components"
+              :key="tool.path"
+              :tool="tool"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="less" scoped>
-.tools-list-page {
-  min-height: 100vh;
-  background: var(--app-bg);
-  padding: 32px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Tool Header - same style as tool-detail layout */
-.tool-header {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--app-border);
-}
-
-.tool-info {
-  flex: 1;
-}
-
-.tool-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--app-text);
-  margin: 0;
-}
-
-.tool-description {
-  margin: 8px 0 0 0;
-  font-size: 14px;
-  color: var(--app-muted);
-  line-height: 1.5;
-}
-
-/* Search Section */
+<style scoped lang="less">
 .search-section {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .search-input {
-  max-width: 500px;
+  max-width: 400px;
 }
 
-/* Section Title */
-.section-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--app-text);
-  margin: 0 0 16px 0;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--app-accent);
-  display: inline-block;
+.grid-wrapper {
+  position: relative;
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-soft);
 }
 
-.count {
-  color: var(--app-muted);
-  font-size: 14px;
-  font-weight: 400;
+.grid-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px 200px at 90% 0%, rgba(30, 139, 119, 0.12), transparent 60%);
+  opacity: 0.8;
+  pointer-events: none;
 }
 
-/* Tools Grid */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  margin-bottom: 40px;
+.grid-wrapper > * {
+  position: relative;
+  z-index: 1;
 }
 
-.category-section {
-  margin-bottom: 48px;
+.grid-wrapper h3 {
+  color: var(--app-muted) !important;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .tools-list-page {
+@media (max-width: 700px) {
+  .grid-wrapper {
     padding: 16px;
-  }
-  
-  .tool-header {
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-  }
-  
-  .tool-title {
-    font-size: 22px;
-  }
-  
-  .tools-grid {
-    grid-template-columns: 1fr;
+    border-radius: 18px;
   }
 }
 </style>
