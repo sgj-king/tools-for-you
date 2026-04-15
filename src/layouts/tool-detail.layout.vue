@@ -27,7 +27,7 @@ const currentTool = computed(() => {
 const toolTitle = computed(() => {
   if (!currentTool.value) return '';
   const toolKey = `tools.${currentTool.value.path.substring(1)}.title`;
-  return t(toolKey);
+  return "";
 });
 
 // 用户下拉菜单

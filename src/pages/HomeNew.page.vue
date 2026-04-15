@@ -84,7 +84,7 @@ function goToCategory(slug: string) {
 // Get tool name with i18n
 function getToolName(tool: any) {
   const toolKey = `tools.${tool.path.substring(1)}.title`;
-  return t(toolKey);
+  return tool.name;
 }
 </script>
 
@@ -153,7 +153,7 @@ function getToolName(tool: any) {
             <span class="cat-icon">{{ cat.icon }}</span>
             <div class="cat-info">
               <h3>{{ cat.name }}</h3>
-              <span class="cat-count">{{ t('home.category.toolCount', { count: cat.count }) }}</span>
+              <span class="cat-count">{{ cat.count }} 个工具</span>
             </div>
           </div>
           

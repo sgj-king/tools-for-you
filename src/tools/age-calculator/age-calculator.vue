@@ -168,7 +168,7 @@ function formatNumber(num: number): string {
             {{ result.months }}<span text-2xl op-70>{{ 'tools.age-calculator.months' }}</span>
             {{ result.days }}<span text-2xl op-70>{{ 'tools.age-calculator.days' }}</span>
           </div>
-          <div text-sm op-70>{{ t('tools.age-calculator.bornOn', { day: result.birthDayOfWeek }) }}</div>
+          <div text-sm op-70>{{ '出生于' }} {{ result.birthDayOfWeek }}</div>
         </div>
 
         <!-- 详细数据卡片 -->

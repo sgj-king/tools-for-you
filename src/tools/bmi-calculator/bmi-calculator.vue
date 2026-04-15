@@ -202,7 +202,7 @@ function toggleUnitSystem() {
             {{ result.bmi }}
           </div>
           <div mt-2 text-lg :style="{ color: result.category.color }">
-            {{ result.category.icon }} {{ t(`tools.bmi-calculator.categories.${result.category.key}`) }}
+            {{ result.category.icon }} {{ result.category.name }}
           </div>
         </div>
 
