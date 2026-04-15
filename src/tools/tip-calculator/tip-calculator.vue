@@ -57,17 +57,17 @@ function applyQuickTip(percent: number) {
     <div style="margin: 0 auto; max-width: 700px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.tip-calculator.parameters' }}</div>
+        <div text-lg font-bold mb-4>{{ '参数' }}</div>
 
         <!-- 账单金额输入 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ 'tools.tip-calculator.billAmount' }}</div>
+          <div mb-1 text-sm op-70>{{ '账单金额' }}</div>
           <n-input-number
             v-model:value="billAmount"
             :min="0"
             :step="10"
             size="large"
-            :placeholder="'tools.tip-calculator.billPlaceholder'"
+            :placeholder="'输入账单金额'"
             style="width: 100%"
           >
             <template #prefix>¥</template>
@@ -76,14 +76,14 @@ function applyQuickTip(percent: number) {
 
         <!-- 小费百分比输入 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ 'tools.tip-calculator.tipPercentage' }}</div>
+          <div mb-1 text-sm op-70>{{ '小费比例 (%)' }}</div>
           <n-input-number
             v-model:value="tipPercentage"
             :min="0"
             :max="100"
             :step="1"
             size="large"
-            :placeholder="'tools.tip-calculator.percentPlaceholder'"
+            :placeholder="'输入百分比'"
             style="width: 100%"
           >
             <template #suffix>%</template>
@@ -92,7 +92,7 @@ function applyQuickTip(percent: number) {
 
         <!-- 快捷小费按钮 -->
         <div mb-4>
-          <div mb-2 text-sm op-70>{{ 'tools.tip-calculator.quickTips' }}</div>
+          <div mb-2 text-sm op-70>{{ '快捷小费' }}</div>
           <div flex flex-wrap gap-2>
             <n-button
               v-for="percent in quickTipPercentages"
@@ -108,7 +108,7 @@ function applyQuickTip(percent: number) {
 
         <!-- 分享人数输入 -->
         <div>
-          <div mb-1 text-sm op-70>{{ 'tools.tip-calculator.numberOfPeople' }}</div>
+          <div mb-1 text-sm op-70>{{ '人数' }}</div>
           <n-input-number
             v-model:value="numberOfPeople"
             :min="1"
@@ -116,21 +116,21 @@ function applyQuickTip(percent: number) {
             size="large"
             style="width: 100%"
           >
-            <template #suffix>{{ numberOfPeople > 1 ? 'tools.tip-calculator.people' : 'tools.tip-calculator.person' }}</template>
+            <template #suffix>{{ numberOfPeople > 1 ? '人' : '人' }}</template>
           </n-input-number>
         </div>
       </c-card>
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.tip-calculator.result' }}</div>
+        <div text-lg font-bold mb-4>{{ '结果' }}</div>
 
         <n-grid :cols="2" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <!-- 小费金额 -->
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-orange-fade border-orange>
               <div text-sm op-70 mb-1>
-                {{ 'tools.tip-calculator.tipAmount' }}
+                {{ '小费金额' }}
                 <n-tag size="small" type="warning">{{ result.tipPercentage }}%</n-tag>
               </div>
               <div text-xl font-bold text-orange-400>+¥{{ formatCurrency(result.tipAmount) }}</div>
@@ -140,7 +140,7 @@ function applyQuickTip(percent: number) {
           <!-- 总金额 -->
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-sm op-70 mb-1>{{ 'tools.tip-calculator.totalAmount' }}</div>
+              <div text-sm op-70 mb-1>{{ '总金额' }}</div>
               <div text-xl font-bold>¥{{ formatCurrency(result.totalAmount) }}</div>
             </div>
           </n-gi>
@@ -148,11 +148,11 @@ function applyQuickTip(percent: number) {
 
         <!-- 人均支付（大卡片） -->
         <div mt-4 p-6 rounded-xl bg-gradient-primary text-center>
-          <div text-sm op-80 mb-2>{{ 'tools.tip-calculator.perPerson' }}</div>
+          <div text-sm op-80 mb-2>{{ '每人' }}</div>
           <div text-4xl font-bold>¥{{ formatCurrency(result.perPerson) }}</div>
           <div mt-2 text-sm op-70>
-            {{ 'tools.tip-calculator.billPerPerson' }}: ¥{{ formatCurrency(result.billPerPerson) }}
-            + {{ 'tools.tip-calculator.tipPerPerson' }}: ¥{{ formatCurrency(result.tipPerPerson) }}
+            {{ '每人账单' }}: ¥{{ formatCurrency(result.billPerPerson) }}
+            + {{ '每人小费' }}: ¥{{ formatCurrency(result.tipPerPerson) }}
           </div>
         </div>
 
@@ -161,13 +161,13 @@ function applyQuickTip(percent: number) {
           <n-grid :cols="2" :x-gap="12">
             <n-gi>
               <div p-3 rounded-lg bg-dark-200 text-center>
-                <div text-xs op-60 mb-1>{{ 'tools.tip-calculator.billPerPerson' }}</div>
+                <div text-xs op-60 mb-1>{{ '每人账单' }}</div>
                 <div text-lg font-semibold>¥{{ formatCurrency(result.billPerPerson) }}</div>
               </div>
             </n-gi>
             <n-gi>
               <div p-3 rounded-lg bg-dark-200 text-center>
-                <div text-xs op-60 mb-1>{{ 'tools.tip-calculator.tipPerPerson' }}</div>
+                <div text-xs op-60 mb-1>{{ '每人小费' }}</div>
                 <div text-lg font-semibold>¥{{ formatCurrency(result.tipPerPerson) }}</div>
               </div>
             </n-gi>
@@ -177,11 +177,11 @@ function applyQuickTip(percent: number) {
 
       <!-- 计算说明 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ 'tools.tip-calculator.howToUse' }}</div>
+        <div text-lg font-bold mb-3>{{ '使用说明' }}</div>
         <n-ul>
-          <n-li>{{ 'tools.tip-calculator.step1' }}</n-li>
-          <n-li>{{ 'tools.tip-calculator.step2' }}</n-li>
-          <n-li>{{ 'tools.tip-calculator.step3' }}</n-li>
+          <n-li>{{ '1. 输入账单金额' }}</n-li>
+          <n-li>{{ '2. 选择小费比例' }}</n-li>
+          <n-li>{{ '3. 查看分摊结果' }}</n-li>
         </n-ul>
       </c-card>
     </div>

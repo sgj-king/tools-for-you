@@ -182,8 +182,8 @@ function getContrastColor(hex: string): string {
             <div class="upload-area">
               <div class="upload-icon">📷</div>
               <div class="upload-text">
-                <p class="upload-title">{{ 'tools.image-color-extractor.uploadTitle' }}</p>
-                <p class="upload-hint">{{ 'tools.image-color-extractor.uploadHint' }}</p>
+                <p class="upload-title">{{ '上传图片' }}</p>
+                <p class="upload-hint">{{ '支持 JPG、PNG、GIF 格式' }}</p>
               </div>
             </div>
           </template>
@@ -191,7 +191,7 @@ function getContrastColor(hex: string): string {
         
         <!-- 颜色数量选择 -->
         <div class="color-count-selector">
-          <span class="label">{{ 'tools.image-color-extractor.colorCount' }}</span>
+          <span class="label">{{ '颜色数量' }}</span>
           <n-slider
             v-model:value="colorCount"
             :min="3"
@@ -208,7 +208,7 @@ function getContrastColor(hex: string): string {
     <!-- 处理中 -->
     <div v-if="isProcessing" class="processing-container">
       <n-spin size="large" />
-      <p>{{ 'tools.image-color-extractor.processing' }}</p>
+      <p>{{ '处理中...' }}</p>
     </div>
 
     <!-- 结果展示 -->
@@ -225,14 +225,14 @@ function getContrastColor(hex: string): string {
               class="clear-button"
               @click="clearAll"
             >
-              {{ 'tools.image-color-extractor.clear' }}
+              {{ '清除' }}
             </n-button>
           </div>
         </div>
       </c-card>
 
       <!-- 颜色列表 -->
-      <c-card :title="'tools.image-color-extractor.extractedColors'">
+      <c-card :title="'提取的颜色'">
         <div class="colors-grid">
           <div
             v-for="(color, index) in colors"
@@ -254,7 +254,7 @@ function getContrastColor(hex: string): string {
                     quaternary
                     @click="copyColor(color.hex)"
                   >
-                    {{ 'tools.image-color-extractor.copyHex' }}
+                    {{ '复制 HEX' }}
                   </n-button>
                 </template>
                 {{ color.hex }}
@@ -264,7 +264,7 @@ function getContrastColor(hex: string): string {
                 quaternary
                 @click="copyColor(color.rgb)"
               >
-                {{ 'tools.image-color-extractor.copyRgb' }}
+                {{ '复制 RGB' }}
               </n-button>
             </div>
           </div>
@@ -272,7 +272,7 @@ function getContrastColor(hex: string): string {
       </c-card>
 
       <!-- 调色板展示 -->
-      <c-card :title="'tools.image-color-extractor.palette'">
+      <c-card :title="'调色板'">
         <div class="palette-bar">
           <div
             v-for="(color, index) in colors"
@@ -294,7 +294,7 @@ function getContrastColor(hex: string): string {
       </c-card>
 
       <!-- CSS 变量导出 -->
-      <c-card :title="'tools.image-color-extractor.cssVariables'">
+      <c-card :title="'CSS 变量'">
         <div class="css-code">
           <pre><code>:root {
 {{ colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n') }}
@@ -304,7 +304,7 @@ function getContrastColor(hex: string): string {
             type="primary"
             @click="copyColor(`:root {\n${colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n')}\n}`)"
           >
-            {{ 'tools.image-color-extractor.copyCss' }}
+            {{ '复制 CSS' }}
           </n-button>
         </div>
       </c-card>
@@ -312,7 +312,7 @@ function getContrastColor(hex: string): string {
 
     <!-- 空状态 -->
     <c-card v-if="colors.length === 0 && !isProcessing && !imagePreview">
-      <n-empty :description="'tools.image-color-extractor.emptyHint'" />
+      <n-empty :description="'上传图片开始提取颜色'" />
     </c-card>
   </div>
 </template>

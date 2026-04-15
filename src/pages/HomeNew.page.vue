@@ -83,7 +83,6 @@ function goToCategory(slug: string) {
 
 // Get tool name with i18n
 function getToolName(tool: any) {
-  const toolKey = `tools.${tool.path.substring(1)}.title`;
   return tool.name;
 }
 </script>

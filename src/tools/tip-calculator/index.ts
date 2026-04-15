@@ -1,9 +1,9 @@
 import { Cash } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.tip-calculator.title',
+  name: '小费计算器',
   path: '/tip-calculator',
-  description: 'tools.tip-calculator.description',
+  description: '计算小费金额',
   keywords: [
     'tip',
     'gratuity',

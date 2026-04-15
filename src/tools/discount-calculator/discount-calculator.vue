@@ -16,8 +16,8 @@ const quantity = ref<number>(1);
 
 // 折扣类型选项
 const discountTypeOptions = [
-  { label: 'tools.discount-calculator.percentageOff', value: 'percentage' },
-  { label: 'tools.discount-calculator.fixedAmount', value: 'fixed' },
+  { label: '百分比折扣', value: 'percentage' },
+  { label: '固定金额', value: 'fixed' },
 ];
 
 // 计算结果
@@ -90,17 +90,17 @@ function applyQuickDiscount(percent: number) {
     <div style="margin: 0 auto; max-width: 700px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.discount-calculator.parameters' }}</div>
+        <div text-lg font-bold mb-4>{{ '参数' }}</div>
         
         <!-- 原价输入 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.originalPrice' }}</div>
+          <div mb-1 text-sm op-70>{{ '原价' }}</div>
           <n-input-number
             v-model:value="originalPrice"
             :min="0"
             :step="10"
             size="large"
-            :placeholder="'tools.discount-calculator.pricePlaceholder'"
+            :placeholder="'输入原价'"
             style="width: 100%"
           >
             <template #prefix>¥</template>
@@ -109,7 +109,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 折扣类型选择 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.discountType' }}</div>
+          <div mb-1 text-sm op-70>{{ '折扣类型' }}</div>
           <n-radio-group v-model:value="discountType" style="width: 100%">
             <n-radio-button
               v-for="option in discountTypeOptions"
@@ -126,8 +126,8 @@ function applyQuickDiscount(percent: number) {
         <div mb-4>
           <div mb-1 text-sm op-70>
             {{ discountType === 'percentage' 
-              ? 'tools.discount-calculator.discountPercentage' 
-              : 'tools.discount-calculator.discountAmount' }}
+              ? '折扣比例' 
+              : '折扣金额' }}
           </div>
           
           <!-- 百分比折扣输入 -->
@@ -138,7 +138,7 @@ function applyQuickDiscount(percent: number) {
             :max="100"
             :step="5"
             size="large"
-            :placeholder="'tools.discount-calculator.percentPlaceholder'"
+            :placeholder="'输入百分比'"
             style="width: 100%"
           >
             <template #suffix>%</template>
@@ -151,7 +151,7 @@ function applyQuickDiscount(percent: number) {
             :min="0"
             :step="10"
             size="large"
-            :placeholder="'tools.discount-calculator.amountPlaceholder'"
+            :placeholder="'输入金额'"
             style="width: 100%"
           >
             <template #prefix>¥</template>
@@ -160,7 +160,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 快捷折扣按钮 (仅百分比模式) -->
         <div v-if="discountType === 'percentage'" mb-4>
-          <div mb-2 text-sm op-70>{{ 'tools.discount-calculator.quickDiscounts' }}</div>
+          <div mb-2 text-sm op-70>{{ '快捷折扣' }}</div>
           <div flex flex-wrap gap-2>
             <n-button
               v-for="percent in quickDiscounts"
@@ -176,7 +176,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 数量输入 -->
         <div>
-          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.quantity' }}</div>
+          <div mb-1 text-sm op-70>{{ '数量' }}</div>
           <n-input-number
             v-model:value="quantity"
             :min="1"
@@ -189,13 +189,13 @@ function applyQuickDiscount(percent: number) {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.discount-calculator.result' }}</div>
+        <div text-lg font-bold mb-4>{{ '结果' }}</div>
         
         <n-grid :cols="2" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <!-- 原价小计 -->
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-sm op-70 mb-1>{{ 'tools.discount-calculator.subtotal' }}</div>
+              <div text-sm op-70 mb-1>{{ '小计' }}</div>
               <div text-xl font-bold>¥{{ formatCurrency(result.subtotal) }}</div>
             </div>
           </n-gi>
@@ -204,7 +204,7 @@ function applyQuickDiscount(percent: number) {
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-red-fade border-red>
               <div text-sm op-70 mb-1>
-                {{ 'tools.discount-calculator.youSave' }}
+                {{ '您节省' }}
                 <n-tag size="small" type="error">{{ result.discountRate }}</n-tag>
               </div>
               <div text-xl font-bold text-red-400>-¥{{ formatCurrency(result.savedAmount) }}</div>
@@ -214,11 +214,11 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 最终价格（大卡片） -->
         <div mt-4 p-6 rounded-xl bg-gradient-primary text-center>
-          <div text-sm op-80 mb-2>{{ 'tools.discount-calculator.finalPrice' }}</div>
+          <div text-sm op-80 mb-2>{{ '折后价' }}</div>
           <div text-4xl font-bold>¥{{ formatCurrency(result.finalPrice) }}</div>
           <div v-if="result.effectivePercentage" mt-2>
             <n-tag type="success" size="small">
-              {{ 'tools.discount-calculator.effectiveDiscount' }}: {{ result.effectivePercentage }}
+              {{ '实际折扣' }}: {{ result.effectivePercentage }}
             </n-tag>
           </div>
         </div>
@@ -226,18 +226,18 @@ function applyQuickDiscount(percent: number) {
         <!-- 单价显示 -->
         <div v-if="quantity > 1" mt-4 text-center>
           <n-text depth="3">
-            {{ 'tools.discount-calculator.unitPrice' }}: ¥{{ formatCurrency(result.finalPrice / quantity) }}
+            {{ '单价' }}: ¥{{ formatCurrency(result.finalPrice / quantity) }}
           </n-text>
         </div>
       </c-card>
 
       <!-- 计算说明 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ 'tools.discount-calculator.howToUse' }}</div>
+        <div text-lg font-bold mb-3>{{ '使用说明' }}</div>
         <n-ul>
-          <n-li>{{ 'tools.discount-calculator.step1' }}</n-li>
-          <n-li>{{ 'tools.discount-calculator.step2' }}</n-li>
-          <n-li>{{ 'tools.discount-calculator.step3' }}</n-li>
+          <n-li>{{ '1. 输入商品原价' }}</n-li>
+          <n-li>{{ '2. 选择折扣类型和数值' }}</n-li>
+          <n-li>{{ '3. 查看折扣后价格' }}</n-li>
         </n-ul>
       </c-card>
     </div>

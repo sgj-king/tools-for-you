@@ -1,9 +1,9 @@
 import { Cash } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.loan-calculator.title',
+  name: '贷款计算器',
   path: '/loan-calculator',
-  description: 'tools.loan-calculator.description',
+  description: '计算贷款还款',
   keywords: [
     'loan',
     'mortgage',

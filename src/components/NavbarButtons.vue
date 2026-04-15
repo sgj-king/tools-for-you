@@ -7,14 +7,14 @@ const { isDarkTheme } = toRefs(styleStore);
 </script>
 
 <template>
-  <c-tooltip :tooltip="'home.nav.github'" position="bottom">
+  <c-tooltip :tooltip="'GitHub 仓库'" position="bottom">
     <c-button
       circle
       variant="text"
       href="https://github.com/sgj-king/tools-for-you"
       target="_blank"
       rel="noopener noreferrer"
-      :aria-label="'home.nav.githubRepository'"
+      :aria-label="'访问 GitHub 仓库'"
     >
       <n-icon size="25" :component="IconBrandGithub" />
     </c-button>
@@ -29,16 +29,16 @@ const { isDarkTheme } = toRefs(styleStore);
       <n-icon size="25" :component="IconUser" />
     </c-button>
   </c-tooltip>
-  <c-tooltip :tooltip="'home.nav.about'" position="bottom">
-    <c-button circle variant="text" to="/about" :aria-label="'home.nav.aboutLabel'">
+  <c-tooltip :tooltip="'关于'" position="bottom">
+    <c-button circle variant="text" to="/about" :aria-label="'关于 Tools For You'">
       <n-icon size="25" :component="IconInfoCircle" />
     </c-button>
   </c-tooltip>
-  <c-tooltip :tooltip="isDarkTheme ? 'home.nav.lightMode' : 'home.nav.darkMode'" position="bottom">
+  <c-tooltip :tooltip="isDarkTheme ? '切换浅色模式' : '切换深色模式'" position="bottom">
     <c-button
       circle
       variant="text"
-      :aria-label="'home.nav.mode'"
+      :aria-label="'切换主题模式'"
       @click="() => styleStore.toggleDark()"
     >
       <n-icon v-if="isDarkTheme" size="25" :component="IconSun" />

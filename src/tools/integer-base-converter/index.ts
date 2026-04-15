@@ -1,9 +1,9 @@
 import { ArrowsLeftRight } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.base-converter.title',
+  name: '进制转换器',
   path: '/base-converter',
-  description: 'tools.base-converter.description',
+  description: '在不同进制之间转换数字',
   keywords: ['integer', 'number', 'base', 'conversion', 'decimal', 'hexadecimal', 'binary', 'octal', 'base64'],
   component: () => import('./integer-base-converter.vue'),
   icon: ArrowsLeftRight,

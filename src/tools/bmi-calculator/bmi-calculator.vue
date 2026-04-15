@@ -84,7 +84,7 @@ function toggleUnitSystem() {
     <div style="margin: 0 auto; max-width: 700px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.bmi-calculator.parameters' }}</div>
+        <div text-lg font-bold mb-4>{{ '参数设置' }}</div>
 
         <!-- 单位制切换 -->
         <div mb-4>
@@ -94,14 +94,14 @@ function toggleUnitSystem() {
               style="flex: 1"
               @click="unitSystem = 'metric'"
             >
-              {{ 'tools.bmi-calculator.metric' }}
+              {{ '公制' }}
             </n-button>
             <n-button
               :type="unitSystem === 'imperial' ? 'primary' : 'default'"
               style="flex: 1"
               @click="unitSystem = 'imperial'"
             >
-              {{ 'tools.bmi-calculator.imperial' }}
+              {{ '英制' }}
             </n-button>
           </n-button-group>
         </div>
@@ -110,14 +110,14 @@ function toggleUnitSystem() {
         <template v-if="unitSystem === 'metric'">
           <!-- 体重输入 -->
           <div mb-4>
-            <div mb-1 text-sm op-70>{{ 'tools.bmi-calculator.weight' }}</div>
+            <div mb-1 text-sm op-70>{{ '体重' }}</div>
             <n-input-number
               v-model:value="weight"
               :min="1"
               :max="500"
               :step="0.1"
               size="large"
-              :placeholder="'tools.bmi-calculator.weightPlaceholder'"
+              :placeholder="'输入体重 (kg)'"
               style="width: 100%"
             >
               <template #suffix>kg</template>
@@ -126,14 +126,14 @@ function toggleUnitSystem() {
 
           <!-- 身高输入 -->
           <div>
-            <div mb-1 text-sm op-70>{{ 'tools.bmi-calculator.height' }}</div>
+            <div mb-1 text-sm op-70>{{ '身高' }}</div>
             <n-input-number
               v-model:value="height"
               :min="50"
               :max="300"
               :step="1"
               size="large"
-              :placeholder="'tools.bmi-calculator.heightPlaceholder'"
+              :placeholder="'输入身高 (cm)'"
               style="width: 100%"
             >
               <template #suffix>cm</template>
@@ -145,14 +145,14 @@ function toggleUnitSystem() {
         <template v-else>
           <!-- 体重输入 -->
           <div mb-4>
-            <div mb-1 text-sm op-70>{{ 'tools.bmi-calculator.weight' }}</div>
+            <div mb-1 text-sm op-70>{{ '体重' }}</div>
             <n-input-number
               v-model:value="weightLbs"
               :min="1"
               :max="1000"
               :step="1"
               size="large"
-              :placeholder="'tools.bmi-calculator.weightPlaceholderImperial'"
+              :placeholder="'输入体重 (lbs)'"
               style="width: 100%"
             >
               <template #suffix>lbs</template>
@@ -161,7 +161,7 @@ function toggleUnitSystem() {
 
           <!-- 身高输入（英尺+英寸） -->
           <div>
-            <div mb-1 text-sm op-70>{{ 'tools.bmi-calculator.height' }}</div>
+            <div mb-1 text-sm op-70>{{ '身高' }}</div>
             <n-grid :cols="2" :x-gap="12">
               <n-gi>
                 <n-input-number
@@ -169,7 +169,7 @@ function toggleUnitSystem() {
                   :min="1"
                   :max="9"
                   size="large"
-                  :placeholder="'tools.bmi-calculator.feet'"
+                  :placeholder="'英尺'"
                   style="width: 100%"
                 >
                   <template #suffix>ft</template>
@@ -181,7 +181,7 @@ function toggleUnitSystem() {
                   :min="0"
                   :max="11"
                   size="large"
-                  :placeholder="'tools.bmi-calculator.inches'"
+                  :placeholder="'英寸'"
                   style="width: 100%"
                 >
                   <template #suffix>in</template>
@@ -194,7 +194,7 @@ function toggleUnitSystem() {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.bmi-calculator.result' }}</div>
+        <div text-lg font-bold mb-4>{{ '计算结果' }}</div>
 
         <!-- BMI 大数字显示 -->
         <div text-center mb-6>
@@ -234,22 +234,22 @@ function toggleUnitSystem() {
 
         <!-- 健康体重范围 -->
         <div p-4 rounded-xl bg-gradient-primary mb-4>
-          <div text-sm op-80 mb-2>{{ 'tools.bmi-calculator.healthyWeightRange' }}</div>
+          <div text-sm op-80 mb-2>{{ '健康体重范围' }}</div>
           <div text-xl font-bold>
             {{ result.minHealthyWeight }} - {{ result.maxHealthyWeight }} kg
           </div>
           <div v-if="result.weightDiff" mt-2 text-sm>
             <template v-if="result.weightDiff.type === 'gain'">
-              <span op-70>{{ 'tools.bmi-calculator.needToGain' }}</span>
+              <span op-70>{{ '需要增重' }}</span>
               <span font-bold text-blue-400 ml-1>{{ result.weightDiff.amount }} kg</span>
             </template>
             <template v-else>
-              <span op-70>{{ 'tools.bmi-calculator.needToLose' }}</span>
+              <span op-70>{{ '需要减重' }}</span>
               <span font-bold text-orange-400 ml-1>{{ result.weightDiff.amount }} kg</span>
             </template>
           </div>
           <div v-else mt-2 text-sm text-green-400>
-            ✓ {{ 'tools.bmi-calculator.inHealthyRange' }}
+            ✓ {{ '在健康范围内' }}
           </div>
         </div>
 
@@ -257,20 +257,20 @@ function toggleUnitSystem() {
         <n-grid :cols="2" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-sm op-70 mb-2>{{ 'tools.bmi-calculator.whatIsBMI' }}</div>
+              <div text-sm op-70 mb-2>{{ '什么是 BMI？' }}</div>
               <div text-xs leading-relaxed op-60>
-                {{ 'tools.bmi-calculator.bmiExplanation' }}
+                {{ 'BMI（身体质量指数）是根据体重和身高计算的数值，用于评估体重是否健康。' }}
               </div>
             </div>
           </n-gi>
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-sm op-70 mb-2>{{ 'tools.bmi-calculator.formula' }}</div>
+              <div text-sm op-70 mb-2>{{ '公式' }}</div>
               <div text-xs font-mono op-80>
                 BMI = kg / m²
               </div>
               <div mt-2 text-xs leading-relaxed op-60>
-                {{ 'tools.bmi-calculator.formulaDesc' }}
+                {{ 'BMI = 体重(kg) / 身高(m)²' }}
               </div>
             </div>
           </n-gi>
@@ -279,53 +279,53 @@ function toggleUnitSystem() {
 
       <!-- BMI 分类参考表 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ 'tools.bmi-calculator.referenceTable' }}</div>
+        <div text-lg font-bold mb-3>{{ '参考表' }}</div>
         <n-table :bordered="false" :single-line="false">
           <thead>
             <tr>
-              <th>{{ 'tools.bmi-calculator.category' }}</th>
+              <th>{{ '分类' }}</th>
               <th>BMI</th>
-              <th>{{ 'tools.bmi-calculator.healthRisk' }}</th>
+              <th>{{ '健康风险' }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span style="color: #3b82f6">📉 {{ 'tools.bmi-calculator.categories.underweight' }}</span></td>
+              <td><span style="color: #3b82f6">📉 {{ '偏瘦' }}</span></td>
               <td>&lt; 18.5</td>
-              <td>{{ 'tools.bmi-calculator.risks.underweight' }}</td>
+              <td>{{ '营养不良风险' }}</td>
             </tr>
             <tr>
-              <td><span style="color: #22c55e">✓ {{ 'tools.bmi-calculator.categories.normal' }}</span></td>
+              <td><span style="color: #22c55e">✓ {{ '正常' }}</span></td>
               <td>18.5 - 24.9</td>
-              <td>{{ 'tools.bmi-calculator.risks.normal' }}</td>
+              <td>{{ '健康风险较低' }}</td>
             </tr>
             <tr>
-              <td><span style="color: #f59e0b">⚠️ {{ 'tools.bmi-calculator.categories.overweight' }}</span></td>
+              <td><span style="color: #f59e0b">⚠️ {{ '超重' }}</span></td>
               <td>25 - 29.9</td>
-              <td>{{ 'tools.bmi-calculator.risks.overweight' }}</td>
+              <td>{{ '有一定健康风险' }}</td>
             </tr>
             <tr>
-              <td><span style="color: #ef4444">🔴 {{ 'tools.bmi-calculator.categories.obese' }}</span></td>
+              <td><span style="color: #ef4444">🔴 {{ '肥胖' }}</span></td>
               <td>≥ 30</td>
-              <td>{{ 'tools.bmi-calculator.risks.obese' }}</td>
+              <td>{{ '心血管疾病、糖尿病风险高' }}</td>
             </tr>
           </tbody>
         </n-table>
 
         <!-- 使用说明 -->
         <div mt-4>
-          <div text-sm font-bold mb-2>{{ 'tools.bmi-calculator.howToUse' }}</div>
+          <div text-sm font-bold mb-2>{{ '使用说明' }}</div>
           <n-ul>
-            <n-li>{{ 'tools.bmi-calculator.step1' }}</n-li>
-            <n-li>{{ 'tools.bmi-calculator.step2' }}</n-li>
-            <n-li>{{ 'tools.bmi-calculator.step3' }}</n-li>
+            <n-li>{{ '1. 选择单位制（公制/英制）' }}</n-li>
+            <n-li>{{ '2. 输入您的体重和身高' }}</n-li>
+            <n-li>{{ '3. 查看计算结果和健康建议' }}</n-li>
           </n-ul>
         </div>
 
         <!-- 注意事项 -->
         <div mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30>
-          <div text-sm text-yellow-400 mb-1>{{ 'tools.bmi-calculator.note' }}</div>
-          <div text-xs op-70>{{ 'tools.bmi-calculator.noteContent' }}</div>
+          <div text-sm text-yellow-400 mb-1>{{ '注意' }}</div>
+          <div text-xs op-70>{{ 'BMI 仅作为参考指标，不能完全反映健康状况' }}</div>
         </div>
       </c-card>
     </div>

@@ -26,7 +26,6 @@ const currentTool = computed(() => {
 // 获取工具名称（国际化）
 const toolTitle = computed(() => {
   if (!currentTool.value) return '';
-  const toolKey = `tools.${currentTool.value.path.substring(1)}.title`;
   return "";
 });
 

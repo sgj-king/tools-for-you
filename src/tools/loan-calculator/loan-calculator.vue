@@ -93,8 +93,8 @@ const formatCurrency = (value: string | number) => {
 
 // 期限单位选项
 const termUnitOptions = [
-  { label: 'tools.loan-calculator.years', value: 'years' },
-  { label: 'tools.loan-calculator.months', value: 'months' },
+  { label: '年', value: 'years' },
+  { label: '月', value: 'months' },
 ];
 
 // 是否显示省略提示
@@ -108,17 +108,17 @@ const showEllipsis = computed(() => {
     <div style="margin: 0 auto; max-width: 900px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.loan-calculator.parameters' }}</div>
+        <div text-lg font-bold mb-4>{{ '参数' }}</div>
         <n-grid :cols="2" :x-gap="16" :y-gap="12" responsive="screen" item-responsive>
           <!-- 贷款金额 -->
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ 'tools.loan-calculator.loanAmount' }}</div>
+            <div mb-1 text-sm op-70>{{ '贷款金额' }}</div>
             <n-input-number
               v-model:value="loanAmount"
               :min="0"
               :step="10000"
               size="large"
-              :placeholder="'tools.loan-calculator.amountPlaceholder'"
+              :placeholder="'输入贷款金额'"
               style="width: 100%"
             >
               <template #prefix>¥</template>
@@ -127,13 +127,13 @@ const showEllipsis = computed(() => {
 
           <!-- 首付金额 -->
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ 'tools.loan-calculator.downPayment' }}</div>
+            <div mb-1 text-sm op-70>{{ '首付' }}</div>
             <n-input-number
               v-model:value="downPayment"
               :min="0"
               :step="10000"
               size="large"
-              :placeholder="'tools.loan-calculator.downPaymentPlaceholder'"
+              :placeholder="'输入首付金额'"
               style="width: 100%"
             >
               <template #prefix>¥</template>
@@ -142,7 +142,7 @@ const showEllipsis = computed(() => {
 
           <!-- 年利率 -->
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ 'tools.loan-calculator.annualRate' }}</div>
+            <div mb-1 text-sm op-70>{{ '年利率' }}</div>
             <n-input-number
               v-model:value="annualRate"
               :min="0"
@@ -150,7 +150,7 @@ const showEllipsis = computed(() => {
               :step="0.1"
               :precision="2"
               size="large"
-              :placeholder="'tools.loan-calculator.ratePlaceholder'"
+              :placeholder="'输入年利率'"
               style="width: 100%"
             >
               <template #suffix>%</template>
@@ -159,14 +159,14 @@ const showEllipsis = computed(() => {
 
           <!-- 贷款期限 -->
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ 'tools.loan-calculator.loanTerm' }}</div>
+            <div mb-1 text-sm op-70>{{ '贷款期限 (年)' }}</div>
             <n-input-group>
               <n-input-number
                 v-model:value="loanTerm"
                 :min="1"
                 :max="600"
                 size="large"
-                :placeholder="'tools.loan-calculator.termPlaceholder'"
+                :placeholder="'输入贷款期限'"
                 style="flex: 1"
               />
               <n-select
@@ -182,34 +182,34 @@ const showEllipsis = computed(() => {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ 'tools.loan-calculator.result' }}</div>
+        <div text-lg font-bold mb-4>{{ '结果' }}</div>
 
         <!-- 核心数据 -->
         <n-grid :cols="3" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <!-- 月供 -->
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-primary-fade border-primary>
-              <div text-sm op-70 mb-1>{{ 'tools.loan-calculator.monthlyPayment' }}</div>
+              <div text-sm op-70 mb-1>{{ '月还款额' }}</div>
               <div text-3xl font-bold text-primary>¥{{ formatCurrency(result.monthlyPayment) }}</div>
-              <div text-xs op-50 mt-1>{{ 'tools.loan-calculator.perMonth' }}</div>
+              <div text-xs op-50 mt-1>{{ '每月' }}</div>
             </div>
           </n-gi>
 
           <!-- 总利息 -->
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-orange-fade border-orange>
-              <div text-sm op-70 mb-1>{{ 'tools.loan-calculator.totalInterest' }}</div>
+              <div text-sm op-70 mb-1>{{ '总利息' }}</div>
               <div text-3xl font-bold text-orange-400>¥{{ formatCurrency(result.totalInterest) }}</div>
-              <div text-xs op-50 mt-1>{{ 'tools.loan-calculator.interestRatio' }}: {{ result.interestRatio }}%</div>
+              <div text-xs op-50 mt-1>{{ '利息占比' }}: {{ result.interestRatio }}%</div>
             </div>
           </n-gi>
 
           <!-- 还款总额 -->
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-green-fade border-green>
-              <div text-sm op-70 mb-1>{{ 'tools.loan-calculator.totalPayment' }}</div>
+              <div text-sm op-70 mb-1>{{ '总还款额' }}</div>
               <div text-3xl font-bold text-green-400>¥{{ formatCurrency(result.totalPayment) }}</div>
-              <div text-xs op-50 mt-1>{{ 'tools.loan-calculator.totalMonths' }}: {{ result.months }} {{ 'tools.loan-calculator.monthsUnit' }}</div>
+              <div text-xs op-50 mt-1>{{ '总月数' }}: {{ result.months }} {{ '个月' }}</div>
             </div>
           </n-gi>
         </n-grid>
@@ -218,11 +218,11 @@ const showEllipsis = computed(() => {
         <div mt-4 p-4 rounded-lg bg-dark-100>
           <n-grid :cols="2" :x-gap="12">
             <n-gi>
-              <div text-sm op-70>{{ 'tools.loan-calculator.principal' }}</div>
+              <div text-sm op-70>{{ '本金' }}</div>
               <div text-lg font-bold>¥{{ formatCurrency(result.principal) }}</div>
             </n-gi>
             <n-gi>
-              <div text-sm op-70>{{ 'tools.loan-calculator.downPaymentPaid' }}</div>
+              <div text-sm op-70>{{ '已付首付' }}</div>
               <div text-lg font-bold>¥{{ formatCurrency(downPayment || 0) }}</div>
             </n-gi>
           </n-grid>
@@ -231,16 +231,16 @@ const showEllipsis = computed(() => {
 
       <!-- 还款明细表格 -->
       <c-card v-if="paymentSchedule.length > 0">
-        <div text-lg font-bold mb-4>{{ 'tools.loan-calculator.paymentSchedule' }}</div>
+        <div text-lg font-bold mb-4>{{ '还款计划' }}</div>
         <n-scrollbar style="max-height: 400px">
           <n-table :bordered="false" :single-line="false" size="small">
             <thead>
               <tr>
-                <th>{{ 'tools.loan-calculator.tableMonth' }}</th>
-                <th>{{ 'tools.loan-calculator.tablePayment' }}</th>
-                <th>{{ 'tools.loan-calculator.tablePrincipal' }}</th>
-                <th>{{ 'tools.loan-calculator.tableInterest' }}</th>
-                <th>{{ 'tools.loan-calculator.tableBalance' }}</th>
+                <th>{{ '期数' }}</th>
+                <th>{{ '还款额' }}</th>
+                <th>{{ '本金' }}</th>
+                <th>{{ '利息' }}</th>
+                <th>{{ '剩余本金' }}</th>
               </tr>
             </thead>
             <tbody>
@@ -248,7 +248,7 @@ const showEllipsis = computed(() => {
                 <!-- 省略提示 -->
                 <tr v-if="showEllipsis && index === 12" bg-opacity-10>
                   <td colspan="5" text-center op-50 py-2>
-                    <n-divider>{{ 'tools.loan-calculator.ellipsis' }}</n-divider>
+                    <n-divider>{{ '...' }}</n-divider>
                   </td>
                 </tr>
                 <tr>
@@ -266,22 +266,22 @@ const showEllipsis = computed(() => {
 
       <!-- 公式说明 -->
       <c-card mt-4>
-        <div text-lg font-bold mb-3>{{ 'tools.loan-calculator.formula' }}</div>
+        <div text-lg font-bold mb-3>{{ '计算公式' }}</div>
         <div p-4 rounded-lg bg-dark op-90 font-mono text-sm>
           <div>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</div>
           <div mt-2 text-sm op-70>
-            {{ 'tools.loan-calculator.formulaDesc' }}
+            {{ '等额本息还款方式' }}
           </div>
         </div>
       </c-card>
 
       <!-- 使用提示 -->
       <c-card mt-4>
-        <div text-lg font-bold mb-3>{{ 'tools.loan-calculator.tips' }}</div>
+        <div text-lg font-bold mb-3>{{ '小提示' }}</div>
         <n-ul>
-          <n-li>{{ 'tools.loan-calculator.tip1' }}</n-li>
-          <n-li>{{ 'tools.loan-calculator.tip2' }}</n-li>
-          <n-li>{{ 'tools.loan-calculator.tip3' }}</n-li>
+          <n-li>{{ '贷款期限越长，月供越低，但总利息越高' }}</n-li>
+          <n-li>{{ '提前还款可以减少总利息支出' }}</n-li>
+          <n-li>{{ '比较不同银行的利率可以获得更优惠的条件' }}</n-li>
         </n-ul>
       </c-card>
     </div>

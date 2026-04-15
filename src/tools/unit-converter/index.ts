@@ -1,9 +1,9 @@
 import { Ruler } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.unit-converter.title',
+  name: '单位转换器',
   path: '/unit-converter',
-  description: 'tools.unit-converter.description',
+  description: '在不同单位之间转换',
   keywords: [
     'unit',
     'converter',

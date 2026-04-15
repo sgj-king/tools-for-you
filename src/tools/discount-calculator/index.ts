@@ -1,9 +1,9 @@
 import { Discount } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.discount-calculator.title',
+  name: '折扣计算器',
   path: '/discount-calculator',
-  description: 'tools.discount-calculator.description',
+  description: '计算折扣价格',
   keywords: [
     'discount',
     'sale',

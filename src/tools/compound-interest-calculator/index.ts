@@ -1,9 +1,9 @@
 import { Calculator } from '@vicons/tabler';
 import { defineTool } from '../tool';
 export const tool = defineTool({
-  name: 'tools.compound-interest-calculator.title',
+  name: '复利计算器',
   path: '/compound-interest-calculator',
-  description: 'tools.compound-interest-calculator.description',
+  description: '计算复利收益，支持多种复利频率',
   keywords: [
     'compound',
     'interest',
