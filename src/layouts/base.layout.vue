@@ -1,127 +1,44 @@
-﻿<script lang="ts" setup>
+<script lang="ts" setup>
 import { NIcon } from 'naive-ui';
-
 import { RouterLink } from 'vue-router';
-import { Heart, Home2, Menu2 } from '@vicons/tabler';
-
-import { storeToRefs } from 'pinia';
-import HeroGradient from '../assets/hero-gradient.svg?component';
-import MenuLayout from '../components/MenuLayout.vue';
+import { Heart, Home2 } from '@vicons/tabler';
 import NavbarButtons from '../components/NavbarButtons.vue';
 import { useStyleStore } from '@/stores/style.store';
 import { config } from '@/config';
-import type { ToolCategory } from '@/tools/tools.types';
-import { useToolStore } from '@/tools/tools.store';
 import { useTracker } from '@/modules/tracker/tracker.services';
-import CollapsibleToolMenu from '@/components/CollapsibleToolMenu.vue';
 
 const styleStore = useStyleStore();
 const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
-
 const { tracker } = useTracker();
-const toolStore = useToolStore();
-const { favoriteTools, toolsByCategory } = storeToRefs(toolStore);
-
-const tools = computed<ToolCategory[]>(() => [
-  ...(favoriteTools.value.length > 0 ? [{ name: '我的收藏', components: favoriteTools.value }] : []),
-  ...toolsByCategory.value,
-]);
 </script>
 
 <template>
-  <MenuLayout class="menu-layout" :class="{ isSmallScreen: styleStore.isSmallScreen }">
-    <template #sider>
-      <RouterLink to="/" class="hero-wrapper">
-        <HeroGradient class="gradient" />
-        <div class="text-wrapper">
-          <div class="title">
-            TOOLS FOR YOU
-          </div>
-          <div class="divider" />
-          <div class="subtitle">
-            {{ '为每个人打造的智能工具集' }}
-          </div>
-        </div>
+  <div class="base-layout">
+    <!-- 顶部导航栏 -->
+    <header class="top-header">
+      <RouterLink to="/" class="logo-link">
+        <div class="logo-text">TOOLS FOR YOU</div>
       </RouterLink>
-
-      <div class="sider-content">
-        <div v-if="styleStore.isSmallScreen" flex flex-col items-center>
-
-          <div flex justify-center>
-            <NavbarButtons />
-          </div>
-        </div>
-
-        <CollapsibleToolMenu :tools-by-category="tools" />
-
-        <div class="footer">
-          <div>
-            IT-Tools
-
-            <c-link target="_blank" rel="noopener" :href="`https://github.com/sgj-king/tools-for-you/tree/v${version}`">
-              v{{ version }}
-            </c-link>
-
-            <template v-if="commitSha && commitSha.length > 0">
-              -
-              <c-link
-                target="_blank"
-                rel="noopener"
-                type="primary"
-                :href="`https://github.com/sgj-king/tools-for-you/tree/${commitSha}`"
-              >
-                {{ commitSha }}
-              </c-link>
-            </template>
-          </div>
-          <div>
-            漏 {{ new Date().getFullYear() }}
-            <c-link target="_blank" rel="noopener" href="https://corentin.tech?utm_source=it-tools&utm_medium=footer">
-              Corentin Thomasset
-            </c-link>
-          </div>
-        </div>
-      </div>
-    </template>
-
-    <template #content>
-      <div flex items-center justify-center gap-2>
-        <c-button
-          circle
-          variant="text"
-          :aria-label="'切换菜单'"
-          @click="styleStore.isMenuCollapsed = !styleStore.isMenuCollapsed"
-        >
-          <NIcon size="25" :component="Menu2" />
-        </c-button>
-
+      
+      <div class="navbar-center">
         <c-tooltip :tooltip="'主页'" position="bottom">
           <c-button to="/" circle variant="text" :aria-label="'主页'">
             <NIcon size="25" :component="Home2" />
           </c-button>
         </c-tooltip>
-
-        <c-tooltip :tooltip="'UI 库'" position="bottom">
-          <c-button v-if="config.app.env === 'development'" to="/c-lib" circle variant="text" :aria-label="'UI 库'">
-            <icon-mdi:brush-variant text-20px />
-          </c-button>
-        </c-tooltip>
-
         <command-palette />
-
-
-        <div>
-          <NavbarButtons v-if="!styleStore.isSmallScreen" />
-        </div>
-
+      </div>
+      
+      <div class="navbar-right">
+        <NavbarButtons v-if="!styleStore.isSmallScreen" />
         <c-tooltip position="bottom" :tooltip="'支持 Tools For You 开发'">
-          <c-button
-            round
-            href="https://www.buymeacoffee.com/cthmsst"
-            rel="noopener"
-            target="_blank"
-            class="support-button"
+          <c-button 
+            round 
+            href="https://www.buymeacoffee.com/cthmsst" 
+            rel="noopener" 
+            target="_blank" 
+            class="support-button" 
             :bordered="false"
             @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
           >
@@ -130,14 +47,84 @@ const tools = computed<ToolCategory[]>(() => [
           </c-button>
         </c-tooltip>
       </div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
       <slot />
-    </template>
-  </MenuLayout>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="app-footer">
+      <div>
+        IT-Tools
+        <c-link target="_blank" rel="noopener" :href="`https://github.com/sgj-king/tools-for-you/tree/v${version}`">
+          v{{ version }}
+        </c-link>
+        <template v-if="commitSha && commitSha.length > 0">
+          -
+          <c-link target="_blank" rel="noopener" type="primary" :href="`https://github.com/sgj-king/tools-for-you/tree/${commitSha}`">
+            {{ commitSha }}
+          </c-link>
+        </template>
+      </div>
+      <div>
+        © {{ new Date().getFullYear() }}
+        <c-link target="_blank" rel="noopener" href="https://corentin.tech?utm_source=it-tools&utm_medium=footer">
+          Corentin Thomasset
+        </c-link>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <style lang="less" scoped>
-.menu-layout {
-  color: var(--app-text);
+.base-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--app-bg);
+}
+
+.top-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--app-surface);
+  border-bottom: 1px solid var(--app-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  color: var(--app-accent);
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+  max-width: 400px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .support-button {
@@ -146,7 +133,7 @@ const tools = computed<ToolCategory[]>(() => [
   border-radius: 999px;
   box-shadow: 0 10px 25px rgba(30, 139, 119, 0.28);
   transition: transform ease 0.2s, box-shadow ease 0.2s, padding ease 0.2s;
-
+  
   &:hover {
     color: #fff;
     padding-left: 30px;
@@ -156,70 +143,39 @@ const tools = computed<ToolCategory[]>(() => [
   }
 }
 
-.footer {
+.main-content {
+  flex: 1;
+  padding: 18px;
+}
+
+.app-footer {
   text-align: center;
   color: var(--app-muted);
-  margin-top: 24px;
-  padding: 16px 0 0;
-  border-top: 1px dashed var(--app-border);
+  padding: 16px 24px;
+  background: var(--app-surface);
+  border-top: 1px solid var(--app-border);
   font-size: 12px;
-}
-
-.sider-content {
-  padding-top: 190px;
-  padding-bottom: 140px;
-}
-
-.hero-wrapper {
-  position: absolute;
-  display: block;
-  left: 14px;
-  right: 14px;
-  top: 14px;
-  z-index: 10;
-  overflow: hidden;
-  border-radius: 20px;
-  background: linear-gradient(140deg, rgba(26, 111, 96, 0.98), rgba(22, 90, 78, 0.98));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 16px 35px rgba(24, 78, 66, 0.35);
-
-  .gradient {
-    position: absolute;
-    inset: -60px 0 0 0;
-    opacity: 0.7;
+  
+  div {
+    margin: 4px 0;
   }
+}
 
-  .text-wrapper {
-    position: relative;
-    z-index: 1;
-    text-align: left;
-    padding: 18px 18px 16px;
-    color: #f5fff8;
-
-    .title {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      font-family: var(--font-display);
-    }
-
-    .divider {
-      width: 56px;
-      height: 3px;
-      border-radius: 4px;
-      background: linear-gradient(90deg, #f7f1d1, #6ce7c1);
-      margin: 8px 0 6px;
-    }
-
-    .subtitle {
-      font-size: 12px;
-      opacity: 0.85;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
+@media (max-width: 700px) {
+  .top-header {
+    padding: 12px 16px;
+  }
+  
+  .logo-text {
+    font-size: 14px;
+  }
+  
+  .navbar-center {
+    max-width: 200px;
+  }
+  
+  .main-content {
+    padding: 12px;
   }
 }
 </style>
-
-
-
