@@ -1,325 +1,50 @@
-<script lang="ts" setup>
-import { h } from 'vue';
-import { NIcon, NDropdown } from 'naive-ui';
-import { RouterLink, useRouter } from 'vue-router';
-import { Home2, User, Logout } from '@vicons/tabler';
-import NavbarButtons from '../components/NavbarButtons.vue';
-import { useStyleStore } from '@/stores/style.store';
-import { useAuthStore } from '@/stores/auth.store';
-import { config } from '@/config';
-import { useTracker } from '@/modules/tracker/tracker.services';
-
-const styleStore = useStyleStore();
-const authStore = useAuthStore();
-const router = useRouter();
-const version = config.app.version;
-const commitSha = config.app.lastCommitSha.slice(0, 7);
-const { tracker } = useTracker();
-// 用户下拉菜单
-const userMenuOptions = [
-  {
-    label: '个人中心',
-    key: 'profile',
-    icon: () => h(NIcon, null, { default: () => h(User) })
-  },
-  {
-    type: 'divider',
-    key: 'd1'
-  },
-  {
-    label: '退出登录',
-    key: 'logout',
-    icon: () => h(NIcon, null, { default: () => h(Logout) })
-  }
-];
-
-function handleUserMenuSelect(key: string) {
-  if (key === 'logout') {
-    authStore.logout();
-    router.push('/');
-  } else if (key === 'profile') {
-    // TODO: 跳转到个人中心
-    router.push('/');
-  }
-}
+<script setup lang="ts">
+// 无侧边栏布局，但保留原有的主内容区域样式
 </script>
 
 <template>
-  <div class="no-sidebar-layout">
-    <!-- Top Navbar -->
-    <nav class="top-navbar">
-      <div class="navbar-content">
-        <div class="navbar-left">
-          <RouterLink to="/" class="logo-link">
-            <div class="logo-text">TOOLS FOR YOU</div>
-          </RouterLink>
-        </div>
-        
-        <div class="navbar-center">
-          <c-tooltip :tooltip="'主页'" position="bottom">
-            <c-button to="/" circle variant="text" :aria-label="'主页'">
-              <NIcon size="22" :component="Home2" />
-            </c-button>
-          </c-tooltip>
-          
-          <command-palette />
-        </div>
-        
-        <div class="navbar-right">
-          <NavbarButtons v-if="!styleStore.isSmallScreen" />
-          
-          <!-- 登录/注册按钮 或 用户名 -->
-          <RouterLink v-if="!authStore.isLoggedIn" to="/auth" class="auth-button">
-            登录 / 注册
-          </RouterLink>
-          
-          <n-dropdown
-            v-else
-            :options="userMenuOptions"
-            @select="handleUserMenuSelect"
-            placement="bottom-end"
-          >
-            <div class="user-avatar">
-              <div class="avatar-icon">
-                {{ authStore.username.charAt(0).toUpperCase() }}
-              </div>
-              <span class="username">{{ authStore.username }}</span>
-            </div>
-          </n-dropdown>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
+  <div class="shell">
+    <div class="app-content">
       <slot />
-    </main>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-      <div class="footer-content">
-        <p>
-          © {{ new Date().getFullYear() }} Tools For You · 
-          <c-link target="_blank" rel="noopener" :href="`https://github.com/sgj-king/tools-for-you/tree/v${version}`">
-            v{{ version }}
-          </c-link>
-          <template v-if="commitSha && commitSha.length > 0">
-            -
-            <c-link target="_blank" rel="noopener" type="primary" :href="`https://github.com/sgj-king/tools-for-you/tree/${commitSha}`">
-              {{ commitSha }}
-            </c-link>
-          </template>
-        </p>
-        <div class="footer-links">
-          <RouterLink to="/about">关于</RouterLink>
-          <span>·</span>
-          <RouterLink to="/contact">联系</RouterLink>
-          <span>·</span>
-          <a href="https://github.com/sgj-king/tools-for-you" target="_blank">GitHub</a>
-        </div>
-      </div>
-    </footer>
+    </div>
   </div>
 </template>
 
 <style lang="less" scoped>
-.no-sidebar-layout {
+.shell {
   min-height: 100vh;
+  padding: 18px;
   display: flex;
-  flex-direction: column;
-  background: var(--app-bg);
 }
 
-/* Top Navbar */
-.top-navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--app-surface);
-  border-bottom: 1px solid var(--app-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.navbar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.logo-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  font-family: var(--font-display);
-  color: var(--app-accent);
-}
-
-.navbar-center {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.app-content {
   flex: 1;
-  justify-content: center;
-  max-width: 400px;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.auth-button {
-  padding: 8px 20px;
-  background: linear-gradient(130deg, #1e8b77 0%, #2ca58f 48%, #1a6f60 100%);
-  color: #fff !important;
-  border-radius: 999px;
-  box-shadow: 0 10px 25px rgba(30, 139, 119, 0.28);
-  transition: transform ease 0.2s, box-shadow ease 0.2s, padding ease 0.2s;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  
-  &:hover {
-    color: #fff;
-    padding-left: 24px;
-    padding-right: 24px;
-    transform: translateY(-1px);
-    box-shadow: 0 16px 30px rgba(30, 139, 119, 0.32);
-  }
-}
-
-.user-avatar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 12px 6px 8px;
+  border-radius: 22px;
   background: var(--app-surface-2);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s;
   border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-soft);
+  position: relative;
+  overflow: hidden;
   
-  &:hover {
-    background: var(--app-surface);
-    border-color: var(--app-accent);
-    box-shadow: 0 4px 12px rgba(30, 139, 119, 0.15);
-  }
-}
-
-.avatar-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(130deg, #1e8b77 0%, #2ca58f 100%);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.username {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--app-text);
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 32px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Footer */
-.app-footer {
-  background: var(--app-surface);
-  border-top: 1px solid var(--app-border);
-  padding: 24px;
-  text-align: center;
-  margin-top: auto;
-}
-
-.footer-content {
-  color: var(--app-muted);
-  font-size: 13px;
-}
-
-.footer-content p {
-  margin: 0 0 8px;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-.footer-links a {
-  color: var(--app-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover {
-  color: var(--app-accent);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .navbar-content {
-    padding: 12px 16px;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px 300px at 85% 0%, rgba(30, 139, 119, 0.08), transparent 60%);
+    opacity: 0.9;
+    pointer-events: none;
   }
   
-  .logo-text {
-    font-size: 14px;
-  }
-  
-  .navbar-center {
-    max-width: 200px;
-  }
-  
-  .support-button {
-    font-size: 12px;
-    padding: 8px 16px;
-  }
-  
-  .main-content {
-    padding: 16px;
-  }
-  
-  .footer-links {
-    flex-direction: column;
-    gap: 4px;
+  ::v-deep(.n-layout-scroll-container) {
+    padding: 32px;
+    position: relative;
+    z-index: 1;
   }
 }
 
-/* Dark mode */
-.dark .top-navbar {
-  background: var(--app-surface);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.dark .app-footer {
-  background: var(--app-surface);
+@media (max-width: 700px) {
+  .shell {
+    padding: 12px;
+  }
 }
 </style>
