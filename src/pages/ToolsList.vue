@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useHead } from '@vueuse/head';
-import { NInput, NIcon, NTag } from 'naive-ui';
+import { NIcon, NInput } from 'naive-ui';
 import { IconSearch, IconTool } from '@tabler/icons-vue';
 import ToolCard from '../components/ToolCard.vue';
 import { toolsByCategory, tools } from '@/tools';
@@ -31,29 +31,32 @@ const filteredTools = computed(() => {
 
 <template>
   <div class="tools-list-page">
-    <!-- Header -->
-    <div class="tools-header">
-      <h1>🛠️ 所有工具</h1>
-      <p>共 {{ tools.length }} 个实用工具</p>
-      
-      <!-- Search -->
-      <div class="search-box">
-        <n-input
-          v-model:value="searchQuery"
-          placeholder="搜索工具..."
-          size="large"
-          clearable
-        >
-          <template #prefix>
-            <n-icon :component="IconSearch" />
-          </template>
-        </n-input>
+    <!-- Tool Header (like tool-detail layout) -->
+    <div class="tool-header">
+      <div class="tool-info">
+        <h1 class="tool-title">🛠️ 所有工具</h1>
+        <p class="tool-description">共 {{ tools.length }} 个实用工具，按分类分组显示</p>
       </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-section">
+      <n-input
+        v-model:value="searchQuery"
+        placeholder="搜索工具..."
+        size="large"
+        clearable
+        class="search-input"
+      >
+        <template #prefix>
+          <n-icon :component="IconSearch" />
+        </template>
+      </n-input>
     </div>
 
     <!-- Search Results -->
     <div v-if="filteredTools" class="search-results">
-      <h2>搜索结果 ({{ filteredTools.length }})</h2>
+      <h2 class="section-title">搜索结果 ({{ filteredTools.length }})</h2>
       <div class="tools-grid">
         <ToolCard
           v-for="tool in filteredTools"
@@ -70,7 +73,7 @@ const filteredTools = computed(() => {
         :key="category.name"
         class="category-section"
       >
-        <h2>{{ category.name }} <span class="count">({{ category.tools.length }})</span></h2>
+        <h2 class="section-title">{{ category.name }} <span class="count">({{ category.tools.length }})</span></h2>
         <div class="tools-grid">
           <ToolCard
             v-for="tool in category.tools"
@@ -83,54 +86,99 @@ const filteredTools = computed(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .tools-list-page {
-  max-width: 1200px;
+  min-height: 100vh;
+  background: var(--app-bg);
+  padding: 32px 24px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 24px;
+  width: 100%;
 }
 
-.tools-header {
-  text-align: center;
+/* Tool Header - same style as tool-detail layout */
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.tool-info {
+  flex: 1;
+}
+
+.tool-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--app-text);
+  margin: 0;
+}
+
+.tool-description {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: var(--app-muted);
+  line-height: 1.5;
+}
+
+/* Search Section */
+.search-section {
   margin-bottom: 32px;
 }
 
-.tools-header h1 {
-  font-size: 2rem;
-  margin-bottom: 8px;
-}
-
-.tools-header p {
-  color: #888;
-  margin-bottom: 24px;
-}
-
-.search-box {
+.search-input {
   max-width: 500px;
-  margin: 0 auto;
 }
 
-.search-results h2,
-.category-section h2 {
-  font-size: 1.25rem;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #333;
+/* Section Title */
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--app-text);
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--app-accent);
+  display: inline-block;
 }
 
 .count {
-  color: #888;
-  font-size: 0.9rem;
+  color: var(--app-muted);
+  font-size: 14px;
+  font-weight: 400;
 }
 
+/* Tools Grid */
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .category-section {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tools-list-page {
+    padding: 16px;
+  }
+  
+  .tool-header {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  
+  .tool-title {
+    font-size: 22px;
+  }
+  
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
