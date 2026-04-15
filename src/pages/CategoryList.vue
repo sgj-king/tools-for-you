@@ -14,16 +14,16 @@ const categorySlug = computed(() => route.params.slug as string);
 
 // 分类映射
 const categoryMapping: Record<string, { name: string; icon: string; color: string; description: string }> = {
-  'crypto': { name: 'Crypto', icon: '🔐', color: '#DDA0DD', description: 'Hash生成、加密解密、密码工具' },
-  'converter': { name: 'Converter', icon: '🔄', color: '#4ECDC4', description: 'JSON/YAML/XML转换、编码转换' },
-  'web': { name: 'Web', icon: '🌐', color: '#45B7D1', description: 'URL编解码、JWT解析、HTTP状态码' },
-  'dev': { name: 'Development', icon: '👨‍💻', color: '#FF6B6B', description: 'JSON查看、正则测试、Git备忘录' },
-  'network': { name: 'Network', icon: '📡', color: '#F7DC6F', description: 'IP计算、子网划分、MAC查询' },
-  'text': { name: 'Text', icon: '📝', color: '#96CEB4', description: '文本统计、差异对比、表情选择' },
-  'media': { name: 'Images and videos', icon: '🖼️', color: '#FF9F43', description: '二维码生成、SVG占位图' },
-  'math': { name: 'Math', icon: '🔢', color: '#A29BFE', description: '数学表达式、百分比计算' },
-  'measurement': { name: 'Measurement', icon: '⏱️', color: '#74B9FF', description: '计时器、温度转换' },
-  'data': { name: 'Data', icon: '📊', color: '#A29BFE', description: '电话号码解析、IBAN验证' },
+  'crypto': { name: '安全加密', icon: '🔐', color: '#DDA0DD', description: 'Hash生成、加密解密、密码工具' },
+  'converter': { name: '格式转换', icon: '🔄', color: '#4ECDC4', description: 'JSON/YAML/XML转换、编码转换' },
+  'web': { name: 'Web工具', icon: '🌐', color: '#45B7D1', description: 'URL编解码、JWT解析、HTTP状态码' },
+  'dev': { name: '开发工具', icon: '👨‍💻', color: '#FF6B6B', description: 'JSON查看、正则测试、Git备忘录' },
+  'network': { name: '网络工具', icon: '📡', color: '#F7DC6F', description: 'IP计算、子网划分、MAC查询' },
+  'text': { name: '文本工具', icon: '📝', color: '#96CEB4', description: '文本统计、差异对比、表情选择' },
+  'media': { name: '图像视频', icon: '🖼️', color: '#FF9F43', description: '二维码生成、SVG占位图' },
+  'math': { name: '数学计算', icon: '🔢', color: '#A29BFE', description: '数学表达式、百分比计算' },
+  'measurement': { name: '测量工具', icon: '⏱️', color: '#74B9FF', description: '计时器、温度转换' },
+  'data': { name: '数据工具', icon: '📊', color: '#A29BFE', description: '电话号码解析、IBAN验证' },
 };
 
 // 获取当前分类信息

@@ -98,7 +98,7 @@ import { tool as tipCalculator } from './tip-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
-    name: 'Crypto',
+    name: '安全加密',
     components: [
       tokenGenerator,
       hashText,
@@ -114,7 +114,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Converter',
+    name: '格式转换',
     components: [
       dateTimeConverter,
       baseConverter,
@@ -139,7 +139,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Web',
+    name: 'Web工具',
     components: [
       urlEncoder,
       htmlEntities,
@@ -160,7 +160,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Images and videos',
+    name: '图像视频',
     components: [
       qrCodeGenerator,
       wifiQrCodeGenerator,
@@ -173,7 +173,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Development',
+    name: '开发工具',
     components: [
       gitMemo,
       randomPortGenerator,
@@ -192,7 +192,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Network',
+    name: '网络工具',
     components: [
       ipv4SubnetCalculator,
       ipv4AddressConverter,
@@ -203,15 +203,15 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Math',
+    name: '数学计算',
     components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator],
   },
   {
-    name: 'Measurement',
+    name: '测量工具',
     components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter],
   },
   {
-    name: 'Text',
+    name: '文本工具',
     components: [
       loremIpsumGenerator,
       textStatistics,
@@ -224,7 +224,7 @@ export const toolsByCategory: ToolCategory[] = [
     ],
   },
   {
-    name: 'Data',
+    name: '数据工具',
     components: [phoneParserAndFormatter, ibanValidatorAndParser],
   },
 ];
