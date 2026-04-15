@@ -70,7 +70,7 @@ const router = createRouter({
       path: '/tools',
       name: 'tools',
       component: ToolsList,
-      meta: { layout: customLayouts.noSidebar },
+      meta: { layout: customLayouts.toolDetail },
     },
     ...toolsRoutes,
     ...toolsRedirectRoutes,
