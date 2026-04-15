@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router';
 import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from 'naive-ui';
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
@@ -8,16 +8,8 @@ import { useStyleStore } from './stores/style.store';
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
 const styleStore = useStyleStore();
-
 const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
-
-const { locale } = useI18n();
-
-syncRef(
-  locale,
-  useStorage('locale', locale),
-);
 </script>
 
 <template>
@@ -75,9 +67,7 @@ syncRef(
     linear-gradient(90deg, rgba(231, 241, 237, 0.05) 1px, transparent 1px);
 }
 
-html,
-body,
-#app {
+html, body, #app {
   min-height: 100%;
 }
 
@@ -109,12 +99,6 @@ body::before {
   z-index: 1;
 }
 
-a {
-  color: inherit;
-}
-
-* {
-  box-sizing: border-box;
-}
+a { color: inherit; }
+* { box-sizing: border-box; }
 </style>
-

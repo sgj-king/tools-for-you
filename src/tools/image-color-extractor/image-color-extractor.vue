@@ -182,8 +182,8 @@ function getContrastColor(hex: string): string {
             <div class="upload-area">
               <div class="upload-icon">📷</div>
               <div class="upload-text">
-                <p class="upload-title">{{ $t('tools.image-color-extractor.uploadTitle') }}</p>
-                <p class="upload-hint">{{ $t('tools.image-color-extractor.uploadHint') }}</p>
+                <p class="upload-title">{{ 'tools.image-color-extractor.uploadTitle' }}</p>
+                <p class="upload-hint">{{ 'tools.image-color-extractor.uploadHint' }}</p>
               </div>
             </div>
           </template>
@@ -191,7 +191,7 @@ function getContrastColor(hex: string): string {
         
         <!-- 颜色数量选择 -->
         <div class="color-count-selector">
-          <span class="label">{{ $t('tools.image-color-extractor.colorCount') }}</span>
+          <span class="label">{{ 'tools.image-color-extractor.colorCount' }}</span>
           <n-slider
             v-model:value="colorCount"
             :min="3"
@@ -208,7 +208,7 @@ function getContrastColor(hex: string): string {
     <!-- 处理中 -->
     <div v-if="isProcessing" class="processing-container">
       <n-spin size="large" />
-      <p>{{ $t('tools.image-color-extractor.processing') }}</p>
+      <p>{{ 'tools.image-color-extractor.processing' }}</p>
     </div>
 
     <!-- 结果展示 -->
@@ -225,14 +225,14 @@ function getContrastColor(hex: string): string {
               class="clear-button"
               @click="clearAll"
             >
-              {{ $t('tools.image-color-extractor.clear') }}
+              {{ 'tools.image-color-extractor.clear' }}
             </n-button>
           </div>
         </div>
       </c-card>
 
       <!-- 颜色列表 -->
-      <c-card :title="$t('tools.image-color-extractor.extractedColors')">
+      <c-card :title="'tools.image-color-extractor.extractedColors'">
         <div class="colors-grid">
           <div
             v-for="(color, index) in colors"
@@ -254,7 +254,7 @@ function getContrastColor(hex: string): string {
                     quaternary
                     @click="copyColor(color.hex)"
                   >
-                    {{ $t('tools.image-color-extractor.copyHex') }}
+                    {{ 'tools.image-color-extractor.copyHex' }}
                   </n-button>
                 </template>
                 {{ color.hex }}
@@ -264,7 +264,7 @@ function getContrastColor(hex: string): string {
                 quaternary
                 @click="copyColor(color.rgb)"
               >
-                {{ $t('tools.image-color-extractor.copyRgb') }}
+                {{ 'tools.image-color-extractor.copyRgb' }}
               </n-button>
             </div>
           </div>
@@ -272,7 +272,7 @@ function getContrastColor(hex: string): string {
       </c-card>
 
       <!-- 调色板展示 -->
-      <c-card :title="$t('tools.image-color-extractor.palette')">
+      <c-card :title="'tools.image-color-extractor.palette'">
         <div class="palette-bar">
           <div
             v-for="(color, index) in colors"
@@ -294,7 +294,7 @@ function getContrastColor(hex: string): string {
       </c-card>
 
       <!-- CSS 变量导出 -->
-      <c-card :title="$t('tools.image-color-extractor.cssVariables')">
+      <c-card :title="'tools.image-color-extractor.cssVariables'">
         <div class="css-code">
           <pre><code>:root {
 {{ colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n') }}
@@ -304,7 +304,7 @@ function getContrastColor(hex: string): string {
             type="primary"
             @click="copyColor(`:root {\n${colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n')}\n}`)"
           >
-            {{ $t('tools.image-color-extractor.copyCss') }}
+            {{ 'tools.image-color-extractor.copyCss' }}
           </n-button>
         </div>
       </c-card>
@@ -312,7 +312,7 @@ function getContrastColor(hex: string): string {
 
     <!-- 空状态 -->
     <c-card v-if="colors.length === 0 && !isProcessing && !imagePreview">
-      <n-empty :description="$t('tools.image-color-extractor.emptyHint')" />
+      <n-empty :description="'tools.image-color-extractor.emptyHint'" />
     </c-card>
   </div>
 </template>

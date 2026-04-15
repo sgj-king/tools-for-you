@@ -1,7 +1,5 @@
 import { Calendar } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
   name: '年龄计算器',
   path: '/age-calculator',

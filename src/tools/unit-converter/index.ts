@@ -1,11 +1,9 @@
 import { Ruler } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.unit-converter.title'),
+  name: 'tools.unit-converter.title',
   path: '/unit-converter',
-  description: translate('tools.unit-converter.description'),
+  description: 'tools.unit-converter.description',
   keywords: [
     'unit',
     'converter',

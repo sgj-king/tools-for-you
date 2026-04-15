@@ -1,11 +1,9 @@
 import { Certificate } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.rsa-key-pair-generator.title'),
+  name: 'RSA 密钥对生成器',
   path: '/rsa-key-pair-generator',
-  description: translate('tools.rsa-key-pair-generator.description'),
+  description: '生成新的随机RSA私钥和公钥pem证书。',
   keywords: ['rsa', 'key', 'pair', 'generator', 'public', 'private', 'secret', 'ssh', 'pem'],
   component: () => import('./rsa-key-pair-generator.vue'),
   icon: Certificate,

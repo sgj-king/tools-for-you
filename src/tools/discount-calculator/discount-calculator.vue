@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const { t } = useI18n();
-
 // 原价输入
 const originalPrice = ref<number | null>(null);
 
@@ -18,8 +16,8 @@ const quantity = ref<number>(1);
 
 // 折扣类型选项
 const discountTypeOptions = [
-  { label: t('tools.discount-calculator.percentageOff'), value: 'percentage' },
-  { label: t('tools.discount-calculator.fixedAmount'), value: 'fixed' },
+  { label: 'tools.discount-calculator.percentageOff', value: 'percentage' },
+  { label: 'tools.discount-calculator.fixedAmount', value: 'fixed' },
 ];
 
 // 计算结果
@@ -92,17 +90,17 @@ function applyQuickDiscount(percent: number) {
     <div style="margin: 0 auto; max-width: 700px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.discount-calculator.parameters') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.discount-calculator.parameters' }}</div>
         
         <!-- 原价输入 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ t('tools.discount-calculator.originalPrice') }}</div>
+          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.originalPrice' }}</div>
           <n-input-number
             v-model:value="originalPrice"
             :min="0"
             :step="10"
             size="large"
-            :placeholder="t('tools.discount-calculator.pricePlaceholder')"
+            :placeholder="'tools.discount-calculator.pricePlaceholder'"
             style="width: 100%"
           >
             <template #prefix>¥</template>
@@ -111,7 +109,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 折扣类型选择 -->
         <div mb-4>
-          <div mb-1 text-sm op-70>{{ t('tools.discount-calculator.discountType') }}</div>
+          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.discountType' }}</div>
           <n-radio-group v-model:value="discountType" style="width: 100%">
             <n-radio-button
               v-for="option in discountTypeOptions"
@@ -128,8 +126,8 @@ function applyQuickDiscount(percent: number) {
         <div mb-4>
           <div mb-1 text-sm op-70>
             {{ discountType === 'percentage' 
-              ? t('tools.discount-calculator.discountPercentage') 
-              : t('tools.discount-calculator.discountAmount') }}
+              ? 'tools.discount-calculator.discountPercentage' 
+              : 'tools.discount-calculator.discountAmount' }}
           </div>
           
           <!-- 百分比折扣输入 -->
@@ -140,7 +138,7 @@ function applyQuickDiscount(percent: number) {
             :max="100"
             :step="5"
             size="large"
-            :placeholder="t('tools.discount-calculator.percentPlaceholder')"
+            :placeholder="'tools.discount-calculator.percentPlaceholder'"
             style="width: 100%"
           >
             <template #suffix>%</template>
@@ -153,7 +151,7 @@ function applyQuickDiscount(percent: number) {
             :min="0"
             :step="10"
             size="large"
-            :placeholder="t('tools.discount-calculator.amountPlaceholder')"
+            :placeholder="'tools.discount-calculator.amountPlaceholder'"
             style="width: 100%"
           >
             <template #prefix>¥</template>
@@ -162,7 +160,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 快捷折扣按钮 (仅百分比模式) -->
         <div v-if="discountType === 'percentage'" mb-4>
-          <div mb-2 text-sm op-70>{{ t('tools.discount-calculator.quickDiscounts') }}</div>
+          <div mb-2 text-sm op-70>{{ 'tools.discount-calculator.quickDiscounts' }}</div>
           <div flex flex-wrap gap-2>
             <n-button
               v-for="percent in quickDiscounts"
@@ -178,7 +176,7 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 数量输入 -->
         <div>
-          <div mb-1 text-sm op-70>{{ t('tools.discount-calculator.quantity') }}</div>
+          <div mb-1 text-sm op-70>{{ 'tools.discount-calculator.quantity' }}</div>
           <n-input-number
             v-model:value="quantity"
             :min="1"
@@ -191,13 +189,13 @@ function applyQuickDiscount(percent: number) {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.discount-calculator.result') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.discount-calculator.result' }}</div>
         
         <n-grid :cols="2" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <!-- 原价小计 -->
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-sm op-70 mb-1>{{ t('tools.discount-calculator.subtotal') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.discount-calculator.subtotal' }}</div>
               <div text-xl font-bold>¥{{ formatCurrency(result.subtotal) }}</div>
             </div>
           </n-gi>
@@ -206,7 +204,7 @@ function applyQuickDiscount(percent: number) {
           <n-gi span="2 m:1">
             <div p-4 rounded-lg bg-red-fade border-red>
               <div text-sm op-70 mb-1>
-                {{ t('tools.discount-calculator.youSave') }}
+                {{ 'tools.discount-calculator.youSave' }}
                 <n-tag size="small" type="error">{{ result.discountRate }}</n-tag>
               </div>
               <div text-xl font-bold text-red-400>-¥{{ formatCurrency(result.savedAmount) }}</div>
@@ -216,11 +214,11 @@ function applyQuickDiscount(percent: number) {
 
         <!-- 最终价格（大卡片） -->
         <div mt-4 p-6 rounded-xl bg-gradient-primary text-center>
-          <div text-sm op-80 mb-2>{{ t('tools.discount-calculator.finalPrice') }}</div>
+          <div text-sm op-80 mb-2>{{ 'tools.discount-calculator.finalPrice' }}</div>
           <div text-4xl font-bold>¥{{ formatCurrency(result.finalPrice) }}</div>
           <div v-if="result.effectivePercentage" mt-2>
             <n-tag type="success" size="small">
-              {{ t('tools.discount-calculator.effectiveDiscount') }}: {{ result.effectivePercentage }}
+              {{ 'tools.discount-calculator.effectiveDiscount' }}: {{ result.effectivePercentage }}
             </n-tag>
           </div>
         </div>
@@ -228,18 +226,18 @@ function applyQuickDiscount(percent: number) {
         <!-- 单价显示 -->
         <div v-if="quantity > 1" mt-4 text-center>
           <n-text depth="3">
-            {{ t('tools.discount-calculator.unitPrice') }}: ¥{{ formatCurrency(result.finalPrice / quantity) }}
+            {{ 'tools.discount-calculator.unitPrice' }}: ¥{{ formatCurrency(result.finalPrice / quantity) }}
           </n-text>
         </div>
       </c-card>
 
       <!-- 计算说明 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ t('tools.discount-calculator.howToUse') }}</div>
+        <div text-lg font-bold mb-3>{{ 'tools.discount-calculator.howToUse' }}</div>
         <n-ul>
-          <n-li>{{ t('tools.discount-calculator.step1') }}</n-li>
-          <n-li>{{ t('tools.discount-calculator.step2') }}</n-li>
-          <n-li>{{ t('tools.discount-calculator.step3') }}</n-li>
+          <n-li>{{ 'tools.discount-calculator.step1' }}</n-li>
+          <n-li>{{ 'tools.discount-calculator.step2' }}</n-li>
+          <n-li>{{ 'tools.discount-calculator.step3' }}</n-li>
         </n-ul>
       </c-card>
     </div>

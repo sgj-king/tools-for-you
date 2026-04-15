@@ -1,7 +1,5 @@
 import { resolve } from 'node:path';
 import { URL, fileURLToPath } from 'node:url';
-
-import VueI18n from '@intlify/unplugin-vue-i18n/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import Unocss from 'unocss/vite';
@@ -20,16 +18,8 @@ const baseUrl = process.env.BASE_URL ?? '/';
 
 export default defineConfig({
   plugins: [
-    VueI18n({
-      runtimeOnly: true,
-      jitCompilation: true,
-      compositionOnly: true,
-      fullInstall: true,
-      strictMessage: false,
-      include: [resolve(__dirname, 'locales/**')],
-    }),
     AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core', 'vue-i18n', { 'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'] }],
+      imports: ['vue', 'vue-router', '@vueuse/core', { 'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'] }],
       vueTemplate: true,
       eslintrc: { enabled: true },
     }),
@@ -39,17 +29,14 @@ export default defineConfig({
     markdown(),
     svgLoader(),
     VitePWA({
-      // 开发环境禁用
-      devOptions: {
-        enabled: false,
-      },
+      devOptions: { enabled: false },
       registerType: 'autoUpdate',
       strategies: 'generateSW',
       manifest: {
-        name: 'IT Tools',
-        description: 'Aggregated set of useful tools for developers.',
+        name: 'Tools For You',
+        description: '为每个人打造的智能工具集',
         display: 'standalone',
-        lang: 'fr-FR',
+        lang: 'zh-CN',
         start_url: `${baseUrl}?utm_source=pwa&utm_medium=pwa`,
         orientation: 'any',
         theme_color: '#18a058',

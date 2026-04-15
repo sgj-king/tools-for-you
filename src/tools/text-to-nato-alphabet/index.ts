@@ -1,11 +1,9 @@
 import { Speakerphone } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.text-to-nato-alphabet.title'),
+  name: '文本转北约字母表',
   path: '/text-to-nato-alphabet',
-  description: translate('tools.text-to-nato-alphabet.description'),
+  description: '将文本转换为北约拼音字母以进行口头传播。',
   keywords: ['string', 'nato', 'alphabet', 'phonetic', 'oral', 'transmission'],
   component: () => import('./text-to-nato-alphabet.vue'),
   icon: Speakerphone,

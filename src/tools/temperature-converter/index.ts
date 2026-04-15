@@ -1,11 +1,9 @@
 import { Temperature } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.temperature-converter.title'),
+  name: '温度转换器',
   path: '/temperature-converter',
-  description: translate('tools.temperature-converter.description'),
+  description: '开尔文、摄氏度、华氏度、兰金、德莱尔、牛顿、雷奥穆尔和罗默温度度数转换。',
   keywords: [
     'temperature',
     'converter',

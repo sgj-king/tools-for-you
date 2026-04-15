@@ -2,12 +2,10 @@ import { HttpRound } from '@vicons/material';
 import { defineTool } from '../tool';
 
 import { codesByCategories } from './http-status-codes.constants';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.http-status-codes.title'),
+  name: 'HTTP 状态码',
   path: '/http-status-codes',
-  description: translate('tools.http-status-codes.description'),
+  description: '查看所有 HTTP 状态码及其名称和含义。',
   keywords: [
     'http',
     'status',

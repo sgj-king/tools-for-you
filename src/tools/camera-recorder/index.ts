@@ -1,11 +1,9 @@
 import { Camera } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.camera-recorder.title'),
+  name: '摄像头录制器',
   path: '/camera-recorder',
-  description: translate('tools.camera-recorder.description'),
+  description: '从网络摄像头或照相机拍摄照片或录制视频。',
   keywords: ['camera', 'recoder'],
   component: () => import('./camera-recorder.vue'),
   icon: Camera,

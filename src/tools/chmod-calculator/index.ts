@@ -1,11 +1,9 @@
 import { FileInvoice } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.chmod-calculator.title'),
+  name: 'Chmod 计算器',
   path: '/chmod-calculator',
-  description: translate('tools.chmod-calculator.description'),
+  description: '使用这个在线 chmod 计算器计算权限值和对应命令。',
   keywords: [
     'chmod',
     'calculator',

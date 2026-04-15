@@ -1,12 +1,10 @@
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 import BracketIcon from '~icons/mdi/code-brackets';
 
 export const tool = defineTool({
-  name: translate('tools.toml-to-json.title'),
+  name: 'TOML 到 JSON',
   path: '/toml-to-json',
-  description: translate('tools.toml-to-json.description'),
+  description: '解析 TOML 并将其转换为 JSON。',
   keywords: ['toml', 'json', 'convert', 'online', 'transform', 'parser'],
   component: () => import('./toml-to-json.vue'),
   icon: BracketIcon,

@@ -1,11 +1,9 @@
 import { Photo } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('image-generator.title'),
+  name: 'AI 图像生成器',
   path: '/image-generator',
-  description: translate('image-generator.description'),
+  description: '使用 AI 模型生成图像，支持文生图、图生图、数字人生成、三视图和多视角生成。',
   keywords: [
     'image',
     'ai',

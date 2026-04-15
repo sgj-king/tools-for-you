@@ -1,11 +1,9 @@
 import { AlignJustified } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.bip39-generator.title'),
+  name: 'BIP39 助记词生成器',
   path: '/bip39-generator',
-  description: translate('tools.bip39-generator.description'),
+  description: '从现有或随机助记符生成BIP39密码短语，或从密码短语获取助记符。',
   keywords: ['BIP39', 'passphrase', 'generator', 'mnemonic', 'entropy'],
   component: () => import('./bip39-generator.vue'),
   icon: AlignJustified,

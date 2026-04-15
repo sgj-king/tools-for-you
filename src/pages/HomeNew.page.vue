@@ -7,20 +7,18 @@ import ToolCard from '../components/ToolCard.vue';
 import AIChat from '../components/AIChat.vue';
 import { toolsByCategory, tools } from '@/tools';
 
-const { t, locale } = useI18n();
-
 // 根据侧边栏分类映射到主页分类 - 完整的10个分类
 const categoryMapping = computed(() => ({
-  'Crypto': { id: 1, name: '🔐 ' + t('categories.crypto'), slug: 'crypto', icon: '🔐', color: '#DDA0DD', description: t('categories.cryptoDesc') },
-  'Converter': { id: 2, name: '🔄 ' + t('categories.converter'), slug: 'converter', icon: '🔄', color: '#4ECDC4', description: t('categories.converterDesc') },
-  'Web': { id: 3, name: '🌐 ' + t('categories.web'), slug: 'web', icon: '🌐', color: '#45B7D1', description: t('categories.webDesc') },
-  'Development': { id: 4, name: '👨‍💻 ' + t('categories.dev'), slug: 'dev', icon: '👨‍💻', color: '#FF6B6B', description: t('categories.devDesc') },
-  'Network': { id: 5, name: '📡 ' + t('categories.network'), slug: 'network', icon: '📡', color: '#F7DC6F', description: t('categories.networkDesc') },
-  'Text': { id: 6, name: '📝 ' + t('categories.text'), slug: 'text', icon: '📝', color: '#96CEB4', description: t('categories.textDesc') },
-  'Images and videos': { id: 7, name: '🖼️ ' + t('categories.media'), slug: 'media', icon: '🖼️', color: '#FF9F43', description: t('categories.mediaDesc') },
-  'Math': { id: 8, name: '🔢 ' + t('categories.math'), slug: 'math', icon: '🔢', color: '#A29BFE', description: t('categories.mathDesc') },
-  'Measurement': { id: 9, name: '⏱️ ' + t('categories.measurement'), slug: 'measurement', icon: '⏱️', color: '#74B9FF', description: t('categories.measurementDesc') },
-  'Data': { id: 10, name: '📊 ' + t('categories.data'), slug: 'data', icon: '📊', color: '#A29BFE', description: t('categories.dataDesc') },
+  'Crypto': { id: 1, name: '🔐 ' + '安全加密', slug: 'crypto', icon: '🔐', color: '#DDA0DD', description: 'Hash生成、加密解密、密码工具' },
+  'Converter': { id: 2, name: '🔄 ' + '格式转换', slug: 'converter', icon: '🔄', color: '#4ECDC4', description: 'JSON/YAML/XML转换、编码转换' },
+  'Web': { id: 3, name: '🌐 ' + 'Web工具', slug: 'web', icon: '🌐', color: '#45B7D1', description: 'URL编解码、JWT解析、HTTP状态码' },
+  'Development': { id: 4, name: '👨‍💻 ' + '开发工具', slug: 'dev', icon: '👨‍💻', color: '#FF6B6B', description: 'JSON查看、正则测试、Git备忘录' },
+  'Network': { id: 5, name: '📡 ' + '网络工具', slug: 'network', icon: '📡', color: '#F7DC6F', description: 'IP计算、子网划分、MAC查询' },
+  'Text': { id: 6, name: '📝 ' + '文本工具', slug: 'text', icon: '📝', color: '#96CEB4', description: '文本统计、差异对比、表情选择' },
+  'Images and videos': { id: 7, name: '🖼️ ' + '图像视频', slug: 'media', icon: '🖼️', color: '#FF9F43', description: '二维码生成、SVG占位图' },
+  'Math': { id: 8, name: '🔢 ' + '数学计算', slug: 'math', icon: '🔢', color: '#A29BFE', description: '数学表达式、百分比计算' },
+  'Measurement': { id: 9, name: '⏱️ ' + '测量工具', slug: 'measurement', icon: '⏱️', color: '#74B9FF', description: '计时器、温度转换、性能测试' },
+  'Data': { id: 10, name: '📊 ' + '数据工具', slug: 'data', icon: '📊', color: '#A29BFE', description: '电话号码解析、IBAN验证' },
 }));
 
 // 显示所有分类，每个分类只显示3个工具
@@ -60,7 +58,7 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 
 useHead({
-  title: computed(() => `Tools For You - ${t('home.hero.title')}`)
+  title: computed(() => `Tools For You - ${'为你量身定制'}`)
 });
 
 // Search function
@@ -105,7 +103,7 @@ function getToolName(tool: any) {
           <n-input
             v-model:value="searchQuery"
             size="large"
-            :placeholder="t('search.label')"
+            :placeholder="'搜索'"
             @keyup.enter="handleSearch"
             clearable
           >
@@ -114,7 +112,7 @@ function getToolName(tool: any) {
             </template>
           </n-input>
           <n-button type="primary" size="large" @click="handleSearch">
-            {{ t('search.label') }}
+            {{ '搜索' }}
           </n-button>
         </div>
 
@@ -139,7 +137,7 @@ function getToolName(tool: any) {
       <div class="section-header">
         <h2>
           <n-icon :component="IconTool" />
-          {{ t('home.categories.allTools') }}
+          {{ '全部工具' }}
         </h2>
       </div>
       
@@ -172,7 +170,7 @@ function getToolName(tool: any) {
           </div>
           
           <div class="cat-link">
-            {{ t('home.categories.allTools') }} →
+            {{ '全部工具' }} →
           </div>
         </router-link>
       </div>
@@ -181,7 +179,7 @@ function getToolName(tool: any) {
     <!-- Popular Tools - 精简版 -->
     <section class="section popular-section">
       <div class="section-header">
-        <h2>🔥 {{ t('home.categories.newestTools') }}</h2>
+        <h2>🔥 {{ '最新工具' }}</h2>
       </div>
       
       <div class="tools-grid">
@@ -197,15 +195,15 @@ function getToolName(tool: any) {
     <section class="section ai-cta-compact">
       <div class="ai-cta-content">
         <div class="ai-icon">🤖</div>
-        <h3>{{ t('ai.title') }}</h3>
-        <p>{{ t('ai.description') }}</p>
-        <p class="ai-hint">{{ t('ai.hint') }}</p>
+        <h3>{{ '找不到合适的工具？' }}</h3>
+        <p>{{ '告诉 AI 你需要什么，它会帮你找到最合适的工具' }}</p>
+        <p class="ai-hint">{{ '点击右下角的 💬 按钮开始对话' }}</p>
       </div>
     </section>
 
     <!-- Footer - 精简版 -->
     <footer class="home-footer-compact">
-      <p>{{ t('home.footer.copyright') }} · <router-link to="/about">{{ t('nav.about') }}</router-link> · <router-link to="/contact">{{ t('contact.title') }}</router-link></p>
+      <p>{{ '© 2026 Tools For You' }} · <router-link to="/about">{{ '关于 Tools For You' }}</router-link> · <router-link to="/contact">{{ '联系我们' }}</router-link></p>
     </footer>
     <!-- AI Chat Component -->
     <AIChat api-base-url="http://localhost:8000/api" />

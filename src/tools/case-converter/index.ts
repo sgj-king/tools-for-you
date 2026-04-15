@@ -1,11 +1,9 @@
 import { LetterCaseToggle } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.case-converter.title'),
+  name: '大小写转换',
   path: '/case-converter',
-  description: translate('tools.case-converter.description'),
+  description: '更改字符串的大小写并在不同格式之间进行选择',
   keywords: [
     'case',
     'converter',

@@ -17,8 +17,6 @@ const route = useRoute();
 const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
 const { tracker } = useTracker();
-const { t } = useI18n();
-
 // 获取当前工具信息
 const currentTool = computed(() => {
   const toolPath = route.path;
@@ -80,8 +78,8 @@ function goBack() {
         </div>
         
         <div class="navbar-center">
-          <c-tooltip :tooltip="$t('home.home')" position="bottom">
-            <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+          <c-tooltip :tooltip="'主页'" position="bottom">
+            <c-button to="/" circle variant="text" :aria-label="'主页'">
               <NIcon size="22" :component="Home2" />
             </c-button>
           </c-tooltip>
@@ -117,9 +115,9 @@ function goBack() {
     <main class="main-content">
       <!-- 工具标题区域 -->
       <div class="tool-header">
-        <button class="back-button" @click="goBack" :aria-label="t('common.back') || '返回'">
+        <button class="back-button" @click="goBack" :aria-label="'返回' || '返回'">
           <NIcon size="20" :component="ArrowLeft" />
-          <span class="back-text">{{ t('common.back') || '返回' }}</span>
+          <span class="back-text">{{ '返回' || '返回' }}</span>
         </button>
         <div class="tool-info">
           <h1 class="tool-title">{{ toolTitle }}</h1>

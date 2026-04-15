@@ -11,8 +11,6 @@ import { config } from '@/config';
 const toolStore = useToolStore();
 
 useHead({ title: 'IT Tools - Handy online tools for developers' });
-const { t } = useI18n();
-
 const favoriteTools = computed(() => toolStore.favoriteTools);
 
 // Update favorite tools order when drag is finished
@@ -25,22 +23,22 @@ function onUpdateFavoriteTools() {
   <div class="pt-50px">
     <div class="grid-wrapper">
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
-        <ColoredCard v-if="config.showBanner" :title="$t('home.follow.title')" :icon="IconHeart">
-          {{ $t('home.follow.p1') }}
+        <ColoredCard v-if="config.showBanner" :title="'关注我们'" :icon="IconHeart">
+          {{ '给我们点个 Star' }}
           <a
             href="https://github.com/sgj-king/tools-for-you"
             rel="noopener"
             target="_blank"
-            :aria-label="$t('home.follow.githubRepository')"
+            :aria-label="'GitHub 仓库'"
           >GitHub</a>
-          {{ $t('home.follow.p2') }}
+          {{ '关注我们的' }}
           <a
             href="https://x.com/ittoolsdottech"
             rel="noopener"
             target="_blank"
-            :aria-label="$t('home.follow.twitterXAccount')"
+            :aria-label="'Tools For You X 账号'"
           >X</a>.
-          {{ $t('home.follow.thankYou') }}
+          {{ '感谢您的支持！' }}
           <n-icon :component="IconHeart" />
         </ColoredCard>
       </div>
@@ -48,8 +46,8 @@ function onUpdateFavoriteTools() {
       <transition name="height">
         <div v-if="toolStore.favoriteTools.length > 0">
           <h3 class="mb-5px mt-25px text-neutral-400 font-500">
-            {{ $t('home.categories.favoriteTools') }}
-            <c-tooltip :tooltip="$t('home.categories.favoritesDndToolTip')">
+            {{ '我的收藏' }}
+            <c-tooltip :tooltip="'拖放重新排列收藏夹'">
               <n-icon :component="IconDragDrop" size="18" />
             </c-tooltip>
           </h3>
@@ -69,7 +67,7 @@ function onUpdateFavoriteTools() {
 
       <div v-if="toolStore.newTools.length > 0">
         <h3 class="mb-5px mt-25px text-neutral-400 font-500">
-          {{ t('home.categories.newestTools') }}
+          {{ '最新工具' }}
         </h3>
         <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
           <ToolCard v-for="tool in toolStore.newTools" :key="tool.name" :tool="tool" />
@@ -77,7 +75,7 @@ function onUpdateFavoriteTools() {
       </div>
 
       <h3 class="mb-5px mt-25px text-neutral-400 font-500">
-        {{ $t('home.categories.allTools') }}
+        {{ '全部工具' }}
       </h3>
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
         <ToolCard v-for="tool in toolStore.tools" :key="tool.name" :tool="tool" />

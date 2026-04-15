@@ -23,8 +23,6 @@ const head = computed<HeadObject>(() => ({
   ],
 }));
 useHead(head);
-const { t } = useI18n();
-
 const i18nKey = computed<string>(() => route.path.trim().replace('/', ''));
 const toolTitle = computed<string>(() => t(`tools.${i18nKey.value}.title`, String(route.meta.name)));
 const toolDescription = computed<string>(() => t(`tools.${i18nKey.value}.description`, String(route.meta.description)));

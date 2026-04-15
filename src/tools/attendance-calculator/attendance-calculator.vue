@@ -2,8 +2,6 @@
 import { useStorage } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
-const { t } = useI18n();
-
 // 持久化存储数据
 const totalClasses = ref<number | null>(null);
 const attendedClasses = ref<number | null>(null);
@@ -48,11 +46,11 @@ const status = computed(() => {
   const req = requiredPercentage.value;
   
   if (pct >= req + 10) {
-    return { type: 'success', text: t('tools.attendance-calculator.status.safe'), icon: '✨' };
+    return { type: 'success', text: 'tools.attendance-calculator.status.safe', icon: '✨' };
   } else if (pct >= req) {
-    return { type: 'warning', text: t('tools.attendance-calculator.status.warning'), icon: '⚠️' };
+    return { type: 'warning', text: 'tools.attendance-calculator.status.warning', icon: '⚠️' };
   } else {
-    return { type: 'error', text: t('tools.attendance-calculator.status.danger'), icon: '🚨' };
+    return { type: 'error', text: 'tools.attendance-calculator.status.danger', icon: '🚨' };
   }
 });
 
@@ -89,7 +87,7 @@ function reset() {
               <div text-5xl font-bold :style="{ color: progressColor }">
                 {{ currentPercentage !== null ? currentPercentage.toFixed(1) : '0.0' }}%
               </div>
-              <div text-sm op-60 mt-1>{{ t('tools.attendance-calculator.currentAttendance') }}</div>
+              <div text-sm op-60 mt-1>{{ 'tools.attendance-calculator.currentAttendance' }}</div>
             </div>
           </div>
 
@@ -110,7 +108,7 @@ function reset() {
             <div flex justify-between mt-1>
               <span text-xs op-50>0%</span>
               <span text-xs :style="{ color: `var(--${status?.type}-color)` }">
-                {{ t('tools.attendance-calculator.required') }}: {{ requiredPercentage }}%
+                {{ 'tools.attendance-calculator.required' }}: {{ requiredPercentage }}%
               </span>
               <span text-xs op-50>100%</span>
             </div>
@@ -131,19 +129,19 @@ function reset() {
             <c-card v-if="canBunk !== null && canBunk > 0" bg="success/10" bordered>
               <div text-center>
                 <div text-3xl font-bold text-success>{{ canBunk }}</div>
-                <div text-sm op-70>{{ t('tools.attendance-calculator.canBunk') }}</div>
+                <div text-sm op-70>{{ 'tools.attendance-calculator.canBunk' }}</div>
               </div>
             </c-card>
             <c-card v-if="needToAttend !== null && needToAttend > 0" bg="error/10" bordered>
               <div text-center>
                 <div text-3xl font-bold text-error>{{ needToAttend }}</div>
-                <div text-sm op-70>{{ t('tools.attendance-calculator.needToAttend') }}</div>
+                <div text-sm op-70>{{ 'tools.attendance-calculator.needToAttend' }}</div>
               </div>
             </c-card>
             <c-card v-if="(canBunk === 0 && needToAttend === 0) || (canBunk === 0 && needToAttend === 0)" bg="info/10" bordered col-span-2>
               <div text-center>
                 <div text-3xl font-bold text-info>0</div>
-                <div text-sm op-70>{{ t('tools.attendance-calculator.justEnough') }}</div>
+                <div text-sm op-70>{{ 'tools.attendance-calculator.justEnough' }}</div>
               </div>
             </c-card>
           </div>
@@ -155,12 +153,12 @@ function reset() {
         <div flex flex-col gap-4>
           <!-- 总课程数 -->
           <div>
-            <div text-sm font-medium mb-2>{{ t('tools.attendance-calculator.totalClasses') }}</div>
+            <div text-sm font-medium mb-2>{{ 'tools.attendance-calculator.totalClasses' }}</div>
             <n-input-number
               v-model:value="totalClasses"
               :min="0"
               :max="1000"
-              :placeholder="t('tools.attendance-calculator.totalClassesPlaceholder')"
+              :placeholder="'tools.attendance-calculator.totalClassesPlaceholder'"
               size="large"
               clearable
               style="width: 100%"
@@ -169,12 +167,12 @@ function reset() {
 
           <!-- 已出勤节数 -->
           <div>
-            <div text-sm font-medium mb-2>{{ t('tools.attendance-calculator.attendedClasses') }}</div>
+            <div text-sm font-medium mb-2>{{ 'tools.attendance-calculator.attendedClasses' }}</div>
             <n-input-number
               v-model:value="attendedClasses"
               :min="0"
               :max="totalClasses || 1000"
-              :placeholder="t('tools.attendance-calculator.attendedClassesPlaceholder')"
+              :placeholder="'tools.attendance-calculator.attendedClassesPlaceholder'"
               size="large"
               clearable
               style="width: 100%"
@@ -184,7 +182,7 @@ function reset() {
           <!-- 最低出勤率要求 -->
           <div>
             <div flex justify-between items-center mb-2>
-              <span text-sm font-medium>{{ t('tools.attendance-calculator.requiredPercentage') }}</span>
+              <span text-sm font-medium>{{ 'tools.attendance-calculator.requiredPercentage' }}</span>
               <span text-lg font-bold :style="{ color: `var(--primary-color)` }">{{ requiredPercentage }}%</span>
             </div>
             <n-slider
@@ -209,31 +207,31 @@ function reset() {
 
           <!-- 重置按钮 -->
           <n-button quaternary block @click="reset">
-            {{ t('tools.attendance-calculator.reset') }}
+            {{ 'tools.attendance-calculator.reset' }}
           </n-button>
         </div>
       </c-card>
 
       <!-- 说明卡片 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ t('tools.attendance-calculator.howToUse') }}</div>
+        <div text-lg font-bold mb-3>{{ 'tools.attendance-calculator.howToUse' }}</div>
         <n-list>
           <n-list-item>
             <div flex items-start gap-2>
               <span text-primary font-bold>1.</span>
-              <span>{{ t('tools.attendance-calculator.step1') }}</span>
+              <span>{{ 'tools.attendance-calculator.step1' }}</span>
             </div>
           </n-list-item>
           <n-list-item>
             <div flex items-start gap-2>
               <span text-primary font-bold>2.</span>
-              <span>{{ t('tools.attendance-calculator.step2') }}</span>
+              <span>{{ 'tools.attendance-calculator.step2' }}</span>
             </div>
           </n-list-item>
           <n-list-item>
             <div flex items-start gap-2>
               <span text-primary font-bold>3.</span>
-              <span>{{ t('tools.attendance-calculator.step3') }}</span>
+              <span>{{ 'tools.attendance-calculator.step3' }}</span>
             </div>
           </n-list-item>
         </n-list>

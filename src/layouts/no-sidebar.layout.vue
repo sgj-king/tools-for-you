@@ -15,8 +15,6 @@ const router = useRouter();
 const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
 const { tracker } = useTracker();
-const { t } = useI18n();
-
 // 用户下拉菜单
 const userMenuOptions = [
   {
@@ -58,8 +56,8 @@ function handleUserMenuSelect(key: string) {
         </div>
         
         <div class="navbar-center">
-          <c-tooltip :tooltip="$t('home.home')" position="bottom">
-            <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+          <c-tooltip :tooltip="'主页'" position="bottom">
+            <c-button to="/" circle variant="text" :aria-label="'主页'">
               <NIcon size="22" :component="Home2" />
             </c-button>
           </c-tooltip>

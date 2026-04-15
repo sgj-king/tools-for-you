@@ -1,11 +1,9 @@
 import { Devices } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.mac-address-lookup.title'),
+  name: 'MAC地址查找',
   path: '/mac-address-lookup',
-  description: translate('tools.mac-address-lookup.description'),
+  description: '通过设备的MAC地址查找设备的供应商和制造商。',
   keywords: ['mac', 'address', 'lookup', 'vendor', 'parser', 'manufacturer'],
   component: () => import('./mac-address-lookup.vue'),
   icon: Devices,

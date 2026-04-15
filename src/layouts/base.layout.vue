@@ -20,13 +20,11 @@ const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
 
 const { tracker } = useTracker();
-const { t } = useI18n();
-
 const toolStore = useToolStore();
 const { favoriteTools, toolsByCategory } = storeToRefs(toolStore);
 
 const tools = computed<ToolCategory[]>(() => [
-  ...(favoriteTools.value.length > 0 ? [{ name: t('tools.categories.favorite-tools'), components: favoriteTools.value }] : []),
+  ...(favoriteTools.value.length > 0 ? [{ name: '我的收藏', components: favoriteTools.value }] : []),
   ...toolsByCategory.value,
 ]);
 </script>
@@ -42,7 +40,7 @@ const tools = computed<ToolCategory[]>(() => [
           </div>
           <div class="divider" />
           <div class="subtitle">
-            {{ $t('home.subtitle') }}
+            {{ '为每个人打造的智能工具集' }}
           </div>
         </div>
       </RouterLink>
@@ -93,20 +91,20 @@ const tools = computed<ToolCategory[]>(() => [
         <c-button
           circle
           variant="text"
-          :aria-label="$t('home.toggleMenu')"
+          :aria-label="'切换菜单'"
           @click="styleStore.isMenuCollapsed = !styleStore.isMenuCollapsed"
         >
           <NIcon size="25" :component="Menu2" />
         </c-button>
 
-        <c-tooltip :tooltip="$t('home.home')" position="bottom">
-          <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+        <c-tooltip :tooltip="'主页'" position="bottom">
+          <c-button to="/" circle variant="text" :aria-label="'主页'">
             <NIcon size="25" :component="Home2" />
           </c-button>
         </c-tooltip>
 
-        <c-tooltip :tooltip="$t('home.uiLib')" position="bottom">
-          <c-button v-if="config.app.env === 'development'" to="/c-lib" circle variant="text" :aria-label="$t('home.uiLib')">
+        <c-tooltip :tooltip="'UI 库'" position="bottom">
+          <c-button v-if="config.app.env === 'development'" to="/c-lib" circle variant="text" :aria-label="'UI 库'">
             <icon-mdi:brush-variant text-20px />
           </c-button>
         </c-tooltip>
@@ -119,7 +117,7 @@ const tools = computed<ToolCategory[]>(() => [
           <NavbarButtons v-if="!styleStore.isSmallScreen" />
         </div>
 
-        <c-tooltip position="bottom" :tooltip="$t('home.support')">
+        <c-tooltip position="bottom" :tooltip="'支持 Tools For You 开发'">
           <c-button
             round
             href="https://www.buymeacoffee.com/cthmsst"
@@ -129,7 +127,7 @@ const tools = computed<ToolCategory[]>(() => [
             :bordered="false"
             @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
           >
-            {{ $t('home.buyMeACoffee') }}
+            {{ '赞助' }}
             <NIcon v-if="!styleStore.isSmallScreen" :component="Heart" ml-2 />
           </c-button>
         </c-tooltip>

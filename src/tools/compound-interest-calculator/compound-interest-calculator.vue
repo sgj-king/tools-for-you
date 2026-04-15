@@ -2,8 +2,6 @@
 import { computed, ref } from 'vue';
 import { useStorage } from '@vueuse/core';
 
-const { t } = useI18n();
-
 // 输入参数
 const principal = ref<number | null>(null);
 const annualRate = ref<number | null>(null);
@@ -13,10 +11,10 @@ const monthlyContribution = ref<number>(0);
 
 // 复利频率选项
 const frequencyOptions = [
-  { label: t('tools.compound-interest-calculator.yearly'), value: 'yearly' },
-  { label: t('tools.compound-interest-calculator.quarterly'), value: 'quarterly' },
-  { label: t('tools.compound-interest-calculator.monthly'), value: 'monthly' },
-  { label: t('tools.compound-interest-calculator.daily'), value: 'daily' },
+  { label: 'tools.compound-interest-calculator.yearly', value: 'yearly' },
+  { label: 'tools.compound-interest-calculator.quarterly', value: 'quarterly' },
+  { label: 'tools.compound-interest-calculator.monthly', value: 'monthly' },
+  { label: 'tools.compound-interest-calculator.daily', value: 'daily' },
 ];
 
 // 复利频率映射到实际次数
@@ -104,10 +102,10 @@ const formatCurrency = (value: string) => {
     <div style="margin: 0 auto; max-width: 900px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.compound-interest-calculator.parameters') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.compound-interest-calculator.parameters' }}</div>
         <n-grid :cols="2" :x-gap="16" :y-gap="12" responsive="screen" item-responsive>
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ t('tools.compound-interest-calculator.principal') }}</div>
+            <div mb-1 text-sm op-70>{{ 'tools.compound-interest-calculator.principal' }}</div>
             <n-input-number
               v-model:value="principal"
               :min="0"
@@ -120,7 +118,7 @@ const formatCurrency = (value: string) => {
             </n-input-number>
           </n-gi>
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ t('tools.compound-interest-calculator.annualRate') }}</div>
+            <div mb-1 text-sm op-70>{{ 'tools.compound-interest-calculator.annualRate' }}</div>
             <n-input-number
               v-model:value="annualRate"
               :min="0"
@@ -135,7 +133,7 @@ const formatCurrency = (value: string) => {
             </n-input-number>
           </n-gi>
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ t('tools.compound-interest-calculator.years') }}</div>
+            <div mb-1 text-sm op-70>{{ 'tools.compound-interest-calculator.years' }}</div>
             <n-input-number
               v-model:value="years"
               :min="1"
@@ -146,7 +144,7 @@ const formatCurrency = (value: string) => {
             />
           </n-gi>
           <n-gi span="2 m:1">
-            <div mb-1 text-sm op-70>{{ t('tools.compound-interest-calculator.compoundFrequency') }}</div>
+            <div mb-1 text-sm op-70>{{ 'tools.compound-interest-calculator.compoundFrequency' }}</div>
             <n-select
               v-model:value="compoundFrequency"
               :options="frequencyOptions"
@@ -155,13 +153,13 @@ const formatCurrency = (value: string) => {
             />
           </n-gi>
           <n-gi span="2">
-            <div mb-1 text-sm op-70>{{ t('tools.compound-interest-calculator.monthlyContribution') }}</div>
+            <div mb-1 text-sm op-70>{{ 'tools.compound-interest-calculator.monthlyContribution' }}</div>
             <n-input-number
               v-model:value="monthlyContribution"
               :min="0"
               :step="100"
               size="large"
-              :placeholder="t('tools.compound-interest-calculator.optional')"
+              :placeholder="'tools.compound-interest-calculator.optional'"
               style="width: 100%"
             >
               <template #prefix>¥</template>
@@ -172,46 +170,46 @@ const formatCurrency = (value: string) => {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.compound-interest-calculator.result') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.compound-interest-calculator.result' }}</div>
         <n-grid :cols="3" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-green-fade border-green>
-              <div text-sm op-70 mb-1>{{ t('tools.compound-interest-calculator.finalAmount') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.compound-interest-calculator.finalAmount' }}</div>
               <div text-2xl font-bold text-green-400>¥{{ formatCurrency(result.finalAmount) }}</div>
             </div>
           </n-gi>
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-blue-fade border-blue>
-              <div text-sm op-70 mb-1>{{ t('tools.compound-interest-calculator.totalContributions') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.compound-interest-calculator.totalContributions' }}</div>
               <div text-2xl font-bold text-blue-400>¥{{ formatCurrency(result.totalContributions) }}</div>
             </div>
           </n-gi>
           <n-gi span="3 m:1">
             <div p-4 rounded-lg bg-purple-fade border-purple>
-              <div text-sm op-70 mb-1>{{ t('tools.compound-interest-calculator.totalInterest') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.compound-interest-calculator.totalInterest' }}</div>
               <div text-2xl font-bold text-purple-400>¥{{ formatCurrency(result.totalInterest) }}</div>
             </div>
           </n-gi>
         </n-grid>
         <div mt-4 text-center>
           <n-tag type="info" size="small">
-            {{ t('tools.compound-interest-calculator.effectiveRate') }}: {{ result.effectiveRate }}%
+            {{ 'tools.compound-interest-calculator.effectiveRate' }}: {{ result.effectiveRate }}%
           </n-tag>
         </div>
       </c-card>
 
       <!-- 年度明细表格 -->
       <c-card v-if="yearlyBreakdown.length > 0">
-        <div text-lg font-bold mb-4>{{ t('tools.compound-interest-calculator.yearlyBreakdown') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.compound-interest-calculator.yearlyBreakdown' }}</div>
         <n-scrollbar style="max-height: 400px">
           <n-table :bordered="false" :single-line="false" size="small">
             <thead>
               <tr>
-                <th>{{ t('tools.compound-interest-calculator.tableYear') }}</th>
-                <th>{{ t('tools.compound-interest-calculator.tableStartBalance') }}</th>
-                <th>{{ t('tools.compound-interest-calculator.tableContribution') }}</th>
-                <th>{{ t('tools.compound-interest-calculator.tableInterest') }}</th>
-                <th>{{ t('tools.compound-interest-calculator.tableEndBalance') }}</th>
+                <th>{{ 'tools.compound-interest-calculator.tableYear' }}</th>
+                <th>{{ 'tools.compound-interest-calculator.tableStartBalance' }}</th>
+                <th>{{ 'tools.compound-interest-calculator.tableContribution' }}</th>
+                <th>{{ 'tools.compound-interest-calculator.tableInterest' }}</th>
+                <th>{{ 'tools.compound-interest-calculator.tableEndBalance' }}</th>
               </tr>
             </thead>
             <tbody>
@@ -229,11 +227,11 @@ const formatCurrency = (value: string) => {
 
       <!-- 公式说明 -->
       <c-card mt-4>
-        <div text-lg font-bold mb-3>{{ t('tools.compound-interest-calculator.formula') }}</div>
+        <div text-lg font-bold mb-3>{{ 'tools.compound-interest-calculator.formula' }}</div>
         <div p-4 rounded-lg bg-dark op-90 font-mono text-sm>
           <div>A = P(1 + r/n)^(nt)</div>
           <div mt-2 text-sm op-70>
-            {{ t('tools.compound-interest-calculator.formulaDesc') }}
+            {{ 'tools.compound-interest-calculator.formulaDesc' }}
           </div>
         </div>
       </c-card>

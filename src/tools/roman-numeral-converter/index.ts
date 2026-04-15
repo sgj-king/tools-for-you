@@ -1,11 +1,9 @@
 import { LetterX } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.roman-numeral-converter.title'),
+  name: '罗马数字转换器',
   path: '/roman-numeral-converter',
-  description: translate('tools.roman-numeral-converter.description'),
+  description: '将罗马数字转换为数字，并将数字转换为罗马数字。',
   keywords: ['roman', 'arabic', 'converter', 'X', 'I', 'V', 'L', 'C', 'D', 'M'],
   component: () => import('./roman-numeral-converter.vue'),
   icon: LetterX,

@@ -1,11 +1,9 @@
 import { Qrcode } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.qrcode-generator.title'),
+  name: '二维码生成器',
   path: '/qrcode-generator',
-  description: translate('tools.qrcode-generator.description'),
+  description: '为 URL 或文本生成并下载二维码，并可自定义前景色和背景色。',
   keywords: ['qr', 'code', 'generator', 'square', 'color', 'link', 'low', 'medium', 'quartile', 'high', 'transparent'],
   component: () => import('./qr-code-generator.vue'),
   icon: Qrcode,

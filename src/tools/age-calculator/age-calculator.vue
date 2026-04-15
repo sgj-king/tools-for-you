@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const { t } = useI18n();
-
 // 出生日期
 const birthDate = ref<Date | null>(null);
 
@@ -143,15 +141,15 @@ function formatNumber(num: number): string {
     <div style="margin: 0 auto; max-width: 800px">
       <!-- 输入参数卡片 -->
       <c-card mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.age-calculator.parameters') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.age-calculator.parameters' }}</div>
         
         <!-- 出生日期选择 -->
         <div>
-          <div mb-1 text-sm op-70>{{ t('tools.age-calculator.birthDate') }}</div>
+          <div mb-1 text-sm op-70>{{ 'tools.age-calculator.birthDate' }}</div>
           <n-date-picker
             v-model:value="birthDate"
             type="date"
-            :placeholder="t('tools.age-calculator.birthPlaceholder')"
+            :placeholder="'tools.age-calculator.birthPlaceholder'"
             style="width: 100%"
             size="large"
           />
@@ -160,15 +158,15 @@ function formatNumber(num: number): string {
 
       <!-- 结果展示 -->
       <c-card v-if="result" mb-4>
-        <div text-lg font-bold mb-4>{{ t('tools.age-calculator.result') }}</div>
+        <div text-lg font-bold mb-4>{{ 'tools.age-calculator.result' }}</div>
         
         <!-- 主要年龄显示 -->
         <div mb-6 p-6 rounded-xl bg-gradient-primary text-center>
-          <div text-sm op-80 mb-2>{{ t('tools.age-calculator.yourAge') }}</div>
+          <div text-sm op-80 mb-2>{{ 'tools.age-calculator.yourAge' }}</div>
           <div text-5xl font-bold mb-2>
-            {{ result.years }}<span text-2xl op-70>{{ t('tools.age-calculator.years') }}</span>
-            {{ result.months }}<span text-2xl op-70>{{ t('tools.age-calculator.months') }}</span>
-            {{ result.days }}<span text-2xl op-70>{{ t('tools.age-calculator.days') }}</span>
+            {{ result.years }}<span text-2xl op-70>{{ 'tools.age-calculator.years' }}</span>
+            {{ result.months }}<span text-2xl op-70>{{ 'tools.age-calculator.months' }}</span>
+            {{ result.days }}<span text-2xl op-70>{{ 'tools.age-calculator.days' }}</span>
           </div>
           <div text-sm op-70>{{ t('tools.age-calculator.bornOn', { day: result.birthDayOfWeek }) }}</div>
         </div>
@@ -178,28 +176,28 @@ function formatNumber(num: number): string {
           <!-- 总天数 -->
           <n-gi span="1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.totalDays') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.totalDays' }}</div>
               <div text-xl font-bold>{{ formatNumber(result.totalDays) }}</div>
             </div>
           </n-gi>
           <!-- 总周数 -->
           <n-gi span="1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.totalWeeks') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.totalWeeks' }}</div>
               <div text-xl font-bold>{{ formatNumber(result.totalWeeks) }}</div>
             </div>
           </n-gi>
           <!-- 总月数 -->
           <n-gi span="1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.totalMonths') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.totalMonths' }}</div>
               <div text-xl font-bold>{{ formatNumber(result.totalMonths) }}</div>
             </div>
           </n-gi>
           <!-- 总小时数 -->
           <n-gi span="1">
             <div p-4 rounded-lg bg-dark-200>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.totalHours') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.totalHours' }}</div>
               <div text-xl font-bold>{{ formatNumber(result.totalHours) }}</div>
             </div>
           </n-gi>
@@ -209,14 +207,14 @@ function formatNumber(num: number): string {
         <div mt-4 p-5 rounded-xl bg-birthday border-birthday>
           <div flex items-center justify-between>
             <div>
-              <div text-sm op-70 mb-1>{{ t('tools.age-calculator.nextBirthday') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.age-calculator.nextBirthday' }}</div>
               <div text-2xl font-bold>
                 <span text-pink-400>{{ result.daysToNextBirthday }}</span>
-                <span text-sm op-70 ml-1>{{ t('tools.age-calculator.daysLeft') }}</span>
+                <span text-sm op-70 ml-1>{{ 'tools.age-calculator.daysLeft' }}</span>
               </div>
             </div>
             <div text-right>
-              <div text-sm op-70 mb-1>{{ t('tools.age-calculator.turningAge') }}</div>
+              <div text-sm op-70 mb-1>{{ 'tools.age-calculator.turningAge' }}</div>
               <div text-2xl font-bold text-pink-400>{{ result.nextBirthdayAge }}</div>
             </div>
           </div>
@@ -226,13 +224,13 @@ function formatNumber(num: number): string {
         <n-grid :cols="2" :x-gap="12" mt-4>
           <n-gi>
             <div p-4 rounded-lg bg-zodiac border-zodiac text-center>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.zodiac') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.zodiac' }}</div>
               <div text-lg font-bold>{{ result.zodiacSign }}</div>
             </div>
           </n-gi>
           <n-gi>
             <div p-4 rounded-lg bg-chinese-zodiac border-chinese-zodiac text-center>
-              <div text-xs op-60 mb-1>{{ t('tools.age-calculator.chineseZodiac') }}</div>
+              <div text-xs op-60 mb-1>{{ 'tools.age-calculator.chineseZodiac' }}</div>
               <div text-lg font-bold>属{{ result.chineseZodiac }}</div>
             </div>
           </n-gi>
@@ -240,29 +238,29 @@ function formatNumber(num: number): string {
 
         <!-- 生活统计 -->
         <div mt-6>
-          <div text-lg font-bold mb-3>{{ t('tools.age-calculator.lifeStats') }}</div>
+          <div text-lg font-bold mb-3>{{ 'tools.age-calculator.lifeStats' }}</div>
           <n-grid :cols="2" :x-gap="12" :y-gap="12" responsive="screen" item-responsive>
             <n-gi span="1">
               <div p-4 rounded-lg bg-stats-heartbeat border-stats-heartbeat>
-                <div text-xs op-60 mb-1>{{ t('tools.age-calculator.heartbeats') }}</div>
+                <div text-xs op-60 mb-1>{{ 'tools.age-calculator.heartbeats' }}</div>
                 <div text-xl font-bold text-red-400>❤️ {{ formatNumber(result.heartbeats) }}</div>
               </div>
             </n-gi>
             <n-gi span="1">
               <div p-4 rounded-lg bg-stats-breath border-stats-breath>
-                <div text-xs op-60 mb-1>{{ t('tools.age-calculator.breaths') }}</div>
+                <div text-xs op-60 mb-1>{{ 'tools.age-calculator.breaths' }}</div>
                 <div text-xl font-bold text-cyan-400>💨 {{ formatNumber(result.breaths) }}</div>
               </div>
             </n-gi>
             <n-gi span="1">
               <div p-4 rounded-lg bg-stats-laugh>
-                <div text-xs op-60 mb-1>{{ t('tools.age-calculator.laughs') }}</div>
+                <div text-xs op-60 mb-1>{{ 'tools.age-calculator.laughs' }}</div>
                 <div text-xl font-bold text-yellow-400>😄 {{ formatNumber(result.laughs) }}</div>
               </div>
             </n-gi>
             <n-gi span="1">
               <div p-4 rounded-lg bg-stats-dream>
-                <div text-xs op-60 mb-1>{{ t('tools.age-calculator.dreams') }}</div>
+                <div text-xs op-60 mb-1>{{ 'tools.age-calculator.dreams' }}</div>
                 <div text-xl font-bold text-purple-400>💤 {{ formatNumber(result.dreams) }}</div>
               </div>
             </n-gi>
@@ -272,11 +270,11 @@ function formatNumber(num: number): string {
 
       <!-- 使用说明 -->
       <c-card>
-        <div text-lg font-bold mb-3>{{ t('tools.age-calculator.howToUse') }}</div>
+        <div text-lg font-bold mb-3>{{ 'tools.age-calculator.howToUse' }}</div>
         <n-ul>
-          <n-li>{{ t('tools.age-calculator.step1') }}</n-li>
-          <n-li>{{ t('tools.age-calculator.step2') }}</n-li>
-          <n-li>{{ t('tools.age-calculator.step3') }}</n-li>
+          <n-li>{{ 'tools.age-calculator.step1' }}</n-li>
+          <n-li>{{ 'tools.age-calculator.step2' }}</n-li>
+          <n-li>{{ 'tools.age-calculator.step3' }}</n-li>
         </n-ul>
       </c-card>
     </div>

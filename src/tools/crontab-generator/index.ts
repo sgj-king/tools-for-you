@@ -1,11 +1,9 @@
 import { Alarm } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.crontab-generator.title'),
+  name: 'Crontab 生成器',
   path: '/crontab-generator',
-  description: translate('tools.crontab-generator.description'),
+  description: '校验并生成 crontab 表达式，并查看可读的定时说明。',
   keywords: [
     'crontab',
     'generator',

@@ -1,11 +1,9 @@
 import { Cash } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.tip-calculator.title'),
+  name: 'tools.tip-calculator.title',
   path: '/tip-calculator',
-  description: translate('tools.tip-calculator.description'),
+  description: 'tools.tip-calculator.description',
   keywords: [
     'tip',
     'gratuity',

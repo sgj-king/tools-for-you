@@ -1,11 +1,9 @@
 import { TextWrap } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.text-to-unicode.title'),
+  name: '文本转 Unicode',
   path: '/text-to-unicode',
-  description: translate('tools.text-to-unicode.description'),
+  description: '将文本转换为 Unicode，或从 Unicode 还原为文本。',
   keywords: ['text', 'to', 'unicode'],
   component: () => import('./text-to-unicode.vue'),
   icon: TextWrap,

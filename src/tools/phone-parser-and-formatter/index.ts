@@ -1,11 +1,9 @@
 import { Phone } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.phone-parser-and-formatter.title'),
+  name: '电话分析器和格式化程序',
   path: '/phone-parser-and-formatter',
-  description: translate('tools.phone-parser-and-formatter.description'),
+  description: '解析、验证和格式化电话号码。获取有关电话号码的信息，如国家/地区代码、类型等。',
   keywords: [
     'phone',
     'parser',

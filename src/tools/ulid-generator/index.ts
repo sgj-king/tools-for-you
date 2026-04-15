@@ -1,11 +1,9 @@
 import { SortDescendingNumbers } from '@vicons/tabler';
 import { defineTool } from '../tool';
-import { translate } from '@/plugins/i18n.plugin';
-
 export const tool = defineTool({
-  name: translate('tools.ulid-generator.title'),
+  name: 'ULID 生成器',
   path: '/ulid-generator',
-  description: translate('tools.ulid-generator.description'),
+  description: '生成随机的通用唯一字典序可排序标识符（ULID）。',
   keywords: ['ulid', 'generator', 'random', 'id', 'alphanumeric', 'identity', 'token', 'string', 'identifier', 'unique'],
   component: () => import('./ulid-generator.vue'),
   icon: SortDescendingNumbers,
