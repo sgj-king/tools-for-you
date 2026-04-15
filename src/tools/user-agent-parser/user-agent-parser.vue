@@ -105,9 +105,9 @@ const sections: UserAgentResultSection[] = [
   <div>
     <c-input-text
       v-model:value="ua"
-      label="User agent string"
+      label="User-Agent 字符串"
       multiline
-      placeholder="Put your user-agent here..."
+      placeholder="在此输入 User-Agent..."
       clearable
       raw-text
       rows="2"

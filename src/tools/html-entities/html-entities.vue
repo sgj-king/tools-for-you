@@ -14,22 +14,22 @@ const { copy: copyUnescaped } = useCopy({ source: unescapeOutput });
 
 <template>
   <c-card title="转义 HTML 实体">
-    <n-form-item label="Your string :">
+    <n-form-item label="您的字符串：">
       <c-input-text
         v-model:value="escapeInput"
         multiline
-        placeholder="The string to escape"
+        placeholder="要转义的字符串"
         rows="3"
         autosize
         raw-text
       />
     </n-form-item>
 
-    <n-form-item label="Your string escaped :">
+    <n-form-item label="转义后的字符串：">
       <c-input-text
         multiline
         readonly
-        placeholder="Your string escaped"
+        placeholder="转义后的字符串"
         :value="escapeOutput"
         rows="3"
         autosize
@@ -43,23 +43,23 @@ const { copy: copyUnescaped } = useCopy({ source: unescapeOutput });
     </div>
   </c-card>
   <c-card title="反转义 HTML 实体">
-    <n-form-item label="Your escaped string :">
+    <n-form-item label="转义后的字符串：">
       <c-input-text
         v-model:value="unescapeInput"
         multiline
-        placeholder="The string to unescape"
+        placeholder="要反转义的字符串"
         rows="3"
         autosize
         raw-text
       />
     </n-form-item>
 
-    <n-form-item label="Your string unescaped :">
+    <n-form-item label="反转义后的字符串：">
       <c-input-text
         :value="unescapeOutput"
         multiline
         readonly
-        placeholder="Your string unescaped"
+        placeholder="反转义后的字符串"
         rows="3"
         autosize
       />

@@ -84,16 +84,16 @@ async function onUpload(file: File) {
       <n-gi span="2">
         <c-input-text
           v-model:value="fileName"
-          label="File Name"
-          placeholder="Download filename"
+          label="文件名"
+          placeholder="下载文件名"
           mb-2
         />
       </n-gi>
       <n-gi>
         <c-input-text
           v-model:value="fileExtension"
-          label="Extension"
-          placeholder="Extension"
+          label="扩展名"
+          placeholder="扩展名"
           mb-2
         />
       </n-gi>
@@ -101,7 +101,7 @@ async function onUpload(file: File) {
     <c-input-text
       v-model:value="base64Input"
       multiline
-      placeholder="Put your base64 file string here..."
+      placeholder="在此输入 Base64 文件字符串..."
       rows="5"
       :validation="base64InputValidation"
       mb-2
@@ -123,7 +123,7 @@ async function onUpload(file: File) {
 
   <c-card title="文件转 Base64">
     <c-file-upload title="拖放文件到此处，或点击选择文件" @file-upload="onUpload" />
-    <c-input-text :value="fileBase64" multiline readonly placeholder="File in base64 will be here" rows="5" my-2 />
+    <c-input-text :value="fileBase64" multiline readonly placeholder="文件的 Base64 将在此显示" rows="5" my-2 />
 
     <div flex justify-center>
       <c-button @click="copyFileBase64()">

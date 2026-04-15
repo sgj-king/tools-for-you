@@ -12,7 +12,7 @@ const { copy } = useCopy({ source: natoText, text: 'NATO alphabet string copied.
     <c-input-text
       v-model:value="input"
       label="Your text to convert to NATO phonetic alphabet"
-      placeholder="Put your text here..."
+      placeholder="在此输入文本..."
       clearable
       mb-5
     />

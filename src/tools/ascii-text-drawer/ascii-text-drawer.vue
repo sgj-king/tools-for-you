@@ -44,8 +44,8 @@ const fonts = ['1Row', '3-D', '3D Diagonal', '3D-ASCII', '3x5', '4Max', '5 Line 
   <c-card style="max-width: 600px;">
     <c-input-text
       v-model:value="input"
-      label="Your text:"
-      placeholder="Your text to draw"
+      label="您的文本："
+      placeholder="要绘制的文本"
       raw-text
       multiline
       rows="4"
@@ -58,15 +58,15 @@ const fonts = ['1Row', '3-D', '3D Diagonal', '3D-ASCII', '3x5', '4Max', '5 Line 
         <c-select
           v-model:value="font"
           label-position="top"
-          label="Font:"
+          label="字体："
           :options="fonts"
           searchable="true"
-          placeholder="Select font to use"
+          placeholder="选择字体"
         />
       </n-gi>
       <n-gi span="2">
-        <n-form-item label="Width:" label-placement="top" label-width="100" :show-feedback="false">
-          <n-input-number v-model:value="width" min="0" max="10000" w-full placeholder="Width of the text" />
+        <n-form-item label="宽度：" label-placement="top" label-width="100" :show-feedback="false">
+          <n-input-number v-model:value="width" min="0" max="10000" w-full placeholder="文本宽度" />
         </n-form-item>
       </n-gi>
     </n-grid>
@@ -82,7 +82,7 @@ const fonts = ['1Row', '3-D', '3D Diagonal', '3D-ASCII', '3x5', '4Max', '5 Line 
       Current settings resulted in error.
     </c-alert>
 
-    <n-form-item v-if="!processing && !errored" label="Ascii Art text:">
+    <n-form-item v-if="!processing && !errored" label="ASCII 艺术文本：">
       <TextareaCopyable
         :value="output"
         mb-1 mt-1

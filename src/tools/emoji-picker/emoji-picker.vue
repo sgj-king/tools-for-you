@@ -43,7 +43,7 @@ const { searchResult } = useFuzzySearch({
     <div flex items-center gap-3>
       <c-input-text
         v-model:value="searchQuery"
-        placeholder="Search emojis (e.g. 'smile')..."
+        placeholder="搜索表情（如：'smile'）..."
         mx-auto max-w-600px
       >
         <template #prefix>

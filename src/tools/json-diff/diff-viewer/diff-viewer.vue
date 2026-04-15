@@ -20,7 +20,7 @@ const showResults = computed(() => !_.isUndefined(leftJson.value) && !_.isUndefi
 <template>
   <div v-if="showResults">
     <div flex justify-center>
-      <n-form-item label="Only show differences" label-placement="left">
+      <n-form-item label="仅显示差异" label-placement="left">
         <n-switch v-model:value="onlyShowDifferences" />
       </n-form-item>
     </div>

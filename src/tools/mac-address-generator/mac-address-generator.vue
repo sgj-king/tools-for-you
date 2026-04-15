@@ -61,7 +61,7 @@ const { copy } = useCopy({ source: macAddresses, text: 'MAC addresses copied to 
     <c-input-text
       v-model:value="macAddressPrefix"
       label="MAC address prefix:"
-      placeholder="Set a prefix, e.g. 64:16:7F"
+      placeholder="设置前缀，如：64:16:7F"
       clearable
       label-position="left"
       spellcheck="false"
@@ -74,7 +74,7 @@ const { copy } = useCopy({ source: macAddresses, text: 'MAC addresses copied to 
     <c-buttons-select
       v-model:value="caseTransformer"
       :options="casesTransformers"
-      label="Case:"
+      label="大小写："
       label-width="150px"
       label-align="right"
     />
@@ -82,7 +82,7 @@ const { copy } = useCopy({ source: macAddresses, text: 'MAC addresses copied to 
     <c-buttons-select
       v-model:value="separator"
       :options="separators"
-      label="Separator:"
+      label="分隔符："
       label-width="150px"
       label-align="right"
     />

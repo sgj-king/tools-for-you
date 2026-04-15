@@ -25,7 +25,7 @@ const codesByCategoryFiltered = computed(() => {
   <div>
     <c-input-text
       v-model:value="search"
-      placeholder="Search http status..."
+      placeholder="搜索 HTTP 状态码..."
       autofocus raw-text mb-10
     />
 

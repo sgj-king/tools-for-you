@@ -130,18 +130,18 @@ function downloadMedia({ type, value, createdAt }: Media) {
           v-model:value="currentCamera"
           label-position="left"
           label-width="60px"
-          label="Video:"
+          label="视频："
           :options="cameras.map(({ deviceId, label }) => ({ value: deviceId, label }))"
-          placeholder="Select camera"
+          placeholder="选择摄像头"
         />
         <c-select
           v-if="currentMicrophone && microphones.length > 0"
           v-model:value="currentMicrophone"
-          label="Audio:"
+          label="音频："
           label-position="left"
           label-width="60px"
           :options="microphones.map(({ deviceId, label }) => ({ value: deviceId, label }))"
-          placeholder="Select microphone"
+          placeholder="选择麦克风"
         />
       </div>
 

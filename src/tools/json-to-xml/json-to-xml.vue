@@ -4,7 +4,7 @@ import JSON5 from 'json5';
 import { withDefaultOnError } from '@/utils/defaults';
 import type { UseValidationRule } from '@/composable/validation';
 
-const defaultValue = '{"a":{"_attributes":{"x":"1.234","y":"It\'s"}}}';
+const defaultValue = '{"a":{"_attributes":{"x":"1.234","y":"它"}}}';
 function transformer(value: string) {
   return withDefaultOnError(() => {
     return convert.js2xml(JSON5.parse(value), { compact: true });
@@ -23,8 +23,8 @@ const rules: UseValidationRule<string>[] = [
   <format-transformer
     input-label="Your JSON content"
     :input-default="defaultValue"
-    input-placeholder="Paste your JSON content here..."
-    output-label="Converted XML"
+    input-placeholder="在此粘贴 JSON 内容..."
+    output-label="转换后的 XML"
     output-language="xml"
     :transformer="transformer"
     :input-validation-rules="rules"

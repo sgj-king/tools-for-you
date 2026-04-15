@@ -93,7 +93,7 @@ const inputLabelAlignmentConfig = {
   <c-card>
     <c-input-text
       v-model:value="input"
-      label="Your string:"
+      label="您的字符串："
       placeholder="您的字符串..."
       raw-text
       v-bind="inputLabelAlignmentConfig"

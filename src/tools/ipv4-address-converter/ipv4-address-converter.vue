@@ -40,7 +40,7 @@ const { attrs: validationAttrs } = useValidation({
 
 <template>
   <div>
-    <c-input-text v-model:value="rawIpAddress" label="The ipv4 address:" placeholder="IPv4 地址..." />
+    <c-input-text v-model:value="rawIpAddress" label="IPv4 地址：" placeholder="IPv4 地址..." />
 
     <n-divider />
 
@@ -53,7 +53,7 @@ const { attrs: validationAttrs } = useValidation({
       label-align="right"
       mb-2
       :value="validationAttrs.validationStatus === 'error' ? '' : value"
-      placeholder="Set a correct ipv4 address"
+      placeholder="设置正确的 IPv4 地址"
     />
   </div>
 </template>

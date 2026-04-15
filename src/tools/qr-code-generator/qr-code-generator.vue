@@ -32,23 +32,23 @@ const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-c
           label-position="left"
           label-width="130px"
           label-align="right"
-          label="Text:"
+          label="文本："
           multiline
           rows="1"
           autosize
-          placeholder="Your link or text..."
+          placeholder="您的链接或文本..."
           mb-6
         />
         <n-form label-width="130" label-placement="left">
-          <n-form-item label="Foreground color:">
+          <n-form-item label="前景颜色：">
             <n-color-picker v-model:value="foreground" :modes="['hex']" />
           </n-form-item>
-          <n-form-item label="Background color:">
+          <n-form-item label="背景颜色：">
             <n-color-picker v-model:value="background" :modes="['hex']" />
           </n-form-item>
           <c-select
             v-model:value="errorCorrectionLevel"
-            label="Error resistance:"
+            label="纠错级别："
             label-position="left"
             label-width="130px"
             label-align="right"

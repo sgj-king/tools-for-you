@@ -31,7 +31,7 @@ function printHtml() {
 
     <n-divider />
 
-    <n-form-item label="Output HTML:">
+    <n-form-item label="输出 HTML：">
       <TextareaCopyable :value="outputHtml" :word-wrap="true" language="html" />
     </n-form-item>
 

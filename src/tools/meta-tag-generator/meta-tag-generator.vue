@@ -83,7 +83,7 @@ const metaTags = computed(() => {
     </div>
   </div>
   <div>
-    <n-form-item label="Your meta tags">
+    <n-form-item label="您的 meta 标签">
       <TextareaCopyable :value="metaTags" language="html" />
     </n-form-item>
   </div>

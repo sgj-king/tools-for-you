@@ -27,7 +27,7 @@ const { copy } = useCopy({ source: normalizedEmails, text: 'Normalized emails co
     </div>
     <c-input-text
       v-model:value="emails"
-      placeholder="Put your emails here (one per line)..."
+      placeholder="在此输入邮箱（每行一个）..."
       rows="3"
       multiline
       autocomplete="off"
@@ -43,7 +43,7 @@ const { copy } = useCopy({ source: normalizedEmails, text: 'Normalized emails co
     </div>
     <c-input-text
       :value="normalizedEmails"
-      placeholder="Normalized emails will appear here..."
+      placeholder="规范化后的邮箱将在此显示..."
       rows="3"
       autocomplete="off"
       autocorrect="off"

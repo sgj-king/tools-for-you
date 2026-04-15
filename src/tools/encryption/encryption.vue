@@ -23,23 +23,23 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
     <div flex gap-3>
       <c-input-text
         v-model:value="cypherInput"
-        label="Your text:"
+        label="您的文本："
         placeholder="要加密的字符串"
         rows="4"
         multiline raw-text monospace autosize flex-1
       />
       <div flex flex-1 flex-col gap-2>
-        <c-input-text v-model:value="cypherSecret" label="Your secret key:" clearable raw-text />
+        <c-input-text v-model:value="cypherSecret" label="您的密钥：" clearable raw-text />
 
         <c-select
           v-model:value="cypherAlgo"
-          label="Encryption algorithm:"
+          label="加密算法："
           :options="Object.keys(algos).map((label) => ({ label, value: label }))"
         />
       </div>
     </div>
     <c-input-text
-      label="Your text encrypted:"
+      label="加密后的文本："
       :value="cypherOutput"
       rows="3"
       placeholder="您的字符串哈希"
@@ -50,17 +50,17 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
     <div flex gap-3>
       <c-input-text
         v-model:value="decryptInput"
-        label="Your encrypted text:"
+        label="加密后的文本："
         placeholder="要加密的字符串"
         rows="4"
         multiline raw-text monospace autosize flex-1
       />
       <div flex flex-1 flex-col gap-2>
-        <c-input-text v-model:value="decryptSecret" label="Your secret key:" clearable raw-text />
+        <c-input-text v-model:value="decryptSecret" label="您的密钥：" clearable raw-text />
 
         <c-select
           v-model:value="decryptAlgo"
-          label="Encryption algorithm:"
+          label="加密算法："
           :options="Object.keys(algos).map((label) => ({ label, value: label }))"
         />
       </div>
@@ -70,7 +70,7 @@ const [decryptOutput, decryptError] = computedCatch(() => algos[decryptAlgo.valu
     </c-alert>
     <c-input-text
       v-else
-      label="Your decrypted text:"
+      label="解密后的文本："
       :value="decryptOutput"
       placeholder="您的字符串哈希"
       rows="3"

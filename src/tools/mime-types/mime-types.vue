@@ -31,7 +31,7 @@ const mimeTypeFound = computed(() => (selectedExtension.value ? extensionToMimeT
       searchable
       my-4
       :options="mimeToExtensionsOptions"
-      placeholder="Select your mimetype here... (ex: application/pdf)"
+      placeholder="选择 MIME 类型（如：application/pdf）"
     />
 
     <div v-if="extensionsFound.length > 0">
@@ -65,7 +65,7 @@ const mimeTypeFound = computed(() => (selectedExtension.value ? extensionToMimeT
       searchable
       my-4
       :options="extensionToMimeTypeOptions"
-      placeholder="Select your mimetype here... (ex: application/pdf)"
+      placeholder="选择 MIME 类型（如：application/pdf）"
     />
 
     <div v-if="selectedExtension">

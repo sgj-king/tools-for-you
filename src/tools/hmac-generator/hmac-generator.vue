@@ -47,20 +47,20 @@ const { copy } = useCopy({ source: hmac });
 
 <template>
   <div flex flex-col gap-4>
-    <c-input-text v-model:value="plainText" multiline raw-text placeholder="Plain text to compute the hash..." rows="3" autosize autofocus label="Plain text to compute the hash" />
-    <c-input-text v-model:value="secret" raw-text placeholder="Enter the secret key..." label="密钥" clearable />
+    <c-input-text v-model:value="plainText" multiline raw-text placeholder="要计算哈希的明文..." rows="3" autosize autofocus label="要计算哈希的明文" />
+    <c-input-text v-model:value="secret" raw-text placeholder="输入密钥..." label="密钥" clearable />
 
     <div flex gap-2>
       <c-select
-        v-model:value="hashFunction" label="Hashing function"
+        v-model:value="hashFunction" label="哈希函数"
         flex-1
-        placeholder="Select an hashing function..."
+        placeholder="选择哈希函数..."
         :options="Object.keys(algos).map((label) => ({ label, value: label }))"
       />
       <c-select
-        v-model:value="encoding" label="Output encoding"
+        v-model:value="encoding" label="输出编码"
         flex-1
-        placeholder="Select the result encoding..."
+        placeholder="选择结果编码..."
         :options="[
           {
             label: 'Binary (base 2)',

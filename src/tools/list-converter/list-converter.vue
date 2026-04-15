@@ -41,14 +41,14 @@ function transformer(value: string) {
       <c-card>
         <div flex>
           <div>
-            <n-form-item label="Trim list items" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+            <n-form-item label="修剪列表项" label-placement="left" label-width="150" :show-feedback="false" mb-2>
               <n-switch v-model:value="conversionConfig.trimItems" />
             </n-form-item>
-            <n-form-item label="Remove duplicates" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+            <n-form-item label="去除重复" label-placement="left" label-width="150" :show-feedback="false" mb-2>
               <n-switch v-model:value="conversionConfig.removeDuplicates" data-test-id="removeDuplicates" />
             </n-form-item>
             <n-form-item
-              label="Convert to lowercase"
+              label="转换为小写"
               label-placement="left"
               label-width="150"
               :show-feedback="false"
@@ -56,14 +56,14 @@ function transformer(value: string) {
             >
               <n-switch v-model:value="conversionConfig.lowerCase" />
             </n-form-item>
-            <n-form-item label="Keep line breaks" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+            <n-form-item label="保留换行" label-placement="left" label-width="150" :show-feedback="false" mb-2>
               <n-switch v-model:value="conversionConfig.keepLineBreaks" />
             </n-form-item>
           </div>
           <div flex-1>
             <c-select
               v-model:value="conversionConfig.sortList"
-              label="Sort list"
+              label="排序列表"
               label-position="left"
               label-width="120px"
               label-align="right"
@@ -72,12 +72,12 @@ function transformer(value: string) {
               w-full
               :disabled="conversionConfig.reverseList"
               data-test-id="sortList"
-              placeholder="Sort alphabetically"
+              placeholder="按字母排序"
             />
 
             <c-input-text
               v-model:value="conversionConfig.separator"
-              label="Separator"
+              label="分隔符"
               label-position="left"
               label-width="120px"
               label-align="right"
@@ -85,27 +85,27 @@ function transformer(value: string) {
               placeholder=","
             />
 
-            <n-form-item label="Wrap item" label-placement="left" label-width="120" :show-feedback="false" mb-2>
+            <n-form-item label="包裹项目" label-placement="left" label-width="120" :show-feedback="false" mb-2>
               <c-input-text
                 v-model:value="conversionConfig.itemPrefix"
-                placeholder="Item prefix"
+                placeholder="项目前缀"
                 test-id="itemPrefix"
               />
               <c-input-text
                 v-model:value="conversionConfig.itemSuffix"
-                placeholder="Item suffix"
+                placeholder="项目后缀"
                 test-id="itemSuffix"
               />
             </n-form-item>
-            <n-form-item label="Wrap list" label-placement="left" label-width="120" :show-feedback="false" mb-2>
+            <n-form-item label="包裹列表" label-placement="left" label-width="120" :show-feedback="false" mb-2>
               <c-input-text
                 v-model:value="conversionConfig.listPrefix"
-                placeholder="List prefix"
+                placeholder="列表前缀"
                 test-id="listPrefix"
               />
               <c-input-text
                 v-model:value="conversionConfig.listSuffix"
-                placeholder="List suffix"
+                placeholder="列表后缀"
                 test-id="listSuffix"
               />
             </n-form-item>
@@ -115,9 +115,9 @@ function transformer(value: string) {
     </div>
   </div>
   <format-transformer
-    input-label="Your input data"
-    input-placeholder="Paste your input data here..."
-    output-label="Your transformed data"
+    input-label="您的输入数据"
+    input-placeholder="在此粘贴输入数据..."
+    output-label="转换后的数据"
     :transformer="transformer"
   />
 </template>

@@ -58,7 +58,7 @@ const ibanExamples = [
 
 <template>
   <div>
-    <c-input-text v-model:value="rawIban" placeholder="Enter an IBAN to check for validity..." test-id="iban-input" />
+    <c-input-text v-model:value="rawIban" placeholder="输入 IBAN 进行验证..." test-id="iban-input" />
 
     <c-card v-if="ibanInfo.length > 0" mt-5>
       <c-key-value-list :items="ibanInfo" data-test-id="iban-info" />

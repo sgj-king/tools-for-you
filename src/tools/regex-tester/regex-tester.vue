@@ -112,16 +112,16 @@ watchEffect(
           <span title="不区分大小写搜索">不区分大小写搜索。(<code>i</code>)</span>
         </n-checkbox>
         <n-checkbox v-model:checked="multiline">
-          <span title="Allows ^ and $ to match next to newline characters.">Multiline(<code>m</code>)</span>
+          <span title="允许 ^ 和 $ 匹配换行符相邻位置。">Multiline(<code>m</code>)</span>
         </n-checkbox>
         <n-checkbox v-model:checked="dotAll">
-          <span title="Allows . to match newline characters.">Singleline(<code>s</code>)</span>
+          <span title="允许 . 匹配换行符。">Singleline(<code>s</code>)</span>
         </n-checkbox>
         <n-checkbox v-model:checked="unicode">
           <span title="Unicode; treat a pattern as a sequence of Unicode code points.">Unicode(<code>u</code>)</span>
         </n-checkbox>
         <n-checkbox v-model:checked="unicodeSets">
-          <span title="An upgrade to the u mode with more Unicode features.">Unicode Sets (<code>v</code>)</span>
+          <span title="u 模式的升级版，提供更多 Unicode 功能。">Unicode Sets (<code>v</code>)</span>
         </n-checkbox>
       </n-space>
 
@@ -129,7 +129,7 @@ watchEffect(
 
       <c-input-text
         v-model:value="text"
-        label="Text to match:"
+        label="要匹配的文本："
         placeholder="输入要匹配的文本"
         multiline
         rows="5"

@@ -28,8 +28,8 @@ const properties: { title: string; key: keyof URL }[] = [
   <c-card>
     <c-input-text
       v-model:value="urlToParse"
-      label="Your url to parse:"
-      placeholder="Your url to parse..."
+      label="要解析的 URL："
+      placeholder="要解析的 URL..."
       raw-text
       :validation-rules="urlValidationRules"
     />

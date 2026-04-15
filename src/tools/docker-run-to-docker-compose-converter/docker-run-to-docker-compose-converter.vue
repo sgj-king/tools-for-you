@@ -32,12 +32,12 @@ const { download } = useDownloadFileFromBase64({ source: dockerComposeBase64, fi
   <div>
     <c-input-text
       v-model:value="dockerRun"
-      label="Your docker run command:"
+      label="您的 docker run 命令："
       style="font-family: monospace"
       multiline
       raw-text
       monospace
-      placeholder="Your docker run command to convert..."
+      placeholder="要转换的 docker run 命令..."
       rows="3"
     />
 

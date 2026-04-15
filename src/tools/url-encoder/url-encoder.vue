@@ -39,22 +39,22 @@ const { copy: copyDecoded } = useCopy({ source: decodeOutput, text: 'Decoded str
   <c-card title="编码">
     <c-input-text
       v-model:value="encodeInput"
-      label="Your string :"
+      label="您的字符串："
       :validation="encodedValidation"
       multiline
       autosize
-      placeholder="The string to encode"
+      placeholder="要编码的字符串"
       rows="2"
       mb-3
     />
 
     <c-input-text
-      label="Your string encoded :"
+      label="编码后的字符串："
       :value="encodeOutput"
       multiline
       autosize
       readonly
-      placeholder="Your string encoded"
+      placeholder="编码后的字符串"
       rows="2"
       mb-3
     />
@@ -68,22 +68,22 @@ const { copy: copyDecoded } = useCopy({ source: decodeOutput, text: 'Decoded str
   <c-card title="解码">
     <c-input-text
       v-model:value="decodeInput"
-      label="Your encoded string :"
+      label="编码后的字符串："
       :validation="decodeValidation"
       multiline
       autosize
-      placeholder="The string to decode"
+      placeholder="要解码的字符串"
       rows="2"
       mb-3
     />
 
     <c-input-text
-      label="Your string decoded :"
+      label="解码后的字符串："
       :value="decodeOutput"
       multiline
       autosize
       readonly
-      placeholder="Your string decoded"
+      placeholder="解码后的字符串"
       rows="2"
       mb-3
     />

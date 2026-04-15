@@ -31,10 +31,10 @@ const endAt = computed(() =>
     </div>
     <n-divider />
     <div flex gap-2>
-      <n-form-item label="Amount of element to consume" flex-1>
+      <n-form-item label="要消耗的元素数量" flex-1>
         <n-input-number v-model:value="unitCount" :min="1" />
       </n-form-item>
-      <n-form-item label="The consumption started at" flex-1>
+      <n-form-item label="消耗开始于" flex-1>
         <n-date-picker v-model:value="startedAt" type="datetime" />
       </n-form-item>
     </div>
@@ -61,12 +61,12 @@ const endAt = computed(() =>
 
     <n-divider />
     <c-card mb-2>
-      <n-statistic label="Total duration">
+      <n-statistic label="总时长">
         {{ formatMsDuration(durationMs) }}
       </n-statistic>
     </c-card>
     <c-card>
-      <n-statistic label="It will end ">
+      <n-statistic label="将结束于 ">
         {{ endAt }}
       </n-statistic>
     </c-card>

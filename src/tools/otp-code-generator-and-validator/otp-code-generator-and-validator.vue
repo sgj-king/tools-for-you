@@ -55,13 +55,13 @@ const secretValidationRules = [
   <div style="max-width: 350px">
     <c-input-text
       v-model:value="secret"
-      label="Secret"
-      placeholder="Paste your TOTP secret..."
+      label="密钥"
+      placeholder="在此粘贴 TOTP 密钥..."
       mb-5
       :validation-rules="secretValidationRules"
     >
       <template #suffix>
-        <c-tooltip tooltip="Generate a new random secret">
+        <c-tooltip tooltip="生成新的随机密钥">
           <c-button circle variant="text" size="small" @click="refreshSecret">
             <icon-mdi-refresh />
           </c-button>
@@ -86,19 +86,19 @@ const secretValidationRules = [
   </div>
   <div style="max-width: 350px">
     <InputCopyable
-      label="Secret in hexadecimal"
+      label="十六进制密钥"
       :value="base32toHex(secret)"
       readonly
-      placeholder="Secret in hex will be displayed here"
+      placeholder="十六进制密钥将在此显示"
       mb-5
     />
 
     <InputCopyable
-      label="Epoch"
+      label="时间戳"
       :value="Math.floor(now / 1000).toString()"
       readonly
       mb-5
-      placeholder="Epoch in sec will be displayed here"
+      placeholder="秒级时间戳将在此显示"
     />
 
     <p>迭代次数</p>
@@ -106,21 +106,21 @@ const secretValidationRules = [
     <InputCopyable
       :value="String(getCounterFromTime({ now, timeStep: 30 }))"
       readonly
-      label="Count:"
+      label="计数："
       label-position="left"
       label-width="90px"
       label-align="right"
-      placeholder="Iteration count will be displayed here"
+      placeholder="迭代次数将在此显示"
     />
 
     <InputCopyable
       :value="getCounterFromTime({ now, timeStep: 30 }).toString(16).padStart(16, '0')"
       readonly
-      placeholder="Iteration count in hex will be displayed here"
+      placeholder="十六进制迭代次数将在此显示"
       label-position="left"
       label-width="90px"
       label-align="right"
-      label="Padded hex:"
+      label="填充后的十六进制："
     />
   </div>
 </template>

@@ -64,7 +64,7 @@ const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' 
             OID: '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
             X500: '6ba7b814-9dad-11d1-80b4-00c04fd430c8',
           }"
-          label="Namespace"
+          label="命名空间"
           label-width="100px"
           mb-2
         />
@@ -72,7 +72,7 @@ const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' 
       <div flex-1>
         <c-input-text
           v-model:value="v35Args.namespace"
-          placeholder="Namespace"
+          placeholder="命名空间"
           label-width="100px"
           label-position="left"
           label=" "
@@ -95,7 +95,7 @@ const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' 
       style="text-align: center; font-family: monospace"
       :value="uuids"
       multiline
-      placeholder="Your uuids"
+      placeholder="您的 UUID"
       autosize
       rows="1"
       readonly

@@ -86,20 +86,20 @@ function copyAsBulletList() {
           <c-input-text
             v-model:value="suite.title"
             label-position="left"
-            label="Suite name"
+            label="套件名称"
             placeholder="套件名称..."
             clearable
           />
 
           <n-divider />
-          <n-form-item label="Suite values" :show-feedback="false">
+          <n-form-item label="套件值" :show-feedback="false">
             <DynamicValues v-model:values="suite.data" />
           </n-form-item>
         </c-card>
 
         <div flex justify-center>
           <c-button v-if="suites.length > 1" variant="text" @click="suites.splice(index, 1)">
-            <n-icon :component="Trash" depth="3" mr-2 size="18" />
+            <n-icon :component="回收站" depth="3" mr-2 size="18" />
             Delete suite
           </c-button>
           <c-button
@@ -117,7 +117,7 @@ function copyAsBulletList() {
   <div style="flex: 0 0 100%">
     <div style="max-width: 600px; margin: 0 auto">
       <div mx-auto max-w-sm flex justify-center gap-3>
-        <c-input-text v-model:value="unit" placeholder="单位（如：ms）" label="Unit" label-position="left" mb-4 />
+        <c-input-text v-model:value="unit" placeholder="单位（如：ms）" label="单位" label-position="left" mb-4 />
 
         <c-button
           @click="

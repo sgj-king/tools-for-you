@@ -39,9 +39,9 @@ function onInputEnter(index: number) {
         autofocus
         @keydown.enter="onInputEnter(index)"
       />
-      <c-tooltip tooltip="Delete this value">
+      <c-tooltip tooltip="删除此值">
         <c-button circle variant="text" @click="values.splice(index, 1)">
-          <n-icon :component="Trash" depth="3" size="18" />
+          <n-icon :component="回收站" depth="3" size="18" />
         </c-button>
       </c-tooltip>
     </div>

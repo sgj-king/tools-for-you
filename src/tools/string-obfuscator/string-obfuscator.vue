@@ -13,7 +13,7 @@ const { copy } = useCopy({ source: obfuscatedString });
 
 <template>
   <div>
-    <c-input-text v-model:value="str" raw-text placeholder="Enter string to obfuscate" label="String to obfuscate:" clearable multiline />
+    <c-input-text v-model:value="str" raw-text placeholder="输入要混淆的字符串" label="要混淆的字符串：" clearable multiline />
 
     <div mt-4 flex gap-10px>
       <div>
