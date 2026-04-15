@@ -87,7 +87,6 @@ function goBack() {
         </div>
         
         <div class="navbar-right">
-          <locale-selector v-if="!styleStore.isSmallScreen" />
           <NavbarButtons v-if="!styleStore.isSmallScreen" />
           
           <RouterLink v-if="!authStore.isLoggedIn" to="/auth" class="auth-button">

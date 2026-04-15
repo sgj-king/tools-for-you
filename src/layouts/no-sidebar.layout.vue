@@ -66,7 +66,6 @@ function handleUserMenuSelect(key: string) {
         </div>
         
         <div class="navbar-right">
-          <locale-selector v-if="!styleStore.isSmallScreen" />
           <NavbarButtons v-if="!styleStore.isSmallScreen" />
           
           <!-- 登录/注册按钮 或 用户名 -->
