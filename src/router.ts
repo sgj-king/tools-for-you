@@ -40,7 +40,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-      meta: { layout: customLayouts.noSidebar },
+      meta: { layout: customLayouts.base },
     },
     {
       path: '/auth',
