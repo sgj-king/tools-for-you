@@ -240,6 +240,7 @@ declare module '@vue/runtime-core' {
     'Tool.layout': typeof import('./src/layouts/tool.layout.vue')['default']
     ToolCard: typeof import('./src/components/ToolCard.vue')['default']
     'ToolDetail.layout': typeof import('./src/layouts/tool-detail.layout.vue')['default']
+    ToolsList: typeof import('./src/pages/ToolsList.vue')['default']
     UlidGenerator: typeof import('./src/tools/ulid-generator/ulid-generator.vue')['default']
     UnitConverter: typeof import('./src/tools/unit-converter/unit-converter.vue')['default']
     UrlEncoder: typeof import('./src/tools/url-encoder/url-encoder.vue')['default']

@@ -3,6 +3,7 @@ import { layouts } from './layouts/index';
 import HomePage from './pages/HomeNew.page.vue';
 import NotFound from './pages/404.page.vue';
 import CategoryList from './pages/CategoryList.vue';
+import ToolsList from './pages/ToolsList.vue';
 import { tools } from './tools';
 import { config } from './config';
 import { routes as demoRoutes } from './ui/demo/demo.routes';
@@ -65,10 +66,20 @@ const router = createRouter({
       component: () => import('./pages/Contact.vue'),
       meta: { layout: customLayouts.noSidebar },
     },
+    {
+      path: '/tools',
+      name: 'tools',
+      component: ToolsList,
+      meta: { layout: customLayouts.noSidebar },
+    },
     ...toolsRoutes,
     ...toolsRedirectRoutes,
     ...(config.app.env === 'development' ? demoRoutes : []),
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound,
+    },
   ],
 });
 
