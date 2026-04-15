@@ -348,7 +348,7 @@ tools:
     title: String obfuscator
     description: Obfuscate a string (like a secret, an IBAN, or a token) to make it shareable and identifiable without revealing its content.
 
-  base-converter:
+  integer-base-converter:
     title: Integer base converter
     description: Convert a number between different bases (decimal, hexadecimal, binary, octal, base64, ...)
 
