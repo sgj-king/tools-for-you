@@ -204,7 +204,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数学计算',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator],
   },
   {
     name: '测量工具',
