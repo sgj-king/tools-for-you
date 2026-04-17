@@ -95,6 +95,8 @@ import { tool as compoundInterestCalculator } from './compound-interest-calculat
 import { tool as discountCalculator } from './discount-calculator'; import { tool as loanCalculator } from './loan-calculator';
 import { tool as particleGalaxy } from './particle-galaxy';
 import { tool as tipCalculator } from './tip-calculator';
+import { tool as salaryCalculator } from './salary-calculator';
+import { tool as savingsGoalCalculator } from './savings-goal-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -204,7 +206,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数学计算',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator, savingsGoalCalculator],
   },
   {
     name: '测量工具',
