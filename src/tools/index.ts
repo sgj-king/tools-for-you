@@ -97,6 +97,7 @@ import { tool as particleGalaxy } from './particle-galaxy';
 import { tool as tipCalculator } from './tip-calculator';
 import { tool as salaryCalculator } from './salary-calculator';
 import { tool as savingsGoalCalculator } from './savings-goal-calculator';
+import { tool as sleepCalculator } from './sleep-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -210,7 +211,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '测量工具',
-    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter],
+    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator],
   },
   {
     name: '文本工具',
