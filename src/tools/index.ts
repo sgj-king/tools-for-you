@@ -99,6 +99,7 @@ import { tool as salaryCalculator } from './salary-calculator';
 import { tool as savingsGoalCalculator } from './savings-goal-calculator';
 import { tool as sleepCalculator } from './sleep-calculator';
 import { tool as countdownTimer } from './countdown-timer';
+import { tool as habitTracker } from './habit-tracker';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -212,7 +213,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '测量工具',
-    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer],
+    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker],
   },
   {
     name: '文本工具',
