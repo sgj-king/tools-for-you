@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     About: typeof import('./src/pages/About.vue')['default']
     AgeCalculator: typeof import('./src/tools/age-calculator/age-calculator.vue')['default']
     AIChat: typeof import('./src/components/AIChat.vue')['default']
+    AmbientSoundMixer: typeof import('./src/tools/ambient-sound-mixer/ambient-sound-mixer.vue')['default']
     App: typeof import('./src/App.vue')['default']
     AsciiTextDrawer: typeof import('./src/tools/ascii-text-drawer/ascii-text-drawer.vue')['default']
     AttendanceCalculator: typeof import('./src/tools/attendance-calculator/attendance-calculator.vue')['default']

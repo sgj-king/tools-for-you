@@ -100,6 +100,7 @@ import { tool as savingsGoalCalculator } from './savings-goal-calculator';
 import { tool as sleepCalculator } from './sleep-calculator';
 import { tool as countdownTimer } from './countdown-timer';
 import { tool as habitTracker } from './habit-tracker';
+import { tool as ambientSoundMixer } from './ambient-sound-mixer';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -213,7 +214,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '测量工具',
-    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker],
+    components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker, ambientSoundMixer],
   },
   {
     name: '文本工具',
