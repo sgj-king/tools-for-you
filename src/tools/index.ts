@@ -102,6 +102,7 @@ import { tool as countdownTimer } from './countdown-timer';
 import { tool as habitTracker } from './habit-tracker';
 import { tool as ambientSoundMixer } from './ambient-sound-mixer';
 import { tool as expenseTracker } from './expense-tracker';
+import { tool as gradientGenerator } from './gradient-generator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -177,6 +178,7 @@ export const toolsByCategory: ToolCategory[] = [
       colorPicker,
       imageColorExtractor,
       particleGalaxy,
+    gradientGenerator,
     ],
   },
   {

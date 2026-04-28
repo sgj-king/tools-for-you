@@ -96,6 +96,7 @@ declare module '@vue/runtime-core' {
     GitMemo: typeof import('./src/tools/git-memo/git-memo.vue')['default']
     'GitMemo.content': typeof import('./src/tools/git-memo/git-memo.content.md')['default']
     GpaCalculator: typeof import('./src/tools/gpa-calculator/gpa-calculator.vue')['default']
+    GradientGenerator: typeof import('./src/tools/gradient-generator/gradient-generator.vue')['default']
     HabitTracker: typeof import('./src/tools/habit-tracker/habit-tracker.vue')['default']
     HashText: typeof import('./src/tools/hash-text/hash-text.vue')['default']
     HmacGenerator: typeof import('./src/tools/hmac-generator/hmac-generator.vue')['default']
