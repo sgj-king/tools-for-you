@@ -65,6 +65,7 @@ declare module '@vue/runtime-core' {
     CommandPaletteOption: typeof import('./src/modules/command-palette/components/command-palette-option.vue')['default']
     CompoundInterestCalculator: typeof import('./src/tools/compound-interest-calculator/compound-interest-calculator.vue')['default']
     Contact: typeof import('./src/pages/Contact.vue')['default']
+    ContrastChecker: typeof import('./src/tools/contrast-checker/contrast-checker.vue')['default']
     CountdownTimer: typeof import('./src/tools/countdown-timer/countdown-timer.vue')['default']
     CrontabGenerator: typeof import('./src/tools/crontab-generator/crontab-generator.vue')['default']
     CSelect: typeof import('./src/ui/c-select/c-select.vue')['default']

@@ -103,6 +103,7 @@ import { tool as habitTracker } from './habit-tracker';
 import { tool as ambientSoundMixer } from './ambient-sound-mixer';
 import { tool as expenseTracker } from './expense-tracker';
 import { tool as gradientGenerator } from './gradient-generator';
+import { tool as contrastChecker } from './contrast-checker';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -179,6 +180,7 @@ export const toolsByCategory: ToolCategory[] = [
       imageColorExtractor,
       particleGalaxy,
     gradientGenerator,
+    contrastChecker,
     ],
   },
   {
