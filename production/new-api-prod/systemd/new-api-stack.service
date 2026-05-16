@@ -1,0 +1,21 @@
+# 保存路径: /etc/systemd/system/new-api-stack.service
+# 说明:
+# - Docker 已经有 restart 策略，但 systemd 仍然有价值
+# - 价值在于: 宿主机重启后自动拉起整套栈、统一管理、支持 reload/stop/status
+
+[Unit]
+Description=New API Docker Compose Stack
+Requires=docker.service network-online.target
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/new-api/compose
+ExecStart=/usr/bin/docker compose --env-file /opt/new-api/compose/.env up -d
+ExecReload=/usr/bin/docker compose --env-file /opt/new-api/compose/.env up -d --remove-orphans
+ExecStop=/usr/bin/docker compose --env-file /opt/new-api/compose/.env down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

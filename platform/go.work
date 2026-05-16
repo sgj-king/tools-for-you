@@ -1,0 +1,10 @@
+go 1.24.0
+
+use (
+	./services/platform-gateway
+	./services/platform-auth
+	./services/platform-billing
+	./services/platform-policy
+	./services/platform-risk
+	./services/platform-relay
+)

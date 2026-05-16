@@ -1,0 +1,15 @@
+import { NextRequest } from "next/server";
+import { proxyToPlatformOps } from "@/lib/server/platform-proxy";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ presetId: string }> }) {
+  const { presetId } = await params;
+  return proxyToPlatformOps(request, `/v1/filter-presets/${encodeURIComponent(presetId)}`);
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ presetId: string }> }) {
+  const { presetId } = await params;
+  return proxyToPlatformOps(request, `/v1/filter-presets/${encodeURIComponent(presetId)}`);
+}

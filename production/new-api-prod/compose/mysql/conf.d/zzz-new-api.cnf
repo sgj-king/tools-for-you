@@ -1,0 +1,18 @@
+[mysqld]
+# 保存路径: /opt/new-api/compose/mysql/conf.d/zzz-new-api.cnf
+# 说明: 为 New API 场景提供更稳妥的字符集、连接数与事务刷盘设置
+
+skip-name-resolve = 1
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+default-time-zone = '+08:00'
+max_connections = 300
+max_allowed_packet = 64M
+innodb_buffer_pool_size = 512M
+innodb_flush_log_at_trx_commit = 1
+sync_binlog = 1
+innodb_log_file_size = 256M
+sql_mode = STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+[client]
+default-character-set = utf8mb4

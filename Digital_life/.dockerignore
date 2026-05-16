@@ -1,0 +1,11 @@
+.git
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+backend/app/__pycache__
+backend/app/services/__pycache__
+frontend/**/*.Zone.Identifier
+backend/**/*.Zone.Identifier
