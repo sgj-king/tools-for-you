@@ -4,7 +4,6 @@ services:
   gateway:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-gateway-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-gateway
@@ -37,8 +36,6 @@ services:
         condition: service_healthy
       policy:
         condition: service_healthy
-      risk:
-        condition: service_healthy
       relay:
         condition: service_healthy
     healthcheck:
@@ -46,21 +43,19 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   auth:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-auth-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-auth
       SERVICE_ROLE: identity
       SERVICE_PORT: ${SERVICE_BIND_PORT}
       APP_ENV: ${APP_ENV}
-      DEV_DEMO_API_KEY: ${DEV_DEMO_API_KEY}
       MYSQL_DSN: "${PLATFORM_DB_USER}:${PLATFORM_DB_PASSWORD}@tcp(mysql:3306)/${PLATFORM_DB_NAME}?charset=utf8mb4&parseTime=true&loc=Local"
       REDIS_ADDR: redis:6379
       REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -80,14 +75,13 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   billing:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-billing-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-billing
@@ -113,14 +107,13 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   policy:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-policy-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-policy
@@ -146,14 +139,13 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   risk:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-risk-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-risk
@@ -179,23 +171,19 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   relay:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-relay-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-relay
       SERVICE_ROLE: relay
       SERVICE_PORT: ${SERVICE_BIND_PORT}
       APP_ENV: ${APP_ENV}
-      BILLING_BASE_URL: ${BILLING_BASE_URL}
-      POLICY_BASE_URL: ${POLICY_BASE_URL}
-      RISK_BASE_URL: ${RISK_BASE_URL}
       NEW_API_BASE_URL: ${NEW_API_BASE_URL}
       NEW_API_INTERNAL_TOKEN: ${NEW_API_INTERNAL_TOKEN}
       INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN}
@@ -216,14 +204,13 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
   ops:
     build:
       context: ../../services/platform-fastapi
-    container_name: platform-ops-dev
     restart: unless-stopped
     environment:
       SERVICE_NAME: platform-ops
@@ -251,45 +238,7 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 5s
-    networks:
-      - platform
-
-  customer-console:
-    build:
-      context: ../../apps/customer-console
-    container_name: customer-console-dev
-    restart: unless-stopped
-    depends_on:
-      platform-console:
-        condition: service_healthy
-    ports:
-      - "127.0.0.1:${CUSTOMER_CONSOLE_HOST_PORT}:80"
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/healthz | grep -q ok"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-    networks:
-      - platform
-
-  admin-console:
-    build:
-      context: ../../apps/admin-console
-    container_name: admin-console-dev
-    restart: unless-stopped
-    depends_on:
-      platform-console:
-        condition: service_healthy
-    ports:
-      - "127.0.0.1:${ADMIN_CONSOLE_HOST_PORT}:80"
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/healthz | grep -q ok"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      start_period: 10s
     networks:
       - platform
 
@@ -301,22 +250,21 @@ services:
         NEXT_PUBLIC_ENABLE_MOCK: ${PLATFORM_CONSOLE_ENABLE_MOCK}
         NEXT_PUBLIC_ENABLE_PLATFORM_BFF: ${PLATFORM_CONSOLE_ENABLE_PLATFORM_BFF}
         NEXT_PUBLIC_PLAYGROUND_MODE: ${PLATFORM_CONSOLE_PLAYGROUND_MODE}
-        NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:${GATEWAY_HOST_PORT}
-        NEXT_PUBLIC_DOCS_URL: http://127.0.0.1:${NEW_API_HOST_PORT}
-        NEXT_PUBLIC_STATUS_URL: http://127.0.0.1:${PROMETHEUS_HOST_PORT}
+        NEXT_PUBLIC_API_BASE_URL: ${PLATFORM_GATEWAY_PUBLIC_URL}
+        NEXT_PUBLIC_DOCS_URL: ${NEW_API_PUBLIC_URL}
+        NEXT_PUBLIC_STATUS_URL: ${PLATFORM_GATEWAY_PUBLIC_URL}/readyz
         NEXT_PUBLIC_CUSTOMER_CONSOLE_URL: ${CUSTOMER_CONSOLE_PUBLIC_URL}
         NEXT_PUBLIC_ADMIN_CONSOLE_URL: ${ADMIN_CONSOLE_PUBLIC_URL}
-    container_name: platform-console-dev
     restart: unless-stopped
     environment:
-      NEXT_PUBLIC_APP_ENV: ${PLATFORM_CONSOLE_APP_ENV}
       APP_ENV: ${APP_ENV}
+      NEXT_PUBLIC_APP_ENV: ${PLATFORM_CONSOLE_APP_ENV}
       NEXT_PUBLIC_ENABLE_MOCK: ${PLATFORM_CONSOLE_ENABLE_MOCK}
       NEXT_PUBLIC_ENABLE_PLATFORM_BFF: ${PLATFORM_CONSOLE_ENABLE_PLATFORM_BFF}
       NEXT_PUBLIC_PLAYGROUND_MODE: ${PLATFORM_CONSOLE_PLAYGROUND_MODE}
-      NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:${GATEWAY_HOST_PORT}
-      NEXT_PUBLIC_DOCS_URL: http://127.0.0.1:${NEW_API_HOST_PORT}
-      NEXT_PUBLIC_STATUS_URL: http://127.0.0.1:${PROMETHEUS_HOST_PORT}
+      NEXT_PUBLIC_API_BASE_URL: ${PLATFORM_GATEWAY_PUBLIC_URL}
+      NEXT_PUBLIC_DOCS_URL: ${NEW_API_PUBLIC_URL}
+      NEXT_PUBLIC_STATUS_URL: ${PLATFORM_GATEWAY_PUBLIC_URL}/readyz
       NEXT_PUBLIC_CUSTOMER_CONSOLE_URL: ${CUSTOMER_CONSOLE_PUBLIC_URL}
       NEXT_PUBLIC_ADMIN_CONSOLE_URL: ${ADMIN_CONSOLE_PUBLIC_URL}
       PLAYGROUND_GATEWAY_BASE_URL: http://gateway:8080
@@ -326,6 +274,7 @@ services:
       PLATFORM_SESSION_SECRET: ${PLATFORM_SESSION_SECRET}
       PLATFORM_CONSOLE_COOKIE_SECURE: ${PLATFORM_CONSOLE_COOKIE_SECURE}
       PLATFORM_CONSOLE_PUBLIC_URL: ${PLATFORM_CONSOLE_PUBLIC_URL}
+      PLATFORM_CONSOLE_ALLOWED_ORIGINS: ${PLATFORM_CONSOLE_ALLOWED_ORIGINS}
       PLATFORM_DB_HOST: mysql
       PLATFORM_DB_PORT: 3306
       PLATFORM_DB_NAME: ${PLATFORM_DB_NAME}
@@ -335,22 +284,21 @@ services:
       - "127.0.0.1:${PLATFORM_CONSOLE_HOST_PORT}:3200"
     depends_on:
       gateway:
-        condition: service_started
+        condition: service_healthy
       ops:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:3200/api/healthz | grep -q '\"ok\":true'"]
       interval: 20s
-      timeout: 20s
+      timeout: 10s
       retries: 20
-      start_period: 90s
+      start_period: 60s
     networks:
       - platform
 
   digital-life:
     build:
       context: ../../../Digital_life
-    container_name: digital-life-dev
     restart: unless-stopped
     environment:
       OPENCLAW_BASE_URL: ${DIGITAL_LIFE_OPENCLAW_BASE_URL}
@@ -362,20 +310,18 @@ services:
       PLATFORM_GATEWAY_URL: http://gateway:8080
       PLATFORM_OPS_URL: http://ops:8080
       PLATFORM_CONSOLE_URL: http://platform-console:3200
-      CUSTOMER_CONSOLE_URL: http://customer-console
-      ADMIN_CONSOLE_URL: http://admin-console
       NEW_API_URL: http://new-api:3000
-      PLATFORM_GATEWAY_PUBLIC_URL: http://127.0.0.1:${GATEWAY_HOST_PORT}
+      PLATFORM_GATEWAY_PUBLIC_URL: ${PLATFORM_GATEWAY_PUBLIC_URL}
       PLATFORM_CONSOLE_PUBLIC_URL: ${PLATFORM_CONSOLE_PUBLIC_URL}
       CUSTOMER_CONSOLE_PUBLIC_URL: ${CUSTOMER_CONSOLE_PUBLIC_URL}
       ADMIN_CONSOLE_PUBLIC_URL: ${ADMIN_CONSOLE_PUBLIC_URL}
-      NEW_API_PUBLIC_URL: http://127.0.0.1:${NEW_API_HOST_PORT}
+      NEW_API_PUBLIC_URL: ${NEW_API_PUBLIC_URL}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
       - "127.0.0.1:${DIGITAL_LIFE_HOST_PORT}:8008"
     volumes:
-      - ../../../Digital_life/backend/data/agent_workspace:/app/backend/data/agent_workspace
+      - digital_life_workspace:/app/backend/data/agent_workspace
     depends_on:
       gateway:
         condition: service_healthy
@@ -396,7 +342,6 @@ services:
 
   mysql:
     image: mysql:8.4.5
-    container_name: mysql-dev
     restart: unless-stopped
     environment:
       TZ: Asia/Shanghai
@@ -409,7 +354,7 @@ services:
       - "127.0.0.1:${MYSQL_HOST_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - ../dev/mysql/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 15s
@@ -421,7 +366,6 @@ services:
 
   redis:
     image: redis:7.4.2-alpine
-    container_name: redis-dev
     restart: unless-stopped
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -446,7 +390,6 @@ services:
 
   nats:
     image: nats:2.10.23-alpine
-    container_name: nats-dev
     restart: unless-stopped
     command:
       - -js
@@ -454,7 +397,6 @@ services:
       - "8222"
     ports:
       - "127.0.0.1:${NATS_HOST_PORT}:4222"
-      - "127.0.0.1:${NATS_MONITOR_HOST_PORT}:8222"
     volumes:
       - nats_data:/data
     networks:
@@ -462,7 +404,6 @@ services:
 
   new-api:
     image: ${NEW_API_IMAGE}
-    container_name: new-api-dev
     restart: unless-stopped
     command:
       - --log-dir
@@ -486,8 +427,8 @@ services:
       SYNC_FREQUENCY: "60"
       RELAY_TIMEOUT: "0"
       STREAMING_TIMEOUT: "600"
-      FRONTEND_BASE_URL: "http://127.0.0.1:${NEW_API_HOST_PORT}"
-      TRUSTED_REDIRECT_DOMAINS: "127.0.0.1,localhost"
+      FRONTEND_BASE_URL: ${NEW_API_PUBLIC_URL}
+      TRUSTED_REDIRECT_DOMAINS: ${NEW_API_TRUSTED_REDIRECT_DOMAINS}
     ports:
       - "127.0.0.1:${NEW_API_HOST_PORT}:3000"
     volumes:
@@ -507,42 +448,6 @@ services:
     networks:
       - platform
 
-  prometheus:
-    image: prom/prometheus:v2.54.1
-    container_name: prometheus-dev
-    restart: unless-stopped
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --storage.tsdb.path=/prometheus
-    ports:
-      - "127.0.0.1:${PROMETHEUS_HOST_PORT}:9090"
-    volumes:
-      - ./prometheus:/etc/prometheus:ro
-      - prometheus_data:/prometheus
-    depends_on:
-      gateway:
-        condition: service_started
-    networks:
-      - platform
-
-  grafana:
-    image: grafana/grafana:11.2.0
-    container_name: grafana-dev
-    restart: unless-stopped
-    environment:
-      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
-    ports:
-      - "127.0.0.1:${GRAFANA_HOST_PORT}:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning:ro
-    depends_on:
-      prometheus:
-        condition: service_started
-    networks:
-      - platform
-
 networks:
   platform:
     driver: bridge
@@ -553,5 +458,4 @@ volumes:
   nats_data:
   new_api_data:
   new_api_logs:
-  prometheus_data:
-  grafana_data:
+  digital_life_workspace:
