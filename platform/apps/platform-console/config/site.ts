@@ -5,6 +5,8 @@ export const siteConfig = {
   adminBasePath: "/admin",
   customerConsoleUrl: process.env.NEXT_PUBLIC_CUSTOMER_CONSOLE_URL ?? "",
   adminConsoleUrl: process.env.NEXT_PUBLIC_ADMIN_CONSOLE_URL ?? "",
+  digitalLifeUrl: process.env.NEXT_PUBLIC_DIGITAL_LIFE_PUBLIC_URL ?? "",
+  itToolsUrl: process.env.NEXT_PUBLIC_IT_TOOLS_PUBLIC_URL ?? "",
   docsUrl: process.env.NEXT_PUBLIC_DOCS_URL ?? "/docs",
-  statusUrl: process.env.NEXT_PUBLIC_STATUS_URL ?? "https://status.example.com"
+  statusUrl: process.env.NEXT_PUBLIC_STATUS_URL ?? "/status"
 };

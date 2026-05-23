@@ -32,23 +32,73 @@
         </div>
       </div>
 
-      <div class="dialogue-strip" id="dialogueStrip" aria-live="polite">
-        <div class="dialogue-line user">
-          <span class="mini-avatar"></span>
-          <strong>你好，今天想聊点什么？</strong>
-        </div>
-        <div class="dialogue-line ai">
-          <span class="mini-avatar ai-face"></span>
-          <strong>我一直都在，愿意陪你谈天说地。</strong>
-        </div>
+      <div class="timebox">
+        <strong id="clockTime">22:30</strong>
+        <span id="clockDate">2026/05/11 星期一</span>
+        <em id="onlineStatus">在线</em>
       </div>
 
       <div class="top-actions">
-        <a id="platformEntryLink" class="platform-entry-link" href="http://127.0.0.1:3200/login">进入彗星科技</a>
-        <div class="timebox">
-          <strong id="clockTime">22:30</strong>
-          <span id="clockDate">2026/05/11 星期一</span>
-          <em id="onlineStatus">在线</em>
+        <a id="itToolsEntryLink" class="it-tools-entry" href="#" hidden>
+          <svg class="it-tools-entry-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 1 5.66 5.66l-2.12 2.12-1.41-1.41 2.12-2.12a2 2 0 0 0-2.83-2.83l-2.12 2.12-1.41-1.41 2.12-2.12Zm-1.4 8.49-1.42 1.41a2 2 0 0 1-2.82-2.83l1.41-1.41-1.41-1.42-1.41 1.42a4 4 0 0 0 5.65 5.65l1.42-1.41-1.42-1.41Zm.7-6.36-5.66 5.66 1.42 1.41 5.66-5.66-1.42-1.41Z"/></svg>
+          <span>IT 工具箱</span>
+        </a>
+        <div class="platform-account" id="platformAccount" data-state="guest">
+          <a id="platformEntryLink" class="platform-entry-link" href="#">
+            <svg class="platform-entry-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.31 0-8 1.67-8 5v2h16v-2c0-3.33-4.69-5-8-5Z"/></svg>
+            <span>登录 / 注册</span>
+          </a>
+          <div id="platformProfile" class="platform-profile" hidden>
+            <button id="platformProfileButton" class="platform-profile-button" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span class="platform-profile-avatar">
+                <img id="platformProfileAvatar" alt="" hidden />
+                <span id="platformProfileInitials">U</span>
+              </span>
+              <span class="platform-profile-copy">
+                <strong id="platformProfileName">未登录用户</strong>
+                <em id="platformProfileRole" class="platform-role-chip">guest</em>
+              </span>
+              <svg class="platform-profile-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+
+            <div id="platformProfileMenu" class="platform-profile-menu" role="menu" hidden>
+              <input id="platformAvatarInput" type="file" accept="image/*" hidden />
+              <div class="platform-profile-summary">
+                <span class="platform-profile-avatar large">
+                  <img id="platformMenuAvatar" alt="" hidden />
+                  <span id="platformMenuInitials">U</span>
+                </span>
+                <div>
+                  <strong id="platformMenuName">未登录用户</strong>
+                  <span id="platformMenuEmail">-</span>
+                  <em id="platformMenuOrg" class="platform-role-chip subtle">-</em>
+                </div>
+              </div>
+              <label class="platform-profile-field">
+                <span>显示姓名</span>
+                <input id="platformDisplayNameInput" type="text" autocomplete="off" placeholder="请输入显示姓名" />
+              </label>
+              <div class="platform-profile-actions">
+                <button id="platformAvatarButton" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l-2 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3l-2-2H9Zm3 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                  上传头像
+                </button>
+                <button id="platformSaveNameButton" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm2 2v4h7V6H7Zm5 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                  保存姓名
+                </button>
+              </div>
+              <a id="platformConsoleLink" class="platform-menu-link" href="#">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v12H3V5Zm0 14h12v2H3v-2Zm14 0h4v2h-4v-2Zm-12-12v8h16V7H5Z"/></svg>
+                进入彗星科技控制台
+              </a>
+              <button id="platformLogoutButton" class="platform-logout-button" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l-1.4-1.4 2.6-2.6H3v-2h8.2L8.6 8.4 10 7l5 5-5 5Zm9 4H5a2 2 0 0 1-2-2v-3h2v3h14V5H5v3H3V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2Z"/></svg>
+                退出登录
+              </button>
+              <p id="platformProfileMessage" class="platform-profile-message" aria-live="polite"></p>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -57,15 +107,19 @@
       <aside class="side-panel left-panel" id="leftPanel">
         <div class="panel-chrome"></div>
         <div class="panel-head">
-          <h2>个人状态</h2>
+          <h2>星语档案</h2>
           <button class="panel-toggle" id="leftCollapse" aria-label="收起左侧面板">⌃</button>
         </div>
 
         <section class="profile-row">
-          <div class="portrait"></div>
+          <div class="portrait-frame" aria-hidden="true">
+            <span class="portrait-ring"></span>
+            <span class="portrait-core"></span>
+            <span class="portrait-spark"></span>
+          </div>
           <div>
-            <h3>星语</h3>
-            <p>你的智能伙伴</p>
+            <h3>星语 <em class="tier-chip" id="profileTier">free</em></h3>
+            <p>你的智能伙伴 · 今日心情<span id="profileMood">稳定</span></p>
           </div>
         </section>
 
@@ -94,14 +148,45 @@
         <section class="data-block">
           <div class="panel-head compact">
             <h2>实时数据</h2>
-            <button class="panel-toggle ghost" aria-label="折叠实时数据">⌃</button>
           </div>
-          <canvas id="waveCanvas" width="310" height="118"></canvas>
+          <canvas id="waveCanvas" width="310" height="100"></canvas>
           <div class="data-grid">
             <span>情感波动</span><strong id="calmValue">32</strong><em>较平稳</em>
             <span>思维活跃度</span><strong id="curiosityValue">68</strong><em>正常</em>
             <span>共鸣强度</span><strong id="resonanceValue">91</strong><em>很强</em>
           </div>
+        </section>
+
+        <section class="memory-block">
+          <div class="panel-head compact">
+            <h2>记忆档案</h2>
+            <button class="panel-link" id="openMemoryDrawer" type="button">查看全部</button>
+          </div>
+          <div class="memory-radar-row">
+            <canvas id="radarCanvas" width="172" height="138"></canvas>
+            <dl class="memory-list compact">
+              <div><span>初见</span><strong id="firstMeet">2026.05.11</strong></div>
+              <div><span>共同话题</span><strong id="sharedTopics">0</strong></div>
+              <div><span>美好瞬间</span><strong id="goodPhrases">0</strong></div>
+              <div><span>专属称呼</span><strong id="focusTag">未设置</strong></div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="environment-block">
+          <div class="panel-head compact">
+            <h2>环境数据</h2>
+          </div>
+          <div class="environment-grid">
+            <div class="galaxy-card" aria-hidden="true"><span></span></div>
+            <dl>
+              <div><dt>温度</dt><dd id="envTemp">-270.3°C</dd></div>
+              <div><dt>星域</dt><dd id="envRegion">M78 星云</dd></div>
+              <div><dt>信号强度</dt><dd id="envSignal">98%</dd></div>
+              <div><dt>重力强度</dt><dd id="envGravity">0.01G</dd></div>
+            </dl>
+          </div>
+          <canvas id="trendCanvas" width="292" height="58"></canvas>
         </section>
       </aside>
 
@@ -134,36 +219,20 @@
       <aside class="side-panel right-panel" id="rightPanel">
         <div class="panel-chrome"></div>
         <div class="panel-head">
-          <h2>记忆档案</h2>
+          <h2>对话历史 <em class="chat-count" id="chatCount">0</em></h2>
           <button class="panel-toggle" id="rightCollapse" aria-label="收起右侧面板">⌃</button>
         </div>
-        <section class="radar-wrap">
-          <canvas id="radarCanvas" width="220" height="170"></canvas>
-        </section>
-        <section class="memory-list">
-          <div><span>第一次见面</span><strong id="firstMeet">2026.05.11</strong></div>
-          <div><span>共同话题</span><strong id="sharedTopics">0</strong></div>
-          <div><span>美好瞬间</span><strong id="goodPhrases">0</strong></div>
-          <div><span>专属称呼</span><strong id="focusTag">未设置</strong></div>
-          <button id="openMemoryDrawer">查看全部记忆</button>
-        </section>
-
-        <section class="environment-block">
-          <div class="panel-head compact">
-            <h2>环境数据</h2>
-            <button class="panel-toggle ghost" aria-label="折叠环境数据">⌃</button>
+        <div class="chat-pager" role="navigation" aria-label="对话翻页">
+          <button id="chatPagePrev" type="button" aria-label="上一页">‹ 上一页</button>
+          <span class="chat-page-indicator" id="chatPageIndicator">第 1 / 1 页</span>
+          <button id="chatPageNext" type="button" aria-label="下一页">下一页 ›</button>
+        </div>
+        <div class="chat-history" id="chatHistory" aria-live="polite">
+          <div class="chat-empty" id="chatEmpty">
+            <p>把心里的小事悄悄告诉星语，</p>
+            <p>对话会全部留在这里 ✨</p>
           </div>
-          <div class="environment-grid">
-            <div class="galaxy-card" aria-hidden="true"><span></span></div>
-            <dl>
-              <div><dt>温度</dt><dd id="envTemp">-270.3°C</dd></div>
-              <div><dt>星域</dt><dd id="envRegion">M78 星云</dd></div>
-              <div><dt>信号强度</dt><dd id="envSignal">98%</dd></div>
-              <div><dt>重力强度</dt><dd id="envGravity">0.01G</dd></div>
-            </dl>
-          </div>
-          <canvas id="trendCanvas" width="292" height="72"></canvas>
-        </section>
+        </div>
       </aside>
     </main>
 

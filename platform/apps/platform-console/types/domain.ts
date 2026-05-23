@@ -330,12 +330,15 @@ export type SupportTicketDetail = SupportTicketRecord & {
   }>;
 };
 
+export type PlanTier = "free" | "pro";
+
 export type SessionUser = {
   id: string;
   displayName: string;
   email: string;
   orgName: string;
   role: UserRole;
+  tier: PlanTier;
   avatarUrl?: string;
 };
 
@@ -376,6 +379,7 @@ export type FilterPresetImportResult = {
 export type LoginResult = {
   sessionUser: SessionUser;
   redirectTo: string;
+  returnTo?: string;
   message: string;
 };
 

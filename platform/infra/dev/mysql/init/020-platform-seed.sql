@@ -4,14 +4,16 @@
 
 USE platform;
 
-INSERT INTO organizations (id, name, slug, status, owner_user_id, billing_type, credit_limit, currency, metadata)
+INSERT INTO organizations (id, name, slug, status, owner_user_id, billing_type, plan_tier, credit_limit, currency, metadata)
 VALUES
-  (1001, 'Demo Organization', 'demo-org', 'active', 5001, 'prepaid', 0, 'USD', JSON_OBJECT('tier', 'team'))
-ON DUPLICATE KEY UPDATE name = VALUES(name), status = VALUES(status);
+  (1001, 'Demo Organization', 'demo-org', 'active', 5001, 'prepaid', 'pro', 0, 'USD', JSON_OBJECT('tier', 'team')),
+  (1002, 'Demo Free Tier', 'demo-free', 'active', 5002, 'prepaid', 'free', 0, 'USD', JSON_OBJECT('tier', 'free'))
+ON DUPLICATE KEY UPDATE name = VALUES(name), status = VALUES(status), plan_tier = VALUES(plan_tier);
 
 INSERT INTO users (id, organization_id, email, password_hash, status, display_name, mfa_enabled)
 VALUES
-  (5001, 1001, 'owner@example.com', '$2y$10$demo.hash.placeholder', 'active', 'Demo Owner', 0)
+  (5001, 1001, 'owner@example.com', '$2y$10$demo.hash.placeholder', 'active', 'Demo Owner', 0),
+  (5002, 1002, 'free@example.com', '$2y$10$demo.hash.placeholder', 'active', 'Demo Free User', 0)
 ON DUPLICATE KEY UPDATE display_name = VALUES(display_name), status = VALUES(status);
 
 INSERT INTO projects (id, organization_id, name, env, status, daily_cost_cap, monthly_cost_cap, metadata)

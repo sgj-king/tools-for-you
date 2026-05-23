@@ -2,6 +2,9 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
 
+rule_files:
+  - /etc/prometheus/alerts.yml
+
 scrape_configs:
   - job_name: prometheus
     static_configs:
@@ -37,7 +40,5 @@ scrape_configs:
     static_configs:
       - targets: ["relay:8080"]
 
-  - job_name: new-api
-    metrics_path: /api/status
-    static_configs:
-      - targets: ["new-api:3000"]
+# new-api 当前未导出 Prometheus 文本格式（/api/status 返回 JSON），不参与 scrape。
+# 健康检查改由 Prometheus blackbox_exporter 或 docker healthcheck 兜底。

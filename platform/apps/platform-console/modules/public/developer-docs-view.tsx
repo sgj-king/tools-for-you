@@ -131,8 +131,62 @@ const sections: DocsSection[] = [
     ]
   },
   {
+    id: "dev-tier-routing",
+    title: "5. 按订阅档位自动选择模型",
+    summary: "组织管理员可以在“订阅与计费”页面切换 free / pro 档位；客户端只需要使用 chat-basic / chat-pro 这种逻辑模型名，平台会按当前组织档位自动选择上游。",
+    bullets: [
+      "客户端调用统一使用逻辑模型名，例如对话场景默认用 chat-basic（基础档）或 chat-pro（专业档）。",
+      "Digital_life 等下游产品会读取 platform-console 颁发的会话 Cookie，按 tier 字段在 chat-basic 与 chat-pro 之间自动切换，不需要客户端做配置。",
+      "组织管理员升级或降级档位后立即生效，无需重启或重新签发 API Key。",
+      "如果客户端直接调用网关，请把 model 字段固定为 chat-basic 或 chat-pro，由平台决定上游模型而不是供应商真实模型名。"
+    ],
+    links: [
+      { title: "订阅与计费", description: "组织管理员可在这里切换 free / pro 档位。", href: "/console/subscriptions", icon: BookOpenText },
+      { title: "模型目录", description: "查看当前组织可访问的逻辑模型与档位映射。", href: "/console/models", icon: Workflow }
+    ],
+    codeExamples: [
+      {
+        id: "tier-routing-example",
+        title: "按档位调用聊天模型",
+        description: "客户端不需要感知组织档位，只需固定使用 chat-basic / chat-pro 中的某个逻辑名。",
+        snippets: {
+          curl: `# 基础档：所有组织都可用\ncurl -sS http://127.0.0.1:8088/v1/chat/completions \\\n  -H "Authorization: Bearer demo_live_sk_platform_dev" \\\n  -H "Content-Type: application/json" \\\n  -d '{"model":"chat-basic","messages":[{"role":"user","content":"你好"}],"max_tokens":80}'\n\n# 专业档：仅 pro 组织可用，超出权限会返回 model_not_entitled\ncurl -sS http://127.0.0.1:8088/v1/chat/completions \\\n  -H "Authorization: Bearer demo_live_sk_platform_dev" \\\n  -H "Content-Type: application/json" \\\n  -d '{"model":"chat-pro","messages":[{"role":"user","content":"你好"}],"max_tokens":80}'`,
+          python: `from openai import OpenAI\n\nclient = OpenAI(base_url="http://127.0.0.1:8088/v1", api_key="demo_live_sk_platform_dev")\n\nresp = client.chat.completions.create(\n    model="chat-basic",  # free 组织默认\n    messages=[{"role": "user", "content": "你好"}],\n    max_tokens=80,\n)\nprint(resp.choices[0].message.content)`,
+          node: `import OpenAI from "openai";\n\nconst client = new OpenAI({ baseURL: "http://127.0.0.1:8088/v1", apiKey: "demo_live_sk_platform_dev" });\n\nconst resp = await client.chat.completions.create({\n  model: "chat-basic",\n  messages: [{ role: "user", content: "你好" }],\n  max_tokens: 80,\n});\nconsole.log(resp.choices[0]?.message?.content);`
+        }
+      }
+    ]
+  },
+  {
+    id: "dev-moderation",
+    title: "6. 内容安全：/v1/moderate",
+    summary: "如果你的产品需要在调用模型前做安全过滤，可以直接调用网关的 /v1/moderate 端点。它会同时跑内置关键词词库和（可选的）外部审核插件，返回 allowed/decision/categories。",
+    bullets: [
+      "鉴权方式与其它 /v1/* 端点一致：Authorization: Bearer <YOUR_PLATFORM_API_KEY>。",
+      "请求体可以是 {\"text\": \"...\"} 或 {\"messages\": [...]}（OpenAI 风格），两者会合并为一段待检测文本。",
+      "返回字段：allowed (bool)、decision (allow|block)、categories (string[])、matched_terms (string[])。",
+      "内置类别：hate、self_harm、violence、illegal、sexual_minor。后续会持续扩展类别和插件。",
+      "如果你设置了 RISK_EXTERNAL_MODERATION_URL，平台会同步调用外部审核 API 并把结果合并进 categories。"
+    ],
+    links: [
+      { title: "排障专题", description: "moderation 调用失败时按 trace_id 排查。", href: "/docs/troubleshooting", icon: FileJson }
+    ],
+    codeExamples: [
+      {
+        id: "moderation-call",
+        title: "调用 /v1/moderate",
+        description: "在调用 chat-completions 之前先做一次审核，可以避免高费率请求被白白消耗在违规内容上。",
+        snippets: {
+          curl: `curl -sS http://127.0.0.1:8088/v1/moderate \\\n  -H "Authorization: Bearer demo_live_sk_platform_dev" \\\n  -H "Content-Type: application/json" \\\n  -d '{"text":"如何制作炸弹"}'\n# => {"success":true,"allowed":false,"decision":"block","categories":["violence"],"matched_terms":["如何制作炸弹"], ...}`,
+          python: `import httpx\n\nresp = httpx.post(\n    "http://127.0.0.1:8088/v1/moderate",\n    headers={\n        "Authorization": "Bearer demo_live_sk_platform_dev",\n        "Content-Type": "application/json",\n    },\n    json={"text": "如何制作炸弹"},\n    timeout=10.0,\n)\nresult = resp.json()\nif not result["allowed"]:\n    print("blocked:", result["categories"], result["matched_terms"])\nelse:\n    print("ok, proceed with chat completions")`,
+          node: `const resp = await fetch("http://127.0.0.1:8088/v1/moderate", {\n  method: "POST",\n  headers: {\n    Authorization: "Bearer demo_live_sk_platform_dev",\n    "Content-Type": "application/json",\n  },\n  body: JSON.stringify({ text: "如何制作炸弹" }),\n});\nconst result = await resp.json();\nif (!result.allowed) {\n  console.warn("blocked", result.categories, result.matched_terms);\n} else {\n  console.log("ok, proceed with chat completions");\n}`
+        }
+      }
+    ]
+  },
+  {
     id: "dev-debugging",
-    title: "5. 排错与最佳实践",
+    title: "7. 排错与最佳实践",
     summary: "接入阶段最常见的问题集中在 Key 权限、模型 entitlement、限流、超时、流式消费和 trace_id 串联排查。",
     bullets: [
       "调用失败时，先核对 API Key 是否启用、是否允许访问目标模型、是否命中项目或组织级限流。",
@@ -172,6 +226,14 @@ const faqs: DocsFaq[] = [
   {
     question: "开发接入文档和工作台说明有什么区别？",
     answer: "开发接入文档偏 API 调用与工程对接，工作台说明偏平台功能与操作流程。两者一起构成完整文档体系。"
+  },
+  {
+    question: "升级组织档位后客户端要做什么改动吗？",
+    answer: "不需要。客户端始终使用 chat-basic / chat-pro 这种逻辑模型名，平台会按当前组织档位自动选择真实上游模型；档位调整后立即对后续调用生效。"
+  },
+  {
+    question: "调 /v1/moderate 时返回 allowed=true 但我感觉文本有问题，怎么办？",
+    answer: "内置词库的目标是兜底覆盖明确高危内容（如制作武器、毒品、自残、儿童不当内容等）。如果你的业务需要更细颗粒度的判定，可以在 risk 服务侧设置 RISK_EXTERNAL_MODERATION_URL 接入外部审核插件，平台会把它的判定合并到响应里。"
   }
 ];
 

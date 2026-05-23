@@ -44,6 +44,7 @@ export const mockUser: SessionUser = {
   email: "linchuan@example.com",
   orgName: "彗星科技",
   role: "member",
+  tier: "free",
   avatarUrl: "https://api.dicebear.com/9.x/initials/svg?seed=%E6%9E%97%E5%B7%9D&backgroundColor=1e8b77"
 };
 

@@ -30,6 +30,7 @@ APP_ENV = os.getenv("APP_ENV", "development")
 APP_VERSION = os.getenv("APP_VERSION", "0.2.0-fastapi")
 STARTED_AT = time.time()
 REQUEST_COUNT = 0
+REQUEST_STATUS_COUNTS: dict[str, int] = {}
 RATE_LIMIT_BUCKETS: dict[str, tuple[int, float]] = {}
 MAX_JSON_BODY_BYTES = int(os.getenv("MAX_JSON_BODY_BYTES", "1048576"))
 MAX_GATEWAY_BODY_BYTES = int(os.getenv("MAX_GATEWAY_BODY_BYTES", "2097152"))
@@ -72,6 +73,11 @@ def header_text(request: Request, name: str, fallback: str = "") -> str:
 def inc_requests() -> None:
     global REQUEST_COUNT
     REQUEST_COUNT += 1
+
+
+def record_status(status_code: int) -> None:
+    bucket = "5xx" if status_code >= 500 else "4xx" if status_code >= 400 else "2xx"
+    REQUEST_STATUS_COUNTS[bucket] = REQUEST_STATUS_COUNTS.get(bucket, 0) + 1
 
 
 def client_ip(request: Request) -> str:
@@ -499,10 +505,13 @@ async def security_middleware(request: Request, call_next):
     try:
         response = await call_next(request)
     except json.JSONDecodeError:
+        record_status(400)
         return add_security_headers(write_error(400, "invalid_json_payload", "request body is not valid JSON"))
     except Exception as exc:
+        record_status(500)
         return add_security_headers(write_error(500, "internal_server_error", "request failed", {"cause": str(exc)}))
 
+    record_status(response.status_code)
     return add_security_headers(response)
 
 
@@ -585,14 +594,15 @@ async def echo(request: Request) -> JSONResponse:
 
 @app.get("/metrics")
 def metrics() -> PlainTextResponse:
-    body = "\n".join(
-        [
-            f'service_info{{service="{SERVICE_NAME}",role="{SERVICE_ROLE}",env="{APP_ENV}"}} 1',
-            f"service_uptime_seconds {time.time() - STARTED_AT:.0f}",
-            f"service_http_requests_total {REQUEST_COUNT}",
-        ]
-    )
-    return PlainTextResponse(body + "\n")
+    lines = [
+        f'service_info{{service="{SERVICE_NAME}",role="{SERVICE_ROLE}",env="{APP_ENV}"}} 1',
+        f"service_uptime_seconds {time.time() - STARTED_AT:.0f}",
+        f"service_http_requests_total {REQUEST_COUNT}",
+    ]
+    for bucket in ("2xx", "4xx", "5xx"):
+        count = REQUEST_STATUS_COUNTS.get(bucket, 0)
+        lines.append(f'service_http_responses_total{{status="{bucket}"}} {count}')
+    return PlainTextResponse("\n".join(lines) + "\n")
 
 
 @app.post("/internal/auth/validate-key")
@@ -692,6 +702,114 @@ def policy_check(payload: dict[str, Any]) -> JSONResponse:
             "limits": {"rpm": entitlement["rpm_limit"], "tpm": entitlement["tpm_limit"], "concurrency": entitlement["concurrency_limit"], "daily_cost_cap": entitlement["daily_cost_cap"]},
             "route_hint": {"external_model_name": model, "internal_profile": route["internal_model_profile"], "preferred_provider": route["provider_code"], "provider_model": route["provider_model"], "channel_code": route["channel_code"], "region": route["region"]},
             "decision_context": {"organization_id": org_id, "project_id": project_id, "api_key_id": api_key_id, "region": region, "source": "mysql-fastapi"},
+        }
+    )
+
+
+RISK_BASELINE_RULES: list[tuple[str, list[str]]] = [
+    ("hate", ["nigger", "kike", "chink", "spic", "faggot"]),
+    ("self_harm", ["how to commit suicide", "kill myself", "ways to suicide", "自杀方法"]),
+    ("violence", ["how to make a bomb", "build a bomb", "make a pipe bomb", "pipe bomb", "制造炸弹", "制作炸弹", "造炸弹"]),
+    ("illegal", ["buy heroin", "buy meth", "buy fentanyl", "购买毒品", "买枪", "child porn", "csam"]),
+    ("sexual_minor", ["loli", "underage sex", "minor sex", "child sex"]),
+]
+
+
+def risk_collect_text(payload: dict[str, Any]) -> str:
+    chunks: list[str] = []
+    text_field = payload.get("text") or payload.get("input")
+    if isinstance(text_field, str) and text_field.strip():
+        chunks.append(text_field)
+    elif isinstance(text_field, list):
+        for item in text_field:
+            if isinstance(item, str):
+                chunks.append(item)
+    messages = payload.get("messages")
+    if isinstance(messages, list):
+        for msg in messages:
+            if not isinstance(msg, dict):
+                continue
+            content = msg.get("content")
+            if isinstance(content, str):
+                chunks.append(content)
+            elif isinstance(content, list):
+                for part in content:
+                    if isinstance(part, dict):
+                        text = part.get("text")
+                        if isinstance(text, str):
+                            chunks.append(text)
+    return "\n".join(chunks).strip()
+
+
+def risk_match_baseline(text: str) -> tuple[list[str], list[str]]:
+    if not text:
+        return [], []
+    lowered = text.lower()
+    matched_categories: list[str] = []
+    matched_terms: list[str] = []
+    for category, terms in RISK_BASELINE_RULES:
+        for term in terms:
+            if term.lower() in lowered:
+                matched_terms.append(term)
+                if category not in matched_categories:
+                    matched_categories.append(category)
+    return matched_categories, matched_terms
+
+
+async def risk_call_external(text: str, rid: str, tid: str) -> dict[str, Any] | None:
+    url = getenv("RISK_EXTERNAL_MODERATION_URL")
+    if not url or not text:
+        return None
+    headers = {"Content-Type": "application/json"}
+    api_key = getenv("RISK_EXTERNAL_MODERATION_KEY")
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    payload = {"input": text, "request_id": rid, "trace_id": tid}
+    try:
+        async with httpx.AsyncClient(timeout=5) as client:
+            resp = await client.post(url, json=payload, headers=headers)
+            if resp.status_code >= 400:
+                return {"plugin_error": f"http {resp.status_code}", "raw": resp.text[:512]}
+            return resp.json()
+    except Exception as exc:
+        return {"plugin_error": str(exc)}
+
+
+@app.post("/internal/risk/moderate")
+async def risk_moderate_internal(payload: dict[str, Any]) -> JSONResponse:
+    rid = request_id(payload.get("request_id"))
+    tid = trace_id(payload.get("trace_id"))
+    text = risk_collect_text(payload)
+    if not text:
+        return json_response({"success": False, "allowed": False, "request_id": rid, "trace_id": tid, "error_code": "missing_input", "message": "text or messages is required"}, 400)
+    categories, terms = risk_match_baseline(text)
+    plugin = await risk_call_external(text, rid, tid)
+    plugin_flagged = False
+    plugin_categories: list[str] = []
+    if isinstance(plugin, dict):
+        flagged = plugin.get("flagged")
+        if flagged is True:
+            plugin_flagged = True
+        cats = plugin.get("categories")
+        if isinstance(cats, dict):
+            for name, value in cats.items():
+                if value:
+                    plugin_categories.append(str(name))
+                    if not plugin_flagged:
+                        plugin_flagged = True
+    allowed = not categories and not plugin_flagged
+    decision = "allow" if allowed else "block"
+    return json_response(
+        {
+            "success": True,
+            "allowed": allowed,
+            "decision": decision,
+            "request_id": rid,
+            "trace_id": tid,
+            "categories": list(dict.fromkeys(categories + plugin_categories)),
+            "matched_terms": terms,
+            "plugin": plugin,
+            "source": "platform-risk",
         }
     )
 
@@ -876,6 +994,32 @@ async def gateway_chain_setup(request: Request, body: dict[str, Any]) -> tuple[d
     if status >= 400 or not preauth.get("success") or not preauth.get("allowed"):
         return gateway_error(402 if status < 500 else 502, rid, tid, preauth.get("error_code") or "preauthorize_rejected", preauth.get("message") or "preauthorization failed")
     return auth, policy, preauth, rid, tid, idem
+
+
+@app.post("/v1/moderate")
+async def gateway_moderate(request: Request) -> Response:
+    if SERVICE_ROLE != "gateway":
+        return write_error(404, "not_found", "resource not found")
+    try:
+        body = await request.json()
+    except Exception:
+        return gateway_error(400, request_id(request.headers.get("x-request-id")), trace_id(request.headers.get("x-trace-id")), "invalid_request_body", "request body must be JSON")
+    if not isinstance(body, dict):
+        return gateway_error(400, request_id(request.headers.get("x-request-id")), trace_id(request.headers.get("x-trace-id")), "invalid_request_body", "request body must be a JSON object")
+    rid = request_id(request.headers.get("x-request-id"))
+    tid = trace_id(request.headers.get("x-trace-id"))
+    api_key = extract_bearer(request)
+    if not api_key:
+        return gateway_error(401, rid, tid, "missing_bearer_token", "Authorization: Bearer <api_key> is required")
+    status, auth = await post_json(getenv("AUTH_BASE_URL", "http://auth:8080").rstrip("/") + "/internal/auth/validate-key", {"api_key": api_key, "request_id": rid, "trace_id": tid})
+    if status >= 400 or not auth.get("success") or not auth.get("valid"):
+        return gateway_error(401 if status < 500 else 502, rid, tid, auth.get("error_code") or "auth_rejected", auth.get("message") or "api key validation failed")
+    risk_payload = {"request_id": rid, "trace_id": tid, "organization_id": auth["organization_id"], "project_id": auth["project_id"], "api_key_id": auth["api_key_id"], "text": body.get("text") or body.get("input"), "messages": body.get("messages")}
+    status, risk = await post_json(getenv("RISK_BASE_URL", "http://risk:8080").rstrip("/") + "/internal/risk/moderate", risk_payload, timeout=10)
+    if status >= 400 or not risk.get("success"):
+        return gateway_error(502, rid, tid, risk.get("error_code") or "risk_upstream_error", risk.get("message") or "moderation request failed")
+    headers = {"X-Request-Id": rid, "X-Trace-Id": tid}
+    return json_response({"success": True, "allowed": risk.get("allowed"), "decision": risk.get("decision"), "categories": risk.get("categories") or [], "matched_terms": risk.get("matched_terms") or [], "request_id": rid, "trace_id": tid}, 200, headers=headers)
 
 
 @app.post("/v1/chat/completions")

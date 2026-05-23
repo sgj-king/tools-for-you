@@ -2,6 +2,7 @@
 
 import { PlanComparisonCard } from "@/components/domain/plan-comparison-card";
 import { SubscriptionOverviewCard } from "@/components/domain/subscription-overview-card";
+import { TierSwitcherCard } from "@/components/domain/tier-switcher-card";
 import { usePlansQuery, useSubscriptionOverviewQuery } from "@/hooks/use-console-data";
 
 export function SubscriptionsView() {
@@ -14,6 +15,7 @@ export function SubscriptionsView() {
 
   return (
     <div className="section-shell">
+      <TierSwitcherCard />
       <SubscriptionOverviewCard overview={overview.data} />
       <section className="grid gap-4 lg:grid-cols-3">
         {plans.data.map((plan) => (

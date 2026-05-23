@@ -80,6 +80,7 @@ function readPersistedSession() {
         displayName: parsed.displayName,
         orgName: parsed.orgName,
         role: parsed.role as UserRole,
+        tier: parsed.tier === "pro" ? "pro" : "free",
         avatarUrl: typeof parsed.avatarUrl === "string" ? parsed.avatarUrl : buildAvatar(parsed.displayName)
       };
     }
@@ -162,6 +163,12 @@ export const mockApi = {
     } else if (!runtimeMockUser.avatarUrl) {
       runtimeMockUser.avatarUrl = buildAvatar(runtimeMockUser.displayName);
     }
+    persistSession();
+    return cloneSessionUser(runtimeMockUser);
+  },
+  updateTier: async (tier: "free" | "pro") => {
+    readPersistedSession();
+    runtimeMockUser.tier = tier === "pro" ? "pro" : "free";
     persistSession();
     return cloneSessionUser(runtimeMockUser);
   },

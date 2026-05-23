@@ -1,0 +1,39 @@
+{
+  "name": "@cometai/sdk",
+  "version": "0.1.0",
+  "description": "Official TypeScript / JavaScript SDK for the Comet AI platform.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "llm",
+    "openai",
+    "gateway",
+    "chat",
+    "comet"
+  ],
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

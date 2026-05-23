@@ -75,6 +75,17 @@ export function useUpdateSessionProfileMutation() {
   });
 }
 
+export function useUpdateSessionTierMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: authApi.updateTier,
+    onSuccess: (sessionUser) => {
+      queryClient.setQueryData(["session-user"], sessionUser);
+      void queryClient.invalidateQueries({ queryKey: ["subscription-overview"] });
+    }
+  });
+}
+
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   return useMutation({

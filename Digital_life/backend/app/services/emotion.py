@@ -1,21 +1,28 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime
+from pathlib import Path
 
 from backend.app.config import WORKSPACE_DIR
 
 
-STATE_FILE = WORKSPACE_DIR / "emotion_state.json"
-
-
 class EmotionEngine:
-    def __init__(self) -> None:
+    def __init__(self, user_id: str | None = None) -> None:
+        self.user_id = self._sanitize_user_id(user_id or "_anonymous")
+        self.user_dir = WORKSPACE_DIR / "users" / self.user_id
+        self.state_file = self.user_dir / "emotion_state.json"
         self.ensure()
 
+    @staticmethod
+    def _sanitize_user_id(user_id: str) -> str:
+        safe = re.sub(r"[^\w\-]", "_", user_id)
+        return safe[:64] if safe else "_anonymous"
+
     def ensure(self) -> None:
-        WORKSPACE_DIR.mkdir(parents=True, exist_ok=True)
-        if not STATE_FILE.exists():
+        self.user_dir.mkdir(parents=True, exist_ok=True)
+        if not self.state_file.exists():
             self._save(
                 {
                     "emotion_index": 92,
@@ -31,7 +38,7 @@ class EmotionEngine:
 
     def current(self) -> dict:
         self.ensure()
-        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        return json.loads(self.state_file.read_text(encoding="utf-8"))
 
     def update(self, user_text: str, assistant_text: str = "") -> dict:
         state = self.current()
@@ -64,7 +71,7 @@ class EmotionEngine:
         return "稳定"
 
     def _save(self, state: dict) -> None:
-        STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+        self.state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def _clamp(self, value: float, low: int, high: int) -> int:
         return int(max(low, min(high, round(value))))

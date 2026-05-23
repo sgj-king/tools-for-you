@@ -1,7 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ShieldCheck, Workflow } from "lucide-react";
@@ -13,7 +14,18 @@ import { Input } from "@/components/ui/input";
 import { resolvePostLoginDestination } from "@/lib/portal-navigation";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   const loginMutation = useLoginMutation();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo");
+  const registerHref = returnTo ? `/register?returnTo=${encodeURIComponent(returnTo)}` : "/register";
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -24,8 +36,11 @@ export default function LoginPage() {
   });
 
   const onSubmit = form.handleSubmit(async (values) => {
-    const result = await loginMutation.mutateAsync(values);
-    const destination = resolvePostLoginDestination(result.sessionUser.role);
+    const result = await loginMutation.mutateAsync({
+      ...values,
+      returnTo: returnTo ?? undefined
+    });
+    const destination = isHttpUrl(result.redirectTo) ? result.redirectTo : resolvePostLoginDestination(result.sessionUser.role);
     window.location.assign(destination);
   });
 
@@ -76,7 +91,7 @@ export default function LoginPage() {
           </form>
 
           <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
-            <Link href="/register" className="hover:text-foreground">
+            <Link href={registerHref} className="hover:text-foreground">
               注册组织
             </Link>
             <Link href="/forgot-password" className="hover:text-foreground">
@@ -87,6 +102,15 @@ export default function LoginPage() {
       </Card>
     </main>
   );
+}
+
+function isHttpUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function Field({

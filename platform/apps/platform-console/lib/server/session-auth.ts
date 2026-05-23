@@ -2,7 +2,7 @@ import { createHmac, randomBytes, randomUUID, scryptSync, timingSafeEqual } from
 import type { NextRequest } from "next/server";
 import type { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { dbExecute, dbQuery, dbTransaction } from "@/lib/server/db";
-import type { SessionUser } from "@/types/domain";
+import type { PlanTier, SessionUser } from "@/types/domain";
 import type { UserRole } from "@/types/shared";
 
 const SESSION_COOKIE_NAME = "platform_console_session";
@@ -17,6 +17,7 @@ type UserRow = RowDataPacket & {
   status: string;
   organization_id: number | null;
   org_name: string | null;
+  org_plan_tier: string | null;
   owner_user_id: number | null;
 };
 
@@ -36,6 +37,7 @@ type SessionPayload = {
   displayName: string;
   orgName: string;
   role: UserRole;
+  tier?: PlanTier;
   avatarUrl?: string;
   exp: number;
 };
@@ -78,13 +80,25 @@ export function sessionCookieName() {
 }
 
 export function sessionCookieOptions(maxAge = SESSION_TTL_SECONDS) {
-  return {
+  const options: {
+    httpOnly: boolean;
+    sameSite: "lax" | "strict" | "none";
+    secure: boolean;
+    path: string;
+    maxAge: number;
+    domain?: string;
+  } = {
     httpOnly: true,
-    sameSite: "lax" as const,
+    sameSite: resolveCookieSameSite(),
     secure: shouldUseSecureCookies(),
     path: "/",
     maxAge
   };
+  const domain = resolveCookieDomain();
+  if (domain) {
+    options.domain = domain;
+  }
+  return options;
 }
 
 export async function authenticateUser(email: string, password: string) {
@@ -100,6 +114,7 @@ export async function authenticateUser(email: string, password: string) {
        u.status,
        u.organization_id,
        o.name AS org_name,
+       o.plan_tier AS org_plan_tier,
        o.owner_user_id
      FROM users u
      LEFT JOIN organizations o ON o.id = u.organization_id
@@ -188,6 +203,7 @@ export async function getSessionUserFromRequest(request: NextRequest): Promise<S
        u.status,
        u.organization_id,
        o.name AS org_name,
+       o.plan_tier AS org_plan_tier,
        o.owner_user_id
      FROM users u
      LEFT JOIN organizations o ON o.id = u.organization_id
@@ -240,6 +256,7 @@ export function encodeSession(user: SessionUser) {
     displayName: user.displayName,
     orgName: user.orgName,
     role: user.role,
+    tier: user.tier,
     exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS
   };
   return signPayload(payload);
@@ -299,8 +316,13 @@ async function buildSessionUser(user: UserRow, avatarOverride?: string) {
     displayName: user.display_name,
     orgName: user.org_name?.trim() || "Default Organization",
     role,
+    tier: normalizeTier(user.org_plan_tier),
     avatarUrl
   };
+}
+
+function normalizeTier(value: string | null | undefined): PlanTier {
+  return value === "pro" ? "pro" : "free";
 }
 
 async function resolveRoleForUser(userId: number, email: string, organizationId: number | null, ownerUserId: number | null): Promise<UserRole> {
@@ -424,6 +446,22 @@ function shouldUseSecureCookies() {
     return true;
   }
   return (process.env.PLATFORM_CONSOLE_PUBLIC_URL ?? "").startsWith("https://");
+}
+
+function resolveCookieSameSite(): "lax" | "strict" | "none" {
+  const value = (process.env.PLATFORM_CONSOLE_COOKIE_SAMESITE ?? "lax").trim().toLowerCase();
+  if (value === "none" || value === "strict") {
+    return value;
+  }
+  return "lax";
+}
+
+function resolveCookieDomain(): string | undefined {
+  const raw = process.env.PLATFORM_COOKIE_DOMAIN?.trim();
+  if (!raw) return undefined;
+  if (raw === "host-only" || raw === "auto") return undefined;
+  // Browser requires leading dot OR exact host. We normalize to leading dot to allow subdomain sharing.
+  return raw.startsWith(".") ? raw : `.${raw}`;
 }
 
 function isProductionLike() {

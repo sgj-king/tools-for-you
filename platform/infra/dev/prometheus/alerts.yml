@@ -1,0 +1,59 @@
+groups:
+  - name: platform.availability
+    rules:
+      - alert: ServiceDown
+        expr: up{job=~"gateway|auth|billing|policy|risk|relay"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Prometheus has been unable to scrape {{ $labels.job }} for 2 minutes."
+
+      - alert: ServiceFlapping
+        expr: resets(service_uptime_seconds[15m]) > 3
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Service {{ $labels.service }} restarted repeatedly"
+          description: "{{ $labels.service }} ({{ $labels.role }}) restarted more than 3 times in the last 10 minutes."
+
+  - name: platform.errors
+    rules:
+      - alert: HighFiveXxRate
+        expr: |
+          (
+            sum by (job) (rate(service_http_responses_total{status="5xx"}[5m]))
+            /
+            clamp_min(sum by (job) (rate(service_http_responses_total[5m])), 0.001)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.job }} 5xx rate above 5%"
+          description: "5xx error rate on {{ $labels.job }} sustained above 5% for 5 minutes."
+
+      - alert: GatewayFiveXxBurst
+        expr: sum by (job) (rate(service_http_responses_total{job="gateway",status="5xx"}[1m])) > 1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Gateway 5xx burst"
+          description: "Gateway is returning >1 req/s of 5xx for 2 minutes."
+
+  - name: platform.traffic
+    rules:
+      - alert: GatewayTrafficStall
+        expr: |
+          sum(rate(service_http_responses_total{job="gateway"}[10m])) == 0
+          and on() hour() >= 1
+          and on() hour() <= 23
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Gateway has zero traffic"
+          description: "No requests scored on gateway in the last 10 minutes during active hours — possible DNS / Nginx outage."

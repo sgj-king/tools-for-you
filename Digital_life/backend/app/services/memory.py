@@ -10,11 +10,6 @@ from typing import Iterable
 from backend.app.config import WORKSPACE_DIR
 
 
-MEMORY_FILE = WORKSPACE_DIR / "MEMORY.md"
-DAILY_DIR = WORKSPACE_DIR / "memory"
-STATE_FILE = WORKSPACE_DIR / "memory_state.json"
-
-
 @dataclass
 class MemoryHit:
     source: str
@@ -23,21 +18,52 @@ class MemoryHit:
 
 
 class MemoryStore:
-    def __init__(self) -> None:
-        self.workspace = WORKSPACE_DIR
-        self.daily_dir = DAILY_DIR
+    def __init__(self, user_id: str | None = None) -> None:
+        self.user_id = self._sanitize_user_id(user_id or "_anonymous")
+        self.user_dir = WORKSPACE_DIR / "users" / self.user_id
+        self.memory_file = self.user_dir / "MEMORY.md"
+        self.daily_dir = self.user_dir / "memory"
+        self.state_file = self.user_dir / "memory_state.json"
+        self._migrate_legacy_data()
         self.ensure()
+
+    @staticmethod
+    def _sanitize_user_id(user_id: str) -> str:
+        safe = re.sub(r"[^\w\-]", "_", user_id)
+        return safe[:64] if safe else "_anonymous"
+
+    def _migrate_legacy_data(self) -> None:
+        """Migrate old root-level data to users/_legacy/ once"""
+        legacy_memory = WORKSPACE_DIR / "MEMORY.md"
+        legacy_daily = WORKSPACE_DIR / "memory"
+        legacy_state = WORKSPACE_DIR / "memory_state.json"
+        legacy_emotion = WORKSPACE_DIR / "emotion_state.json"
+
+        if not any(p.exists() for p in [legacy_memory, legacy_daily, legacy_state, legacy_emotion]):
+            return
+
+        legacy_dir = WORKSPACE_DIR / "users" / "_legacy"
+        legacy_dir.mkdir(parents=True, exist_ok=True)
+
+        if legacy_memory.exists() and not (legacy_dir / "MEMORY.md").exists():
+            legacy_memory.rename(legacy_dir / "MEMORY.md")
+        if legacy_daily.exists() and legacy_daily.is_dir() and not (legacy_dir / "memory").exists():
+            legacy_daily.rename(legacy_dir / "memory")
+        if legacy_state.exists() and not (legacy_dir / "memory_state.json").exists():
+            legacy_state.rename(legacy_dir / "memory_state.json")
+        if legacy_emotion.exists() and not (legacy_dir / "emotion_state.json").exists():
+            legacy_emotion.rename(legacy_dir / "emotion_state.json")
 
     def ensure(self) -> None:
         self.daily_dir.mkdir(parents=True, exist_ok=True)
-        if not MEMORY_FILE.exists():
-            MEMORY_FILE.write_text(
+        if not self.memory_file.exists():
+            self.memory_file.write_text(
                 "# StarryChat Long-Term Memory\n\n"
                 "Durable user preferences, identity details, commitments, and relationship summaries live here.\n",
                 encoding="utf-8",
             )
-        if not STATE_FILE.exists():
-            STATE_FILE.write_text(
+        if not self.state_file.exists():
+            self.state_file.write_text(
                 json.dumps(
                     {
                         "first_meet": datetime.now().strftime("%Y.%m.%d"),
@@ -57,10 +83,10 @@ class MemoryStore:
 
     def _load_state(self) -> dict:
         self.ensure()
-        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        return json.loads(self.state_file.read_text(encoding="utf-8"))
 
     def _save_state(self, state: dict) -> None:
-        STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+        self.state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def append_daily(self, role: str, text: str) -> None:
         self.ensure()
@@ -75,7 +101,7 @@ class MemoryStore:
         self.ensure()
         stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
         entry = f"\n## {stamp} ({source})\n\n- {text.strip()}\n"
-        with MEMORY_FILE.open("a", encoding="utf-8") as f:
+        with self.memory_file.open("a", encoding="utf-8") as f:
             f.write(entry)
         return entry.strip()
 
@@ -106,13 +132,13 @@ class MemoryStore:
             for chunk in chunks:
                 score = self._score(query, query_tokens, chunk)
                 if score > 0:
-                    hits.append(MemoryHit(source=str(path.relative_to(self.workspace)), text=chunk, score=score))
+                    hits.append(MemoryHit(source=str(path.relative_to(self.user_dir)), text=chunk, score=score))
         hits.sort(key=lambda hit: hit.score, reverse=True)
         return hits[:top_k]
 
     def stats(self) -> dict:
         state = self._load_state()
-        memory_text = MEMORY_FILE.read_text(encoding="utf-8", errors="ignore")
+        memory_text = self.memory_file.read_text(encoding="utf-8", errors="ignore")
         daily_files = sorted(self.daily_dir.glob("*.md"))
         memory_count = len(re.findall(r"^- ", memory_text, flags=re.MULTILINE))
         topics = sorted(state.get("topics", {}).items(), key=lambda item: item[1], reverse=True)
@@ -135,7 +161,7 @@ class MemoryStore:
         return lines[-limit:]
 
     def _memory_files(self) -> Iterable[Path]:
-        yield MEMORY_FILE
+        yield self.memory_file
         for path in sorted(self.daily_dir.glob("*.md"), reverse=True)[:14]:
             yield path
 

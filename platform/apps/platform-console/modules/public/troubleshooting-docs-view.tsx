@@ -152,6 +152,14 @@ const faqs: DocsFaq[] = [
   {
     question: "为什么排障时一定要保留 trace_id？",
     answer: "因为 trace_id 可以直接关联请求日志、Playground、Webhook 投递和支持工单，是跨页面、跨服务的统一索引。"
+  },
+  {
+    question: "升级到 pro 后调用 chat-pro 还是返回 model_not_entitled，怎么办？",
+    answer: "先确认调用使用的 API Key 所属组织的 plan_tier 已变更为 pro（在订阅与计费页面），再确认目标 Key 的 organization_id 与升级的组织一致。如果两者都正确但仍失败，请检查管理后台 model_entitlements 是否把 chat-pro 关联到该组织，必要时让平台管理员补录。"
+  },
+  {
+    question: "Digital_life 升级后还在用 chat-basic 怎么排查？",
+    answer: "Digital_life 的会话 Cookie 由 platform-console 颁发，包含 tier 字段。如果你升级后立刻测试，请刷新一次页面让前端拿到新的会话；如果仍未变化，看 platform-console 的 /api/platform/auth/me/tier 是否返回 tier=pro，必要时清除 cookie 再重新登录。"
   }
 ];
 

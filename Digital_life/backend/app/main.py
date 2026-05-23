@@ -1,21 +1,31 @@
 from __future__ import annotations
 
 import asyncio
+import time
+from collections import defaultdict, deque
 from datetime import datetime
+from threading import Lock
+from urllib.parse import quote
 
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from backend.app.config import (
     ADMIN_CONSOLE_PUBLIC_URL,
+    ALLOW_CREDENTIALS,
+    ALLOWED_ORIGINS,
     APP_NAME,
     CUSTOMER_CONSOLE_PUBLIC_URL,
+    DIGITAL_LIFE_PUBLIC_URL,
+    DOCS_ENABLED,
     FREETTS_BASE_URL,
     FRONTEND_DIR,
+    IS_PRODUCTION,
+    IT_TOOLS_PUBLIC_URL,
     NEW_API_URL,
     NEW_API_PUBLIC_URL,
     OPENCLAW_BASE_URL,
@@ -25,27 +35,132 @@ from backend.app.config import (
     PLATFORM_GATEWAY_URL,
     PLATFORM_GATEWAY_PUBLIC_URL,
     PLATFORM_OPS_URL,
+    RATE_LIMIT_CHAT_PER_WINDOW,
+    RATE_LIMIT_MEMORY_PER_WINDOW,
+    RATE_LIMIT_TTS_PER_WINDOW,
+    RATE_LIMIT_WINDOW_SECONDS,
     TTS_BASE_URL,
 )
 from backend.app.services.emotion import EmotionEngine
 from backend.app.services.llm import LLMClient
 from backend.app.services.memory import MemoryStore
+from backend.app.services.session import SessionUser, session_from_cookies
 from backend.app.services.tts import TTSClient
 
 
-app = FastAPI(title=APP_NAME)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+_fastapi_kwargs: dict = {"title": APP_NAME}
+if not DOCS_ENABLED:
+    _fastapi_kwargs.update(docs_url=None, redoc_url=None, openapi_url=None)
+
+app = FastAPI(**_fastapi_kwargs)
+
+if ALLOWED_ORIGINS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=ALLOWED_ORIGINS,
+        allow_origin_regex=None,
+        allow_credentials=ALLOW_CREDENTIALS,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type", "X-Requested-With"],
+    )
+
+
+_rate_buckets: dict[tuple[str, str], deque[float]] = defaultdict(deque)
+_rate_lock = Lock()
+
+_RATE_LIMITS: dict[str, tuple[int, int]] = {
+    "chat": (RATE_LIMIT_CHAT_PER_WINDOW, RATE_LIMIT_WINDOW_SECONDS),
+    "tts": (RATE_LIMIT_TTS_PER_WINDOW, RATE_LIMIT_WINDOW_SECONDS),
+    "memory": (RATE_LIMIT_MEMORY_PER_WINDOW, RATE_LIMIT_WINDOW_SECONDS),
+}
+
+
+def _rate_key(request: Request) -> str:
+    user = _session_from_request(request)
+    if user is not None:
+        return f"user:{user.id}"
+    auth = request.headers.get("authorization", "").strip()
+    if auth.lower().startswith("bearer "):
+        return f"key:{auth[7:].strip()[:64]}"
+    fwd = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+    if fwd:
+        return f"ip:{fwd}"
+    if request.client and request.client.host:
+        return f"ip:{request.client.host}"
+    return "ip:unknown"
+
+
+def _session_from_request(request: Request) -> SessionUser | None:
+    cached = getattr(request.state, "session_user", "__unset__")
+    if cached != "__unset__":
+        return cached  # type: ignore[return-value]
+    user = session_from_cookies(request.cookies)
+    request.state.session_user = user
+    return user
+
+
+_user_memory_cache: dict[str, MemoryStore] = {}
+_user_emotion_cache: dict[str, EmotionEngine] = {}
+_user_cache_lock = Lock()
+
+
+def memory_for(user: SessionUser | None) -> MemoryStore:
+    key = user.id if user else "_anonymous"
+    with _user_cache_lock:
+        store = _user_memory_cache.get(key)
+        if store is None:
+            store = MemoryStore(key)
+            _user_memory_cache[key] = store
+        return store
+
+
+def emotion_for(user: SessionUser | None) -> EmotionEngine:
+    key = user.id if user else "_anonymous"
+    with _user_cache_lock:
+        engine = _user_emotion_cache.get(key)
+        if engine is None:
+            engine = EmotionEngine(key)
+            _user_emotion_cache[key] = engine
+        return engine
+
+
+def enforce_rate_limit(request: Request, bucket: str) -> None:
+    limit, window = _RATE_LIMITS.get(bucket, (0, 0))
+    if limit <= 0 or window <= 0:
+        return
+    key = (bucket, _rate_key(request))
+    now = time.monotonic()
+    with _rate_lock:
+        queue = _rate_buckets[key]
+        cutoff = now - window
+        while queue and queue[0] <= cutoff:
+            queue.popleft()
+        if len(queue) >= limit:
+            retry_after = max(1, int(window - (now - queue[0])))
+            raise HTTPException(
+                status_code=429,
+                detail={"error": "rate_limited", "retry_after_seconds": retry_after, "bucket": bucket},
+                headers={"Retry-After": str(retry_after)},
+            )
+        queue.append(now)
+
+
+@app.exception_handler(HTTPException)
+async def _http_exception_handler(_: Request, exc: HTTPException) -> Response:
+    payload: dict = {"error": "http_error", "status": exc.status_code}
+    if isinstance(exc.detail, dict):
+        payload.update(exc.detail)
+    else:
+        payload["message"] = str(exc.detail) if exc.detail is not None else ""
+    return JSONResponse(status_code=exc.status_code, content=payload, headers=exc.headers or None)
+
 
 memory_store = MemoryStore()
 emotion_engine = EmotionEngine()
 llm_client = LLMClient()
 tts_client = TTSClient()
+_user_memory_cache["_anonymous"] = memory_store
+_user_emotion_cache["_anonymous"] = emotion_engine
 
 
 class ChatRequest(BaseModel):
@@ -91,39 +206,83 @@ async def health() -> dict:
     }
 
 
-@app.get("/api/state")
-async def state() -> dict:
+@app.get("/api/session")
+async def session_info(http_request: Request) -> dict:
+    user = _session_from_request(http_request)
+    if user is None:
+        return {"authenticated": False}
     return {
-        "emotion": emotion_engine.current(),
-        "memory": memory_store.stats(),
+        "authenticated": True,
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "displayName": user.display_name,
+            "orgName": user.org_name,
+            "role": user.role,
+            "tier": user.tier,
+            "avatarUrl": user.avatar_url,
+        },
+    }
+
+
+@app.get("/api/state")
+async def state(http_request: Request) -> dict:
+    user = _session_from_request(http_request)
+    return {
+        "emotion": emotion_for(user).current(),
+        "memory": memory_for(user).stats(),
         "environment": environment_payload(),
     }
 
 
 @app.post("/api/chat")
-async def chat(request: ChatRequest) -> dict:
-    hits = memory_store.search(request.message, top_k=5)
-    emotion_before = emotion_engine.current()
+async def chat(request: ChatRequest, http_request: Request) -> dict:
+    enforce_rate_limit(http_request, "chat")
+    user = _session_from_request(http_request)
+    mem = memory_for(user)
+    emotion = emotion_for(user)
+    hits = mem.search(request.message, top_k=5)
+    emotion_before = emotion.current()
+    moderation = await llm_client.moderate(request.message)
+    if not moderation.allowed:
+        refusal = "这个话题我不太能聊呢，要不我们换一件让你开心的小事说说嘛~"
+        emotion_after = emotion.update(request.message, refusal)
+        return {
+            "reply": refusal,
+            "provider": "moderation-block",
+            "moderation": {
+                "blocked": True,
+                "categories": moderation.categories,
+                "matched_terms": moderation.matched_terms,
+            },
+            "emotion": emotion_after,
+            "memory_hits": [],
+            "memory": mem.stats(),
+            "environment": environment_payload(),
+        }
     reply, provider = await llm_client.complete(
         request.message,
         memory_hits=hits,
         emotion=emotion_before,
-        recent_context=memory_store.recent_context(),
+        recent_context=mem.recent_context(),
+        tier=user.tier if user else "free",
     )
-    emotion_after = emotion_engine.update(request.message, reply)
-    memory_store.capture_turn(request.message, reply)
+    emotion_after = emotion.update(request.message, reply)
+    mem.capture_turn(request.message, reply)
     return {
         "reply": reply,
         "provider": provider,
+        "moderation": {"blocked": False, "categories": [], "matched_terms": []},
         "emotion": emotion_after,
         "memory_hits": [hit.__dict__ for hit in hits],
-        "memory": memory_store.stats(),
+        "memory": mem.stats(),
         "environment": environment_payload(),
     }
 
 
 @app.post("/api/tts")
-async def tts(request: TTSRequest) -> Response:
+async def tts(request: TTSRequest, http_request: Request) -> Response:
+    enforce_rate_limit(http_request, "tts")
     try:
         audio = await tts_client.synthesize(
             request.text,
@@ -138,15 +297,21 @@ async def tts(request: TTSRequest) -> Response:
 
 
 @app.post("/api/memory")
-async def remember(request: MemoryRequest) -> dict:
-    entry = memory_store.remember(request.text, source="user")
-    return {"ok": True, "entry": entry, "memory": memory_store.stats()}
+async def remember(request: MemoryRequest, http_request: Request) -> dict:
+    enforce_rate_limit(http_request, "memory")
+    user = _session_from_request(http_request)
+    mem = memory_for(user)
+    entry = mem.remember(request.text, source="user")
+    return {"ok": True, "entry": entry, "memory": mem.stats()}
 
 
 @app.post("/api/memory/search")
-async def memory_search(request: SearchRequest) -> dict:
-    hits = memory_store.search(request.query, top_k=request.top_k)
-    return {"hits": [hit.__dict__ for hit in hits], "memory": memory_store.stats()}
+async def memory_search(request: SearchRequest, http_request: Request) -> dict:
+    enforce_rate_limit(http_request, "memory")
+    user = _session_from_request(http_request)
+    mem = memory_for(user)
+    hits = mem.search(request.query, top_k=request.top_k)
+    return {"hits": [hit.__dict__ for hit in hits], "memory": mem.stats()}
 
 
 @app.get("/api/environment")
@@ -251,6 +416,7 @@ async def probe_service(client: httpx.AsyncClient, name: str, base_url: str, pat
 
 @app.get("/api/platform/home")
 async def platform_home() -> dict:
+    return_to = quote(f"{DIGITAL_LIFE_PUBLIC_URL}/", safe="")
     checks = [
         ("Gateway", PLATFORM_GATEWAY_URL, "/readyz"),
         ("Ops BFF", PLATFORM_OPS_URL, "/readyz"),
@@ -262,13 +428,16 @@ async def platform_home() -> dict:
         services = await asyncio.gather(*(probe_service(client, name, url, path) for name, url, path in checks))
     return {
         "links": {
-            "login": f"{PLATFORM_CONSOLE_PUBLIC_URL}/login",
+            "login": f"{PLATFORM_CONSOLE_PUBLIC_URL}/login?returnTo={return_to}",
+            "register": f"{PLATFORM_CONSOLE_PUBLIC_URL}/register?returnTo={return_to}",
+            "sessionState": f"{PLATFORM_CONSOLE_PUBLIC_URL}/api/platform/auth/session-state",
             "console": f"{PLATFORM_CONSOLE_PUBLIC_URL}/console",
             "docs": f"{PLATFORM_CONSOLE_PUBLIC_URL}/docs",
             "newApi": NEW_API_PUBLIC_URL,
             "gateway": PLATFORM_GATEWAY_PUBLIC_URL,
             "customerConsole": CUSTOMER_CONSOLE_PUBLIC_URL,
             "adminConsole": ADMIN_CONSOLE_PUBLIC_URL,
+            "itTools": IT_TOOLS_PUBLIC_URL,
         },
         "services": services,
         **PLATFORM_HOME_DATA,

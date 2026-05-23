@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cometai"
+version = "0.1.0"
+description = "Official Python SDK for the Comet AI platform (彗星科技 SaaS Gateway)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Comet AI Platform" }]
+keywords = ["llm", "openai", "gateway", "chat", "comet"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.27,<1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/comet-platform"
+Documentation = "https://your-domain.example.com/docs/developer"
+
+[tool.setuptools.packages.find]
+include = ["cometai*"]

@@ -1,7 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Building2, KeyRound, Layers3 } from "lucide-react";
@@ -12,7 +13,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterPageContent />
+    </Suspense>
+  );
+}
+
+function RegisterPageContent() {
   const registerMutation = useRegisterMutation();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo");
+  const loginHref = returnTo ? `/login?returnTo=${encodeURIComponent(returnTo)}` : "/login";
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -31,7 +43,7 @@ export default function RegisterPage() {
       organizationName: values.organizationName,
       password: values.password
     });
-    window.location.assign("/login");
+    window.location.assign(loginHref);
   });
 
   return (
@@ -95,7 +107,7 @@ export default function RegisterPage() {
               </Button>
               <div className="text-sm text-muted-foreground">
                 已有账号？
-                <Link href="/login" className="ml-2 text-foreground underline-offset-4 hover:underline">
+                <Link href={loginHref} className="ml-2 text-foreground underline-offset-4 hover:underline">
                   返回登录
                 </Link>
               </div>

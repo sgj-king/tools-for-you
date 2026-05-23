@@ -1,14 +1,22 @@
 const $ = (selector) => document.querySelector(selector);
 
+const CHAT_PAGE_SIZE = 12;
+
 const state = {
   leftOpen: true,
   rightOpen: true,
   inputMode: "text",
   outputMode: "voice",
   attachedImage: null,
-  ttsVoice: "nova",
-  ttsSpeed: 1.0,
+  ttsVoice: "zh-CN-XiaoxiaoNeural",
+  ttsSpeed: 1.05,
   environmentTrend: [22, 28, 31, 25, 36, 23, 29, 38, 27, 35, 41, 33],
+  platformLinks: {},
+  platformUser: null,
+  platformMenuOpen: false,
+  messages: [],
+  chatPage: 0,
+  pendingAi: null,
 };
 
 const featuredModels = [
@@ -266,14 +274,42 @@ const els = {
   imageButton: $("#imageButton"),
   imageInput: $("#imageInput"),
   voicePlayer: $("#voicePlayer"),
-  dialogueStrip: $("#dialogueStrip"),
+  chatHistory: $("#chatHistory"),
+  chatEmpty: $("#chatEmpty"),
+  chatCount: $("#chatCount"),
+  chatPagePrev: $("#chatPagePrev"),
+  chatPageNext: $("#chatPageNext"),
+  chatPageIndicator: $("#chatPageIndicator"),
+  profileTier: $("#profileTier"),
+  profileMood: $("#profileMood"),
   memoryDrawer: $("#memoryDrawer"),
   memoryQuery: $("#memoryQuery"),
   memorySearchButton: $("#memorySearchButton"),
   rememberButton: $("#rememberButton"),
   drawerTitle: $("#drawerTitle"),
   drawerContent: $("#drawerContent"),
+  platformAccount: $("#platformAccount"),
   platformEntryLink: $("#platformEntryLink"),
+  itToolsEntryLink: $("#itToolsEntryLink"),
+  platformProfile: $("#platformProfile"),
+  platformProfileButton: $("#platformProfileButton"),
+  platformProfileAvatar: $("#platformProfileAvatar"),
+  platformProfileInitials: $("#platformProfileInitials"),
+  platformProfileName: $("#platformProfileName"),
+  platformProfileRole: $("#platformProfileRole"),
+  platformProfileMenu: $("#platformProfileMenu"),
+  platformAvatarInput: $("#platformAvatarInput"),
+  platformMenuAvatar: $("#platformMenuAvatar"),
+  platformMenuInitials: $("#platformMenuInitials"),
+  platformMenuName: $("#platformMenuName"),
+  platformMenuEmail: $("#platformMenuEmail"),
+  platformMenuOrg: $("#platformMenuOrg"),
+  platformDisplayNameInput: $("#platformDisplayNameInput"),
+  platformAvatarButton: $("#platformAvatarButton"),
+  platformSaveNameButton: $("#platformSaveNameButton"),
+  platformConsoleLink: $("#platformConsoleLink"),
+  platformLogoutButton: $("#platformLogoutButton"),
+  platformProfileMessage: $("#platformProfileMessage"),
   modelOrbitTrack: $("#modelOrbitTrack"),
   modelInfoDialog: $("#modelInfoDialog"),
   modelInfoIcon: $("#modelInfoIcon"),
@@ -314,11 +350,87 @@ function updateClock() {
   $("#clockDate").textContent = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")} ${days[now.getDay()]}`;
 }
 
-function updateDialogue(userText, aiText) {
-  els.dialogueStrip.innerHTML = `
-    <div class="dialogue-line user"><span class="mini-avatar"></span><strong>${escapeHtml(userText)}</strong></div>
-    <div class="dialogue-line ai"><span class="mini-avatar ai-face"></span><strong>${escapeHtml(aiText)}</strong></div>
-  `;
+function formatTime(ts) {
+  const d = new Date(ts);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function totalChatPages() {
+  return Math.max(1, Math.ceil(state.messages.length / CHAT_PAGE_SIZE));
+}
+
+function clampChatPage(page) {
+  const total = totalChatPages();
+  return Math.max(0, Math.min(total - 1, page));
+}
+
+function renderChatHistory({ stayOnPage = false } = {}) {
+  if (!els.chatHistory) return;
+  const total = totalChatPages();
+  if (!stayOnPage) state.chatPage = total - 1;
+  state.chatPage = clampChatPage(state.chatPage);
+
+  if (els.chatCount) els.chatCount.textContent = String(state.messages.length);
+  if (els.chatPageIndicator) {
+    els.chatPageIndicator.textContent = `第 ${state.chatPage + 1} / ${total} 页`;
+  }
+  if (els.chatPagePrev) els.chatPagePrev.disabled = state.chatPage === 0;
+  if (els.chatPageNext) els.chatPageNext.disabled = state.chatPage >= total - 1;
+
+  if (!state.messages.length) {
+    els.chatHistory.innerHTML = `
+      <div class="chat-empty" id="chatEmpty">
+        <p>把心里的小事悄悄告诉星语，</p>
+        <p>对话会全部留在这里 ✨</p>
+      </div>`;
+    return;
+  }
+
+  const start = state.chatPage * CHAT_PAGE_SIZE;
+  const slice = state.messages.slice(start, start + CHAT_PAGE_SIZE);
+  els.chatHistory.innerHTML = slice
+    .map((msg) => {
+      const isUser = msg.role === "user";
+      const cls = isUser ? "user" : "ai";
+      const author = isUser ? "你" : "星语";
+      const pending = msg.pending ? " pending" : "";
+      const meta = msg.pending ? "（正在轻轻整理回答…）" : formatTime(msg.ts);
+      return `
+        <article class="chat-message ${cls}${pending}">
+          <span class="chat-avatar ${cls}"></span>
+          <div class="chat-bubble">
+            <header><strong>${author}</strong><time>${meta}</time></header>
+            <p>${escapeHtml(msg.text)}</p>
+          </div>
+        </article>`;
+    })
+    .join("");
+
+  if (state.chatPage === total - 1) {
+    requestAnimationFrame(() => {
+      els.chatHistory.scrollTop = els.chatHistory.scrollHeight;
+    });
+  }
+}
+
+function appendMessage(role, text, opts = {}) {
+  const msg = { role, text, ts: Date.now(), pending: Boolean(opts.pending) };
+  state.messages.push(msg);
+  if (opts.pending) state.pendingAi = msg;
+  renderChatHistory();
+  return msg;
+}
+
+function resolvePendingAi(text) {
+  if (state.pendingAi) {
+    state.pendingAi.text = text;
+    state.pendingAi.pending = false;
+    state.pendingAi.ts = Date.now();
+    state.pendingAi = null;
+    renderChatHistory({ stayOnPage: true });
+  } else {
+    appendMessage("ai", text);
+  }
 }
 
 function updateMeters(payload) {
@@ -333,6 +445,7 @@ function updateMeters(payload) {
     $("#calmValue").textContent = emotion.calm ?? 72;
     $("#curiosityValue").textContent = emotion.curiosity ?? 88;
     $("#resonanceValue").textContent = emotion.resonance ?? 91;
+    if (els.profileMood) els.profileMood.textContent = emotion.mood || "稳定";
   }
   if (memory) {
     $("#firstMeet").textContent = memory.first_meet || "2026.05.11";
@@ -365,7 +478,8 @@ async function sendMessage() {
 
   els.chatInput.value = "";
   state.attachedImage = null;
-  updateDialogue(message, "正在整理星尘里的回答...");
+  appendMessage("user", message);
+  appendMessage("ai", "正在整理星尘里的回答…", { pending: true });
   els.sendButton.disabled = true;
   try {
     const payload = await api("/api/chat", {
@@ -378,14 +492,14 @@ async function sendMessage() {
         tts_speed: state.ttsSpeed,
       }),
     });
-    updateDialogue(message, payload.reply);
+    resolvePendingAi(payload.reply);
     updateMeters(payload);
-    if (state.outputMode === "voice" || state.outputMode === "both") {
+    if ((state.outputMode === "voice" || state.outputMode === "both") && payload.reply && payload.reply.trim()) {
       await speak(payload.reply);
     }
   } catch (error) {
-    const reply = "连接发生波动，但我还在。请检查后端服务或本地模型地址。";
-    updateDialogue(message, reply);
+    const reply = "连接有点小波动呢，等我一会儿再说啦~";
+    resolvePendingAi(reply);
     console.error(error);
   } finally {
     els.sendButton.disabled = false;
@@ -393,11 +507,13 @@ async function sendMessage() {
 }
 
 async function speak(text) {
+  const utteranceText = (text || "").trim();
+  if (!utteranceText) return;
   try {
     const response = await fetch("/api/tts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, voice: state.ttsVoice, speed: state.ttsSpeed, response_format: "mp3" }),
+      body: JSON.stringify({ text: utteranceText, voice: state.ttsVoice, speed: state.ttsSpeed, response_format: "mp3" }),
     });
     if (!response.ok) throw new Error(await response.text());
     const blob = await response.blob();
@@ -407,7 +523,7 @@ async function speak(text) {
     els.voicePlayer.onended = () => URL.revokeObjectURL(url);
   } catch (error) {
     if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(utteranceText);
       utterance.lang = "zh-CN";
       utterance.rate = state.ttsSpeed;
       window.speechSynthesis.cancel();
@@ -489,9 +605,20 @@ function settingsMarkup() {
       <label><input type="radio" name="outputMode" value="both" ${state.outputMode === "both" ? "checked" : ""}> 文本 + 语音</label>
     </div>
     <div class="drawer-card">
-      <small>TTS 声线</small>
+      <small>TTS 声线（默认偏温柔活泼的女声）</small>
       <select id="voiceSelect">
-        ${["zh-CN-XiaoxiaoNeural", "zh-CN-XiaoyiNeural", "zh-CN-YunjianNeural", "zh-CN-YunxiNeural", "nova", "alloy", "echo", "shimmer"].map((voice) => `<option value="${voice}" ${voice === state.ttsVoice ? "selected" : ""}>${voice}</option>`).join("")}
+        ${[
+          ["zh-CN-XiaoxiaoNeural", "晓晓 · 温柔活泼"],
+          ["zh-CN-XiaoyiNeural", "晓伊 · 甜美轻柔"],
+          ["zh-CN-XiaoshuangNeural", "晓双 · 童趣可爱"],
+          ["zh-CN-XiaohanNeural", "晓涵 · 温暖大姐姐"],
+          ["zh-CN-YunxiNeural", "云希 · 阳光男声"],
+          ["zh-CN-YunjianNeural", "云健 · 沉稳男声"],
+          ["nova", "Nova · 英文女声"],
+          ["alloy", "Alloy · 英文中性"],
+        ]
+          .map(([value, label]) => `<option value="${value}" ${value === state.ttsVoice ? "selected" : ""}>${label}</option>`)
+          .join("")}
       </select>
       <input id="speedRange" type="range" min="0.75" max="1.4" step="0.05" value="${state.ttsSpeed}">
     </div>
@@ -523,12 +650,210 @@ async function loadPlatformEntryLink() {
   if (!els.platformEntryLink) return;
   try {
     const payload = await api("/api/platform/home");
+    state.platformLinks = payload?.links || {};
+    renderPlatformAccount(null);
     if (payload?.links?.login) {
       els.platformEntryLink.href = payload.links.login;
     }
+    if (els.platformConsoleLink && payload?.links?.console) {
+      els.platformConsoleLink.href = payload.links.console;
+    }
+    if (els.itToolsEntryLink) {
+      const itHref = payload?.links?.itTools || "";
+      if (itHref) {
+        els.itToolsEntryLink.href = itHref;
+        els.itToolsEntryLink.hidden = false;
+      } else {
+        els.itToolsEntryLink.hidden = true;
+      }
+    }
+    if (payload?.links?.sessionState) {
+      const sessionResponse = await fetch(payload.links.sessionState, {
+        cache: "no-store",
+        credentials: "include"
+      });
+      if (sessionResponse.ok) {
+        const sessionPayload = await sessionResponse.json();
+        renderPlatformAccount(sessionPayload?.data?.authenticated ? sessionPayload.data.sessionUser : null);
+      }
+    }
   } catch (error) {
     console.warn(error);
+    renderPlatformAccount(null);
   }
+}
+
+function renderPlatformAccount(user) {
+  state.platformUser = user || null;
+  const loggedIn = Boolean(state.platformUser);
+  if (els.platformAccount) {
+    els.platformAccount.dataset.state = loggedIn ? "member" : "guest";
+  }
+  if (els.platformEntryLink) {
+    els.platformEntryLink.hidden = loggedIn;
+    els.platformEntryLink.href = state.platformLinks.login || "#";
+  }
+  if (els.platformProfile) {
+    els.platformProfile.hidden = !loggedIn;
+  }
+  if (!loggedIn) {
+    closePlatformMenu();
+    updatePlatformSaveButton();
+    return;
+  }
+
+  const initials = getInitials(user.displayName);
+  setAvatar(els.platformProfileAvatar, els.platformProfileInitials, user.avatarUrl, user.displayName, initials);
+  setAvatar(els.platformMenuAvatar, els.platformMenuInitials, user.avatarUrl, user.displayName, initials);
+  els.platformProfileName.textContent = user.displayName || "未登录用户";
+  els.platformProfileRole.textContent = user.role || "member";
+  els.platformMenuName.textContent = user.displayName || "未登录用户";
+  els.platformMenuEmail.textContent = user.email || "-";
+  els.platformMenuOrg.textContent = user.orgName || "-";
+  els.platformDisplayNameInput.value = user.displayName || "";
+  if (els.profileTier) {
+    els.profileTier.textContent = user.tier || "free";
+    els.profileTier.dataset.tier = (user.tier || "free").toLowerCase();
+  }
+  if (els.platformConsoleLink) {
+    els.platformConsoleLink.href = state.platformLinks.console || "#";
+  }
+  updatePlatformSaveButton();
+}
+
+function updatePlatformSaveButton() {
+  if (!els.platformSaveNameButton) return;
+  const current = state.platformUser?.displayName || "";
+  const draft = (els.platformDisplayNameInput?.value || "").trim();
+  const canSave = Boolean(state.platformUser) && draft.length >= 2 && draft !== current;
+  els.platformSaveNameButton.disabled = !canSave;
+}
+
+function setAvatar(img, fallback, src, displayName, initials) {
+  if (!img || !fallback) return;
+  if (src) {
+    img.src = src;
+    img.alt = displayName || "用户头像";
+    img.hidden = false;
+    fallback.hidden = true;
+  } else {
+    img.hidden = true;
+    img.removeAttribute("src");
+    fallback.textContent = initials;
+    fallback.hidden = false;
+  }
+}
+
+function getInitials(displayName = "") {
+  const chunks = String(displayName).trim().split(/\s+/).filter(Boolean);
+  if (!chunks.length) return "U";
+  if (chunks.length === 1) return chunks[0].slice(0, 2).toUpperCase();
+  return `${chunks[0][0] || ""}${chunks[1][0] || ""}`.toUpperCase();
+}
+
+function togglePlatformMenu(open = !state.platformMenuOpen) {
+  state.platformMenuOpen = open;
+  if (els.platformAccount) {
+    els.platformAccount.dataset.open = String(open);
+  }
+  if (els.platformProfileMenu) {
+    els.platformProfileMenu.hidden = !open;
+  }
+  if (els.platformProfileButton) {
+    els.platformProfileButton.setAttribute("aria-expanded", String(open));
+  }
+  if (els.platformProfileMessage && open) {
+    els.platformProfileMessage.textContent = "";
+  }
+}
+
+function closePlatformMenu() {
+  togglePlatformMenu(false);
+}
+
+async function platformSessionFetch(options = {}) {
+  if (!state.platformLinks.sessionState) {
+    throw new Error("平台会话接口尚未配置");
+  }
+  const response = await fetch(state.platformLinks.sessionState, {
+    cache: "no-store",
+    credentials: "include",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload?.error?.message || response.statusText);
+  }
+  return payload;
+}
+
+async function savePlatformProfile(patch) {
+  const payload = await platformSessionFetch({
+    method: "PUT",
+    body: JSON.stringify(patch),
+  });
+  renderPlatformAccount(payload?.data?.sessionUser || state.platformUser);
+  els.platformProfileMessage.textContent = "资料已更新";
+}
+
+async function logoutPlatformAccount() {
+  if (!state.platformLinks.sessionState) {
+    throw new Error("平台会话接口尚未配置");
+  }
+  const logoutUrl = new URL(state.platformLinks.sessionState);
+  logoutUrl.searchParams.set("action", "logout");
+  const response = await fetch(logoutUrl.toString(), {
+    method: "POST",
+    cache: "no-store",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload?.error?.message || response.statusText);
+  }
+  renderPlatformAccount(null);
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(typeof reader.result === "string" ? reader.result : "");
+    reader.onerror = () => reject(new Error("读取头像文件失败"));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function createAvatarDataUrl(file) {
+  const allowed = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
+  if (!allowed.has(file.type)) {
+    throw new Error("头像仅支持 PNG、JPEG、WebP 或 GIF。");
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    throw new Error("头像文件不能超过 2MB。");
+  }
+  const dataUrl = await readFileAsDataUrl(file);
+  const image = await new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("头像图片解析失败，请换一张图片。"));
+    img.src = dataUrl;
+  });
+  const canvas = document.createElement("canvas");
+  canvas.width = 320;
+  canvas.height = 320;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return dataUrl;
+  const sourceSize = Math.min(image.naturalWidth, image.naturalHeight);
+  const sourceX = Math.max(0, (image.naturalWidth - sourceSize) / 2);
+  const sourceY = Math.max(0, (image.naturalHeight - sourceSize) / 2);
+  ctx.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, 320, 320);
+  const compressed = canvas.toDataURL("image/webp", 0.82);
+  return compressed.startsWith("data:image/webp") ? compressed : canvas.toDataURL("image/png");
 }
 
 function renderModelOrbit() {
@@ -761,10 +1086,66 @@ function escapeHtml(text) {
 }
 
 function bindEvents() {
+  els.platformEntryLink?.addEventListener("click", (event) => {
+    if (!state.platformUser) return;
+    event.preventDefault();
+    togglePlatformMenu();
+  });
+  els.platformProfileButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    togglePlatformMenu();
+  });
+  els.platformDisplayNameInput?.addEventListener("input", updatePlatformSaveButton);
+  els.platformAvatarButton?.addEventListener("click", () => els.platformAvatarInput?.click());
+  els.platformAvatarInput?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const avatarUrl = await createAvatarDataUrl(file);
+      await savePlatformProfile({
+        displayName: els.platformDisplayNameInput.value.trim() || state.platformUser?.displayName,
+        avatarUrl,
+      });
+    } catch (error) {
+      els.platformProfileMessage.textContent = error.message || "头像上传失败";
+    }
+  });
+  els.platformSaveNameButton?.addEventListener("click", async () => {
+    try {
+      await savePlatformProfile({
+        displayName: els.platformDisplayNameInput.value.trim(),
+      });
+    } catch (error) {
+      els.platformProfileMessage.textContent = error.message || "姓名保存失败";
+    }
+  });
+  els.platformLogoutButton?.addEventListener("click", async () => {
+    try {
+      await logoutPlatformAccount();
+      window.location.reload();
+    } catch (error) {
+      els.platformProfileMessage.textContent = error.message || "退出登录失败";
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!state.platformMenuOpen) return;
+    const target = event.target;
+    if (els.platformAccount?.contains(target)) return;
+    closePlatformMenu();
+  });
   els.leftCollapse.addEventListener("click", () => setPanel("left", false));
   els.rightCollapse.addEventListener("click", () => setPanel("right", false));
   els.leftRail.addEventListener("click", () => setPanel("left", !state.leftOpen));
   els.rightRail.addEventListener("click", () => setPanel("right", !state.rightOpen));
+  els.chatPagePrev?.addEventListener("click", () => {
+    state.chatPage = clampChatPage(state.chatPage - 1);
+    renderChatHistory({ stayOnPage: true });
+  });
+  els.chatPageNext?.addEventListener("click", () => {
+    state.chatPage = clampChatPage(state.chatPage + 1);
+    renderChatHistory({ stayOnPage: true });
+  });
   els.sendButton.addEventListener("click", sendMessage);
   els.chatInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") sendMessage();
@@ -826,6 +1207,7 @@ async function boot() {
   drawWave();
   drawRadar();
   drawTrend(state.environmentTrend);
+  renderChatHistory();
   updateClock();
   setInterval(updateClock, 1000);
   try {

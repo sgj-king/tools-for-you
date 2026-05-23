@@ -1,6 +1,6 @@
 import { mockApi } from "@/services/mock";
 import { apiClient, platformClient } from "@/services/sdk/client";
-import type { ForgotPasswordResult, LoginResult, LogoutResult, RegisterResult, SessionUser } from "@/types/domain";
+import type { ForgotPasswordResult, LoginResult, LogoutResult, PlanTier, RegisterResult, SessionUser } from "@/types/domain";
 import type { ApiEnvelope } from "@/types/shared";
 
 const useMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === "true";
@@ -18,7 +18,7 @@ export const authApi = {
     const response = await apiClient<ApiEnvelope<SessionUser>>("/v1/auth/me");
     return response.data;
   },
-  login: async (payload: { email: string; password: string; mfaCode?: string }): Promise<LoginResult> => {
+  login: async (payload: { email: string; password: string; mfaCode?: string; returnTo?: string }): Promise<LoginResult> => {
     if (usePlatformBff) {
       const response = await platformClient<ApiEnvelope<LoginResult>>("/api/platform/auth/login", {
         method: "POST",
@@ -87,6 +87,23 @@ export const authApi = {
     }
     const response = await apiClient<ApiEnvelope<SessionUser>>("/v1/auth/me", {
       method: "PUT",
+      body: JSON.stringify(payload)
+    });
+    return response.data;
+  },
+  updateTier: async (payload: { tier: PlanTier }): Promise<SessionUser> => {
+    if (usePlatformBff) {
+      const response = await platformClient<ApiEnvelope<SessionUser>>("/api/platform/auth/me/tier", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      return response.data;
+    }
+    if (useMock) {
+      return mockApi.updateTier(payload.tier);
+    }
+    const response = await apiClient<ApiEnvelope<SessionUser>>("/v1/auth/me/tier", {
+      method: "POST",
       body: JSON.stringify(payload)
     });
     return response.data;

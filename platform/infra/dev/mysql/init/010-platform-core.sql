@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS organizations (
     status VARCHAR(32) NOT NULL DEFAULT 'active' COMMENT '组织状态',
     owner_user_id BIGINT UNSIGNED NULL COMMENT '组织拥有者用户ID',
     billing_type VARCHAR(32) NOT NULL DEFAULT 'prepaid' COMMENT '计费类型',
+    plan_tier VARCHAR(32) NOT NULL DEFAULT 'free' COMMENT '订阅级别：free / pro',
     credit_limit DECIMAL(18,6) NOT NULL DEFAULT 0 COMMENT '信用额度',
     currency CHAR(3) NOT NULL DEFAULT 'USD' COMMENT '币种',
     metadata JSON NULL COMMENT '扩展元数据',

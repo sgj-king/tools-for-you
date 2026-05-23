@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import type { Route as AppRoute } from "next";
-import { Bell, BookText, Camera, LoaderCircle, LogOut, Search, UserCircle2 } from "lucide-react";
+import { Bell, BookText, Camera, LoaderCircle, LogOut, Search, Sparkles, UserCircle2, Wrench } from "lucide-react";
 import { useLogoutMutation, useSessionUserQuery, useUpdateSessionProfileMutation } from "@/hooks/use-console-data";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { siteConfig } from "@/config/site";
 
 const MAX_AVATAR_FILE_SIZE = 2 * 1024 * 1024;
 const MAX_AVATAR_DATA_URL_LENGTH = 680_000;
@@ -124,6 +125,22 @@ export function Topbar({
                 <BookText className="h-4 w-4" />
                 {docsLabel}
               </Link>
+            </Button>
+          ) : null}
+          {siteConfig.digitalLifeUrl ? (
+            <Button asChild variant="secondary" size="sm">
+              <a href={siteConfig.digitalLifeUrl}>
+                <Sparkles className="h-4 w-4" />
+                数字生命
+              </a>
+            </Button>
+          ) : null}
+          {siteConfig.itToolsUrl ? (
+            <Button asChild variant="secondary" size="sm">
+              <a href={siteConfig.itToolsUrl}>
+                <Wrench className="h-4 w-4" />
+                IT 工具箱
+              </a>
             </Button>
           ) : null}
           <ThemeToggle />
