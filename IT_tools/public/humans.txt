@@ -1,0 +1,4 @@
+/* 团队信息 */
+开发者：Corentin Thomasset
+项目主页：https://github.com/CorentinTh
+X 账号：@cthmsst

@@ -1,0 +1,42 @@
+<script setup lang="ts">
+import { convertAsciiBinaryToText, convertTextToAsciiBinary } from './text-to-binary.models';
+import { withDefaultOnError } from '@/utils/defaults';
+import { useCopy } from '@/composable/copy';
+import { isNotThrowing } from '@/utils/boolean';
+
+const inputText = ref('');
+const binaryFromText = computed(() => convertTextToAsciiBinary(inputText.value));
+const { copy: copyBinary } = useCopy({ source: binaryFromText });
+
+const inputBinary = ref('');
+const textFromBinary = computed(() => withDefaultOnError(() => convertAsciiBinaryToText(inputBinary.value), ''));
+const inputBinaryValidationRules = [
+  {
+    validator: (value: string) => isNotThrowing(() => convertAsciiBinaryToText(value)),
+    message: 'Binary should be a valid ASCII binary string with multiples of 8 bits',
+  },
+];
+const { copy: copyText } = useCopy({ source: textFromBinary });
+</script>
+
+<template>
+  <c-card title="文本转 ASCII 二进制">
+    <c-input-text v-model:value="inputText" multiline placeholder="e.g. 'Hello world'" label="输入要转换为二进制的文本" autosize autofocus raw-text test-id="text-to-binary-input" />
+    <c-input-text v-model:value="binaryFromText" label="文本转换为二进制" multiline raw-text readonly mt-2 placeholder="文本的二进制表示将在此显示" test-id="text-to-binary-output" />
+    <div mt-2 flex justify-center>
+      <c-button :disabled="!binaryFromText" @click="copyBinary()">
+        Copy binary to clipboard
+      </c-button>
+    </div>
+  </c-card>
+
+  <c-card title="ASCII 二进制转文本">
+    <c-input-text v-model:value="inputBinary" multiline placeholder="e.g. '01001000 01100101 01101100 01101100 01101111'" label="输入要转换为文本的二进制" autosize raw-text :validation-rules="inputBinaryValidationRules" test-id="binary-to-text-input" />
+    <c-input-text v-model:value="textFromBinary" label="从二进制转换的文本" multiline raw-text readonly mt-2 placeholder="二进制的文本表示将在此显示" test-id="binary-to-text-output" />
+    <div mt-2 flex justify-center>
+      <c-button :disabled="!textFromBinary" @click="copyText()">
+        Copy text to clipboard
+      </c-button>
+    </div>
+  </c-card>
+</template>

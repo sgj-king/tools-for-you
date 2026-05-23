@@ -1,0 +1,37 @@
+import { Wind } from '@vicons/tabler';
+import { defineTool } from '../tool';
+
+export const tool = defineTool({
+  name: '呼吸练习',
+  path: '/breathing-exercise',
+  description: '引导呼吸练习，缓解压力、放松身心、提升专注力',
+  keywords: [
+    'breathing',
+    'exercise',
+    'relax',
+    'meditation',
+    'stress',
+    'anxiety',
+    'calm',
+    'focus',
+    'box breathing',
+    '4-7-8',
+    'pranayama',
+    'breath',
+    'inhale',
+    'exhale',
+    '呼吸',
+    '冥想',
+    '放松',
+    '减压',
+    '焦虑',
+    '专注',
+    '深呼吸',
+    '吐纳',
+    '4-7-8呼吸法',
+    '箱式呼吸',
+  ],
+  component: () => import('./breathing-exercise.vue'),
+  icon: Wind,
+  createdAt: new Date('2026-05-06'),
+});

@@ -1,0 +1,35 @@
+import { GasStation } from '@vicons/tabler';
+import { defineTool } from '../tool';
+
+export const tool = defineTool({
+  name: '燃油费用计算器',
+  path: '/fuel-cost-calculator',
+  description: '计算出行燃油费用、百公里油耗、里程油耗转换',
+  keywords: [
+    'fuel',
+    'gas',
+    'petrol',
+    'diesel',
+    'cost',
+    'calculator',
+    'mileage',
+    'km',
+    'liter',
+    'gallon',
+    'mpg',
+    'trip',
+    'commute',
+    'efficiency',
+    'consumption',
+    '燃油',
+    '油耗',
+    '费用',
+    '出行',
+    '里程',
+    '油费',
+    '百公里油耗',
+  ],
+  component: () => import('./fuel-cost-calculator.vue'),
+  icon: GasStation,
+  createdAt: new Date('2026-05-06'),
+});
