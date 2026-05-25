@@ -123,6 +123,7 @@ import { tool as electricityCostCalculator } from './electricity-cost-calculator
 import { tool as calorieCalculator } from './calorie-calculator';
 import { tool as screenPpiCalculator } from './screen-ppi-calculator';
 import { tool as keyboardTester } from './keyboard-tester';
+import { tool as todoList } from './todo-list';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -262,7 +263,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数据工具',
-    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker],
+    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker, todoList],
   },
 ];
 

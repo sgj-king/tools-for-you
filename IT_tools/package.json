@@ -51,6 +51,7 @@
     "@unhead/vue": "1",
     "@vicons/material": "^0.12.0",
     "@vicons/tabler": "^0.12.0",
+    "@vue/babel-plugin-jsx": "^2.0.1",
     "@vueuse/core": "^10.3.0",
     "@vueuse/head": "2",
     "@vueuse/router": "^10.0.0",
