@@ -83,6 +83,7 @@ declare module '@vue/runtime-core' {
     CTooltip: typeof import('./src/ui/c-tooltip/c-tooltip.vue')['default']
     'CTooltip.demo': typeof import('./src/ui/c-tooltip/c-tooltip.demo.vue')['default']
     CurrencyConverter: typeof import('./src/tools/currency-converter/currency-converter.vue')['default']
+    DataSizeConverter: typeof import('./src/tools/data-size-converter/data-size-converter.vue')['default']
     DateTimeConverter: typeof import('./src/tools/date-time-converter/date-time-converter.vue')['default']
     'DemoHome.page': typeof import('./src/ui/demo/demo-home.page.vue')['default']
     DemoWrapper: typeof import('./src/ui/demo/demo-wrapper.vue')['default']

@@ -124,6 +124,7 @@ import { tool as calorieCalculator } from './calorie-calculator';
 import { tool as screenPpiCalculator } from './screen-ppi-calculator';
 import { tool as keyboardTester } from './keyboard-tester';
 import { tool as todoList } from './todo-list';
+import { tool as dataSizeConverter } from './data-size-converter';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -263,7 +264,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数据工具',
-    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker, todoList],
+    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker, todoList, dataSizeConverter],
   },
 ];
 
