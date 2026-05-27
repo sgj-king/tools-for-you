@@ -125,6 +125,7 @@ import { tool as screenPpiCalculator } from './screen-ppi-calculator';
 import { tool as keyboardTester } from './keyboard-tester';
 import { tool as todoList } from './todo-list';
 import { tool as dataSizeConverter } from './data-size-converter';
+import { tool as speedReadingTrainer } from './speed-reading-trainer';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -247,7 +248,7 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: '测量工具',
     components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker, ambientSoundMixer, waterTracker, breathingExercise, pomodoroTimer, bmiCalculator, attendanceCalculator,
-    screenPpiCalculator],
+    screenPpiCalculator, speedReadingTrainer],
   },
   {
     name: '文本工具',
