@@ -126,6 +126,7 @@ import { tool as keyboardTester } from './keyboard-tester';
 import { tool as todoList } from './todo-list';
 import { tool as dataSizeConverter } from './data-size-converter';
 import { tool as speedReadingTrainer } from './speed-reading-trainer';
+import { tool as shortcutTrainer } from './shortcut-trainer';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -225,7 +226,7 @@ export const toolsByCategory: ToolCategory[] = [
       emailNormalizer,
       regexTester,
       regexMemo,
-    keyboardTester,
+    keyboardTester, shortcutTrainer,
     ],
   },
   {

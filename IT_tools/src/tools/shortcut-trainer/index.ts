@@ -1,0 +1,36 @@
+import { Keyboard } from '@vicons/tabler';
+import { defineTool } from '../tool';
+
+export const tool = defineTool({
+  name: '快捷键训练器',
+  path: '/shortcut-trainer',
+  description: '互动式键盘快捷键训练，掌握常用快捷键提升效率，支持多应用分类、难度递进、进度追踪',
+  keywords: [
+    'shortcut',
+    'keyboard shortcut',
+    'hotkey',
+    'key combo',
+    'keyboard',
+    'productivity',
+    'training',
+    'practice',
+    'Windows',
+    'Mac',
+    'VS Code',
+    'Chrome',
+    'Excel',
+    'Word',
+    '快捷键',
+    '键盘快捷键',
+    '热键',
+    '组合键',
+    '效率',
+    '训练',
+    '练习',
+    '键盘',
+    '办公',
+  ],
+  component: () => import('./shortcut-trainer.vue'),
+  icon: Keyboard,
+  createdAt: new Date('2026-05-28'),
+});
