@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import time
 from collections import defaultdict, deque
 from datetime import datetime
@@ -67,6 +68,7 @@ if ALLOWED_ORIGINS:
 
 _rate_buckets: dict[tuple[str, str], deque[float]] = defaultdict(deque)
 _rate_lock = Lock()
+_logger = logging.getLogger("digital_life")
 
 _RATE_LIMITS: dict[str, tuple[int, int]] = {
     "chat": (RATE_LIMIT_CHAT_PER_WINDOW, RATE_LIMIT_WINDOW_SECONDS),
@@ -97,6 +99,13 @@ def _session_from_request(request: Request) -> SessionUser | None:
     user = session_from_cookies(request.cookies)
     request.state.session_user = user
     return user
+
+
+def _require_user(request: Request) -> SessionUser:
+    user = _session_from_request(request)
+    if user is None and IS_PRODUCTION:
+        raise HTTPException(status_code=401, detail={"error": "session_required", "message": "login required"})
+    return user  # type: ignore[return-value]
 
 
 _user_memory_cache: dict[str, MemoryStore] = {}
@@ -150,8 +159,11 @@ async def _http_exception_handler(_: Request, exc: HTTPException) -> Response:
     payload: dict = {"error": "http_error", "status": exc.status_code}
     if isinstance(exc.detail, dict):
         payload.update(exc.detail)
-    else:
-        payload["message"] = str(exc.detail) if exc.detail is not None else ""
+    elif exc.detail is not None:
+        text = str(exc.detail)
+        if IS_PRODUCTION and exc.status_code >= 500:
+            text = "internal error"
+        payload["message"] = text
     return JSONResponse(status_code=exc.status_code, content=payload, headers=exc.headers or None)
 
 
@@ -195,15 +207,19 @@ async def startup() -> None:
 
 @app.get("/api/health")
 async def health() -> dict:
-    return {
+    payload = {
         "ok": True,
         "name": APP_NAME,
         "time": datetime.now().isoformat(timespec="seconds"),
-        "openclaw_base_url": OPENCLAW_BASE_URL,
-        "openclaw_model": OPENCLAW_MODEL,
-        "tts_base_url": TTS_BASE_URL,
-        "freetts_base_url": FREETTS_BASE_URL,
     }
+    if not IS_PRODUCTION:
+        payload.update({
+            "openclaw_base_url": OPENCLAW_BASE_URL,
+            "openclaw_model": OPENCLAW_MODEL,
+            "tts_base_url": TTS_BASE_URL,
+            "freetts_base_url": FREETTS_BASE_URL,
+        })
+    return payload
 
 
 @app.get("/api/session")
@@ -227,7 +243,7 @@ async def session_info(http_request: Request) -> dict:
 
 @app.get("/api/state")
 async def state(http_request: Request) -> dict:
-    user = _session_from_request(http_request)
+    user = _require_user(http_request)
     return {
         "emotion": emotion_for(user).current(),
         "memory": memory_for(user).stats(),
@@ -238,7 +254,7 @@ async def state(http_request: Request) -> dict:
 @app.post("/api/chat")
 async def chat(request: ChatRequest, http_request: Request) -> dict:
     enforce_rate_limit(http_request, "chat")
-    user = _session_from_request(http_request)
+    user = _require_user(http_request)
     mem = memory_for(user)
     emotion = emotion_for(user)
     hits = mem.search(request.message, top_k=5)
@@ -283,6 +299,7 @@ async def chat(request: ChatRequest, http_request: Request) -> dict:
 @app.post("/api/tts")
 async def tts(request: TTSRequest, http_request: Request) -> Response:
     enforce_rate_limit(http_request, "tts")
+    _require_user(http_request)
     try:
         audio = await tts_client.synthesize(
             request.text,
@@ -291,7 +308,9 @@ async def tts(request: TTSRequest, http_request: Request) -> Response:
             fmt=request.response_format,
         )
     except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"TTS service failed: {exc}") from exc
+        _logger.exception("tts synthesis failed")
+        detail = "TTS service unavailable" if IS_PRODUCTION else f"TTS service failed: {exc}"
+        raise HTTPException(status_code=502, detail=detail) from exc
     media_type = "audio/wav" if request.response_format == "wav" else "audio/mpeg"
     return Response(content=audio, media_type=media_type)
 
@@ -299,7 +318,7 @@ async def tts(request: TTSRequest, http_request: Request) -> Response:
 @app.post("/api/memory")
 async def remember(request: MemoryRequest, http_request: Request) -> dict:
     enforce_rate_limit(http_request, "memory")
-    user = _session_from_request(http_request)
+    user = _require_user(http_request)
     mem = memory_for(user)
     entry = mem.remember(request.text, source="user")
     return {"ok": True, "entry": entry, "memory": mem.stats()}
@@ -308,7 +327,7 @@ async def remember(request: MemoryRequest, http_request: Request) -> dict:
 @app.post("/api/memory/search")
 async def memory_search(request: SearchRequest, http_request: Request) -> dict:
     enforce_rate_limit(http_request, "memory")
-    user = _session_from_request(http_request)
+    user = _require_user(http_request)
     mem = memory_for(user)
     hits = mem.search(request.query, top_k=request.top_k)
     return {"hits": [hit.__dict__ for hit in hits], "memory": mem.stats()}

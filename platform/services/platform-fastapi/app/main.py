@@ -7,6 +7,7 @@ import hashlib
 import ipaddress
 import io
 import json
+import logging
 import os
 import re
 import time
@@ -93,6 +94,45 @@ def header_token(request: Request, name: str) -> str:
 
 def token_matches(actual: str, expected: str) -> bool:
     return bool(actual and expected) and hmac.compare_digest(actual, expected)
+
+
+def session_org_id(request: Request) -> int | None:
+    raw = header_text(request, "x-session-org-id", "").strip()
+    if not raw and APP_ENV != "production":
+        raw = os.getenv("DEV_DEFAULT_ORG_ID", "1001")
+    try:
+        return int(raw) if raw else None
+    except (TypeError, ValueError):
+        return None
+
+
+def session_project_id(request: Request) -> int | None:
+    raw = header_text(request, "x-session-project-id", "").strip()
+    if not raw and APP_ENV != "production":
+        raw = os.getenv("DEV_DEFAULT_PROJECT_ID", "2001")
+    try:
+        return int(raw) if raw else None
+    except (TypeError, ValueError):
+        return None
+
+
+def session_user_id(request: Request) -> str:
+    return header_text(request, "x-session-user-id", "").strip()
+
+
+def session_user_name(request: Request) -> str:
+    return header_text(request, "x-session-user-name", "").strip()
+
+
+def session_org_name(request: Request) -> str:
+    return header_text(request, "x-session-org-name", "").strip()
+
+
+def require_session_user(request: Request) -> JSONResponse | tuple[str, str, str]:
+    user_id = session_user_id(request)
+    if not user_id and APP_ENV == "production":
+        return write_error(401, "session_required", "session user is required")
+    return user_id or "anonymous@local", session_user_name(request) or "Anonymous", session_org_name(request) or "default-org"
 
 
 def check_rate_limit(scope: str, key: str, limit: int, window_seconds: int) -> int | None:
@@ -487,11 +527,15 @@ async def security_middleware(request: Request, call_next):
 
     if request.url.path.startswith("/internal/"):
         expected = getenv("INTERNAL_SERVICE_TOKEN")
+        if APP_ENV == "production" and not expected:
+            return add_security_headers(write_error(503, "internal_token_not_configured", "internal service token is not configured"))
         if expected and not token_matches(header_token(request, "x-internal-service-token"), expected):
             return add_security_headers(write_error(401, "invalid_internal_service_token", "internal service token is missing or invalid"))
 
     if SERVICE_ROLE == "operations" and request.url.path.startswith("/v1/"):
         expected = getenv("PLATFORM_OPS_SHARED_TOKEN")
+        if APP_ENV == "production" and not expected:
+            return add_security_headers(write_error(503, "ops_token_not_configured", "platform ops token is not configured"))
         if expected and not token_matches(header_token(request, "x-platform-ops-token"), expected):
             return add_security_headers(write_error(401, "invalid_ops_token", "platform ops token is missing or invalid"))
 
@@ -509,7 +553,9 @@ async def security_middleware(request: Request, call_next):
         return add_security_headers(write_error(400, "invalid_json_payload", "request body is not valid JSON"))
     except Exception as exc:
         record_status(500)
-        return add_security_headers(write_error(500, "internal_server_error", "request failed", {"cause": str(exc)}))
+        logging.getLogger(SERVICE_NAME).exception("unhandled exception in request pipeline")
+        details = {"cause": str(exc)} if APP_ENV != "production" else None
+        return add_security_headers(write_error(500, "internal_server_error", "request failed", details))
 
     record_status(response.status_code)
     return add_security_headers(response)
@@ -1236,8 +1282,11 @@ def csv_cell(value: Any) -> Any:
 
 
 @app.get("/v1/projects/current/settings")
-def project_settings_get() -> JSONResponse:
-    row = query_one("SELECT id, name, env, monthly_cost_cap, metadata FROM projects WHERE id = 2001 LIMIT 1")
+def project_settings_get(request: Request) -> JSONResponse:
+    project_id = session_project_id(request)
+    if project_id is None:
+        return write_error(401, "session_required", "project context is required")
+    row = query_one("SELECT id, name, env, monthly_cost_cap, metadata FROM projects WHERE id = %s LIMIT 1", (project_id,))
     if not row:
         return write_error(404, "project_not_found", "project not found")
     meta = parse_json_maybe(row.get("metadata"), {})
@@ -1249,6 +1298,9 @@ def project_settings_get() -> JSONResponse:
 
 @app.put("/v1/projects/current/settings")
 async def project_settings_put(request: Request) -> JSONResponse:
+    project_id = session_project_id(request)
+    if project_id is None:
+        return write_error(401, "session_required", "project context is required")
     payload = await request.json()
     if not isinstance(payload, dict):
         return write_error(400, "invalid_payload", "request body must be a JSON object")
@@ -1267,13 +1319,16 @@ async def project_settings_put(request: Request) -> JSONResponse:
         return write_error(422, "validation_failed", "project settings validation failed", {"fieldErrors": errors})
     meta = {"console_settings": {"defaultModel": payload.get("defaultModel", "chat-pro"), "callbackUrl": payload.get("callbackUrl", ""), "monthlyBudgetUsd": payload.get("monthlyBudgetUsd", 0), "allowedOrigins": payload.get("allowedOrigins", []), "tags": payload.get("tags", [])}}
     db_env = "prod" if payload["environment"] == "production" else payload["environment"]
-    exec_sql("UPDATE projects SET name = %s, env = %s, monthly_cost_cap = %s, metadata = %s, updated_at = NOW() WHERE id = 2001", (payload["projectName"], db_env, payload.get("monthlyBudgetUsd", 0), json.dumps(meta)))
-    return project_settings_get()
+    exec_sql("UPDATE projects SET name = %s, env = %s, monthly_cost_cap = %s, metadata = %s, updated_at = NOW() WHERE id = %s", (payload["projectName"], db_env, payload.get("monthlyBudgetUsd", 0), json.dumps(meta), project_id))
+    return project_settings_get(request)
 
 
 @app.get("/v1/security/settings")
-def security_settings_get() -> JSONResponse:
-    row = query_one("SELECT id, metadata, updated_at FROM organizations WHERE id = 1001 LIMIT 1")
+def security_settings_get(request: Request) -> JSONResponse:
+    org_id = session_org_id(request)
+    if org_id is None:
+        return write_error(401, "session_required", "organization context is required")
+    row = query_one("SELECT id, metadata, updated_at FROM organizations WHERE id = %s LIMIT 1", (org_id,))
     if not row:
         return write_error(404, "organization_not_found", "organization not found")
     meta = parse_json_maybe(row.get("metadata"), {})
@@ -1284,6 +1339,9 @@ def security_settings_get() -> JSONResponse:
 
 @app.put("/v1/security/settings")
 async def security_settings_put(request: Request) -> JSONResponse:
+    org_id = session_org_id(request)
+    if org_id is None:
+        return write_error(401, "session_required", "organization context is required")
     payload = await request.json()
     if not isinstance(payload, dict):
         return write_error(400, "invalid_payload", "request body must be a JSON object")
@@ -1304,8 +1362,8 @@ async def security_settings_put(request: Request) -> JSONResponse:
     if errors:
         return write_error(422, "validation_failed", "security settings validation failed", {"fieldErrors": errors})
     meta = {"security_settings": {**payload, "lastSecurityReviewAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}}
-    exec_sql("UPDATE organizations SET metadata = %s, updated_at = NOW() WHERE id = 1001", (json.dumps(meta),))
-    return security_settings_get()
+    exec_sql("UPDATE organizations SET metadata = %s, updated_at = NOW() WHERE id = %s", (json.dumps(meta), org_id))
+    return security_settings_get(request)
 
 
 MODEL_DEFAULTS: dict[str, dict[str, Any]] = {
@@ -1787,6 +1845,10 @@ def filter_presets(request: Request) -> JSONResponse:
 
 @app.post("/v1/filter-presets")
 async def filter_preset_create(request: Request) -> JSONResponse:
+    session = require_session_user(request)
+    if isinstance(session, JSONResponse):
+        return session
+    owner_id, owner_name, org_name = session
     payload = await request.json()
     if not isinstance(payload, dict):
         return write_error(400, "invalid_payload", "request body must be a JSON object")
@@ -1796,7 +1858,7 @@ async def filter_preset_create(request: Request) -> JSONResponse:
     if not name or not scope or not isinstance(values, dict):
         return write_error(422, "validation_failed", "filter preset validation failed")
     preset_id = f"preset_{time.time_ns()}"
-    exec_sql("INSERT INTO filter_presets (id, scope, name, values_json, group_name, tags_json, visibility, is_default, is_pinned, sort_order, owner_user_id, owner_display_name, org_name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (preset_id, scope, name, json.dumps(values), str(payload.get("groupName", ""))[:128], json.dumps(payload.get("tags", []) if isinstance(payload.get("tags", []), list) else []), payload.get("visibility", "private"), bool(payload.get("isDefault", False)), bool(payload.get("isPinned", False)), non_negative_int(payload.get("sortOrder"), 0, 10_000), header_text(request, "x-session-user-id", "owner@example.com"), header_text(request, "x-session-user-name", "Demo Owner"), header_text(request, "x-session-org-name", "default-org")))
+    exec_sql("INSERT INTO filter_presets (id, scope, name, values_json, group_name, tags_json, visibility, is_default, is_pinned, sort_order, owner_user_id, owner_display_name, org_name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (preset_id, scope, name, json.dumps(values), str(payload.get("groupName", ""))[:128], json.dumps(payload.get("tags", []) if isinstance(payload.get("tags", []), list) else []), payload.get("visibility", "private"), bool(payload.get("isDefault", False)), bool(payload.get("isPinned", False)), non_negative_int(payload.get("sortOrder"), 0, 10_000), owner_id, owner_name, org_name))
     return write_data({"id": preset_id, **payload})
 
 
@@ -1848,12 +1910,17 @@ async def filter_presets_import(request: Request) -> JSONResponse:
 
 
 async def filter_preset_create_with_payload(request: Request, payload: dict[str, Any]) -> None:
+    session = require_session_user(request)
+    if isinstance(session, JSONResponse):
+        owner_id, owner_name, org_name = "anonymous@local", "Anonymous", "default-org"
+    else:
+        owner_id, owner_name, org_name = session
     preset_id = f"preset_{time.time_ns()}_{import_random_suffix()}"
     scope = bounded_text(payload.get("scope"), 1, 96) or "default"
     name = bounded_text(payload.get("name"), 1, 128) or "Imported preset"
     values = payload.get("values", {}) if isinstance(payload.get("values", {}), dict) else {}
     tags = payload.get("tags", []) if isinstance(payload.get("tags", []), list) else []
-    exec_sql("INSERT INTO filter_presets (id, scope, name, values_json, group_name, tags_json, visibility, is_default, is_pinned, sort_order, owner_user_id, owner_display_name, org_name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (preset_id, scope, name, json.dumps(values), str(payload.get("groupName", ""))[:128], json.dumps(tags), payload.get("visibility", "private"), bool(payload.get("isDefault", False)), bool(payload.get("isPinned", False)), non_negative_int(payload.get("sortOrder"), 0, 10_000), header_text(request, "x-session-user-id", "owner@example.com"), header_text(request, "x-session-user-name", "Demo Owner"), header_text(request, "x-session-org-name", "default-org")))
+    exec_sql("INSERT INTO filter_presets (id, scope, name, values_json, group_name, tags_json, visibility, is_default, is_pinned, sort_order, owner_user_id, owner_display_name, org_name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (preset_id, scope, name, json.dumps(values), str(payload.get("groupName", ""))[:128], json.dumps(tags), payload.get("visibility", "private"), bool(payload.get("isDefault", False)), bool(payload.get("isPinned", False)), non_negative_int(payload.get("sortOrder"), 0, 10_000), owner_id, owner_name, org_name))
 
 
 def import_random_suffix() -> str:

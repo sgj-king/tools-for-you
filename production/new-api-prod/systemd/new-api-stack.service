@@ -17,5 +17,23 @@ ExecReload=/usr/bin/docker compose --env-file /opt/new-api/compose/.env up -d --
 ExecStop=/usr/bin/docker compose --env-file /opt/new-api/compose/.env down
 TimeoutStartSec=0
 
+# 安全加固
+# 说明:
+# - docker compose 本身需要 root + docker.sock，所以 User= 保持 root
+# - 但仍可启用以下沙箱开关，限制 systemd 这层的攻击面
+# - 如果上线时发现某个开关与 docker plugin/网络栈冲突，可逐个注释，但默认保持开启
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=120
+
 [Install]
 WantedBy=multi-user.target

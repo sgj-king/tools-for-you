@@ -69,17 +69,25 @@ if [[ -f "${TOKEN_FILE}" ]]; then
   TOKEN="$(head -n 1 "${TOKEN_FILE}" | tr -d '\r\n')"
   if [[ -n "${TOKEN}" ]]; then
     echo "[6/6] 检查受保护 API ..."
-    curl -fsS --max-time 20 \
-      -H "Authorization: Bearer ${TOKEN}" \
+
+    # 通过 curl --config (-K -) 从标准输入传入 Authorization
+    # 目的: 避免 token 出现在 /proc/<pid>/cmdline，被同主机其它进程通过 ps 看到
+    auth_config() {
+      printf 'header = "Authorization: Bearer %s"\n' "${TOKEN}"
+    }
+
+    auth_config | curl -fsS --max-time 20 -K - \
       "${APP_PUBLIC_URL%/}/v1/models" | grep -Eq '"data":\s*\[' \
       || fail "/v1/models 检查失败。"
 
-    curl -fsS --max-time 60 \
-      -H "Authorization: Bearer ${TOKEN}" \
+    payload="$(printf '{"model":"%s","messages":[{"role":"user","content":"ping"}],"max_tokens":8}' "${HEALTHCHECK_MODEL_NAME}")"
+    auth_config | curl -fsS --max-time 60 -K - \
       -H "Content-Type: application/json" \
-      -d "{\"model\":\"${HEALTHCHECK_MODEL_NAME}\",\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}],\"max_tokens\":8}" \
+      --data-raw "${payload}" \
       "${APP_PUBLIC_URL%/}/v1/chat/completions" | grep -Eq '"object":\s*"chat\.completion"' \
       || fail "真实聊天请求检查失败，请确认 HEALTHCHECK_MODEL_NAME 已在后台映射。"
+
+    unset TOKEN
   fi
 else
   echo "[INFO] 未找到 ${TOKEN_FILE}，已跳过 /v1/models 与真实聊天请求验证。"

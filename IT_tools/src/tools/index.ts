@@ -127,6 +127,7 @@ import { tool as todoList } from './todo-list';
 import { tool as dataSizeConverter } from './data-size-converter';
 import { tool as speedReadingTrainer } from './speed-reading-trainer';
 import { tool as shortcutTrainer } from './shortcut-trainer';
+import { tool as paceCalculator } from './pace-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -244,7 +245,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数学计算',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator, savingsGoalCalculator, billSplitter, fuelCostCalculator, electricityCostCalculator, calorieCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator, savingsGoalCalculator, billSplitter, fuelCostCalculator, electricityCostCalculator, calorieCalculator, paceCalculator],
   },
   {
     name: '测量工具',

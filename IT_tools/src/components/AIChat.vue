@@ -2,7 +2,25 @@
 import { ref, computed, nextTick, watch } from 'vue';
 import { NInput, NButton, NSpin, NCard, NIcon, NAvatar, NEmpty } from 'naive-ui';
 import { IconSend, IconRobot, IconUser, IconX, IconMessageCircle } from '@tabler/icons-vue';
+import DOMPurify from 'dompurify';
 import type { ToolRecommendation } from '../types';
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderMessage(content: string): string {
+  const escaped = escapeHtml(content).replace(/\n/g, '<br>');
+  return DOMPurify.sanitize(escaped, {
+    ALLOWED_TAGS: ['br'],
+    ALLOWED_ATTR: [],
+  });
+}
 
 // Props
 const props = defineProps<{
@@ -147,7 +165,7 @@ function handleKeydown(e: KeyboardEvent) {
             </n-avatar>
           </div>
           <div class="message-content">
-            <div class="message-text" v-html="msg.content.replace(/\n/g, '<br>')"></div>
+            <div class="message-text" v-html="renderMessage(msg.content)"></div>
             
             <!-- Recommended tools -->
             <div v-if="msg.tools && msg.tools.length > 0" class="recommended-tools">

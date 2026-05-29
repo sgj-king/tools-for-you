@@ -1,8 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSessionUserFromRequest } from "@/lib/server/session-auth";
 
 export const dynamic = "force-dynamic";
 
+const IS_PRODUCTION = process.env.NODE_ENV === "production" || process.env.PLATFORM_CONSOLE_APP_ENV === "production";
+const PLAYGROUND_DISABLED = process.env.PLATFORM_CONSOLE_PLAYGROUND_MODE === "disabled";
+
 export async function POST(request: NextRequest) {
+  if (PLAYGROUND_DISABLED) {
+    return NextResponse.json(
+      { error: { code: "playground_disabled", message: "Playground is disabled in this environment." } },
+      { status: 404 }
+    );
+  }
+
+  const session = await getSessionUserFromRequest(request);
+  if (!session) {
+    return NextResponse.json(
+      { error: { code: "unauthorized", message: "Login required to use Playground." } },
+      { status: 401 }
+    );
+  }
+
   const payload = (await request.json()) as {
     apiKey?: string;
     model: string;
@@ -25,7 +44,7 @@ export async function POST(request: NextRequest) {
   };
 
   const gatewayBaseUrl = process.env.PLAYGROUND_GATEWAY_BASE_URL ?? "http://gateway:8080";
-  const defaultApiKey = process.env.PLAYGROUND_DEV_API_KEY ?? "";
+  const defaultApiKey = IS_PRODUCTION ? "" : (process.env.PLAYGROUND_DEV_API_KEY ?? "");
   const authorizationKey = payload.apiKey?.trim() || defaultApiKey;
 
   if (!authorizationKey) {
@@ -33,7 +52,7 @@ export async function POST(request: NextRequest) {
       {
         error: {
           code: "missing_playground_api_key",
-          message: "Playground 缺少可用 API Key。请在参数面板填写，或配置 PLAYGROUND_DEV_API_KEY。"
+          message: "Playground 需要在参数面板填写有效的 API Key。"
         }
       },
       { status: 400 }

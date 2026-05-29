@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { NButton, NButtonGroup, NInput, NSplit, NTooltip, NTag, NScrollbar, NSpace, NSelect, NIcon } from 'naive-ui';
 import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
 
@@ -65,7 +66,12 @@ const stats = computed(() => {
 // 渲染 Markdown
 function renderMarkdown() {
   try {
-    previewHtml.value = marked.parse(markdownContent.value) as string;
+    const rawHtml = marked.parse(markdownContent.value) as string;
+    previewHtml.value = DOMPurify.sanitize(rawHtml, {
+      ADD_ATTR: ['target', 'rel'],
+      FORBID_TAGS: ['style', 'iframe', 'object', 'embed', 'form'],
+      FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+    });
     // 代码高亮
     setTimeout(() => {
       document.querySelectorAll('.preview-content pre code').forEach((block) => {
