@@ -128,6 +128,7 @@ import { tool as dataSizeConverter } from './data-size-converter';
 import { tool as speedReadingTrainer } from './speed-reading-trainer';
 import { tool as shortcutTrainer } from './shortcut-trainer';
 import { tool as paceCalculator } from './pace-calculator';
+import { tool as wordCloudGenerator } from './word-cloud-generator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -208,6 +209,7 @@ export const toolsByCategory: ToolCategory[] = [
     contrastChecker,
     boxShadowGenerator,
     cssAnimationGenerator,
+    wordCloudGenerator,
     ],
   },
   {

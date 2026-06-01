@@ -278,6 +278,7 @@ declare module '@vue/runtime-core' {
     UuidGenerator: typeof import('./src/tools/uuid-generator/uuid-generator.vue')['default']
     WaterTracker: typeof import('./src/tools/water-tracker/water-tracker.vue')['default']
     WifiQrCodeGenerator: typeof import('./src/tools/wifi-qr-code-generator/wifi-qr-code-generator.vue')['default']
+    WordCloudGenerator: typeof import('./src/tools/word-cloud-generator/word-cloud-generator.vue')['default']
     WorldClock: typeof import('./src/tools/world-clock/world-clock.vue')['default']
     XmlFormatter: typeof import('./src/tools/xml-formatter/xml-formatter.vue')['default']
     XmlToJson: typeof import('./src/tools/xml-to-json/xml-to-json.vue')['default']
