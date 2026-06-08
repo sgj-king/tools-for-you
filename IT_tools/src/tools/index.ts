@@ -129,7 +129,10 @@ import { tool as speedReadingTrainer } from './speed-reading-trainer';
 import { tool as shortcutTrainer } from './shortcut-trainer';
 import { tool as paceCalculator } from './pace-calculator';
 import { tool as wordCloudGenerator } from './word-cloud-generator';
+import { tool as chineseNumberConverter } from './chinese-number-converter';
 
+import { tool as flashcardMaker } from './flashcard-maker';
+import { tool as moodTracker } from './mood-tracker';
 export const toolsByCategory: ToolCategory[] = [
   {
     name: '安全加密',
@@ -171,6 +174,7 @@ export const toolsByCategory: ToolCategory[] = [
       xmlToJson,
       jsonToXml,
       markdownToHtml,
+      chineseNumberConverter,
     ],
   },
   {
@@ -252,7 +256,7 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: '测量工具',
     components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker, ambientSoundMixer, waterTracker, breathingExercise, pomodoroTimer, bmiCalculator, attendanceCalculator,
-    screenPpiCalculator, speedReadingTrainer],
+    screenPpiCalculator, speedReadingTrainer, moodTracker],
   },
   {
     name: '文本工具',
@@ -269,7 +273,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数据工具',
-    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker, todoList, dataSizeConverter],
+    components: [phoneParserAndFormatter, ibanValidatorAndParser, expenseTracker, todoList, dataSizeConverter, flashcardMaker],
   },
 ];
 
