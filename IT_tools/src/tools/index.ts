@@ -132,7 +132,7 @@ import { tool as wordCloudGenerator } from './word-cloud-generator';
 import { tool as chineseNumberConverter } from './chinese-number-converter';
 
 import { tool as flashcardMaker } from './flashcard-maker';
-import { tool as moodTracker } from './mood-tracker';
+import { tool as annualLeaveCalculator } from './annual-leave-calculator';
 export const toolsByCategory: ToolCategory[] = [
   {
     name: '安全加密',
@@ -251,12 +251,12 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: '数学计算',
-    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator, savingsGoalCalculator, billSplitter, fuelCostCalculator, electricityCostCalculator, calorieCalculator, paceCalculator],
+    components: [mathEvaluator, etaCalculator, percentageCalculator, gpaCalculator, compoundInterestCalculator, discountCalculator, loanCalculator, tipCalculator, salaryCalculator, savingsGoalCalculator, billSplitter, fuelCostCalculator, electricityCostCalculator, calorieCalculator, paceCalculator, annualLeaveCalculator],
   },
   {
     name: '测量工具',
     components: [chronometer, temperatureConverter, benchmarkBuilder, unitConverter, sleepCalculator, countdownTimer, habitTracker, ambientSoundMixer, waterTracker, breathingExercise, pomodoroTimer, bmiCalculator, attendanceCalculator,
-    screenPpiCalculator, speedReadingTrainer, moodTracker],
+    screenPpiCalculator, speedReadingTrainer],
   },
   {
     name: '文本工具',
